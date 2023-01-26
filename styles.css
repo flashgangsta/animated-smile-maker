@@ -1,0 +1,13 @@
+html body {
+  margin: 50px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: left;
+}
+html body canvas {
+  margin-left: 25px;
+  filter: drop-shadow(0 0 10px black);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+/*# sourceMappingURL=styles.css.map */
