@@ -92,17 +92,17 @@ export class App {
 	}
 
 	#startAnimation() {
-		//this.#meBitmap.y = this.#sizePreview;
+		this.#meBitmap.y = this.#sizePreview;
 		this.#handBitmap.x = -this.#sizePreview;
 		this.#handBitmap.y = this.#sizePreview / 2;
 
 		//const onComplete = (tween) => this.#animations.splice(this.#animations.indexOf(tween), 1);
 
 		this.#animations.push(
-			new Tween(this.#meBitmap, {rotation: 45}, Easings.EASE_OUT_CUBIC, 450),
-			//new Tween(this.#meBitmap, {y: 0}, Easings.EASE_OUT_BACK, 400, 0),
-			//new Tween(this.#meBitmap, {rotation: 45}, Easings.EASE_OUT_CUBIC, 150, 300),
-			//new Tween(this.#handBitmap, {x: 10, y: 70}, Easings.EASE_OUT_CUBIC, 250, 150),
+			//new Tween(this.#meBitmap, {rotation: 45}, Easings.EASE_OUT_CUBIC, 450),
+			new Tween(this.#meBitmap, {y: -20, x: 40}, Easings.EASE_OUT_BACK, 400, 0),
+			new Tween(this.#meBitmap, {rotation: 35}, Easings.EASE_OUT_CUBIC, 150, 200),
+			new Tween(this.#handBitmap, {x: 10, y: 100}, Easings.EASE_OUT_CUBIC, 250, 250),
 		)
 
 		this.#drawInterval = setInterval(() => this.#tick(), this.#drawIntervalTimeout);
@@ -125,18 +125,26 @@ export class App {
 			return;
 		}
 
+		const context = this.#context;
+
 		for(let i = 0; i < this.#animations.length; i++) {
 			const tween = this.#animations[i];
-			this.#context.save();
 			tween.goToNextFrame();
 
 			if(tween.el instanceof Bitmap) {
 				const el = tween.el;
 				const image = tween.el.image;
-				//this.#context.save();
-				this.#context.drawImage(image, el.x, el.y);
+				this.#context.save();
+
+				const cX = el.width / 2;
+				const cY = el.height / 2;
+				context.translate(el.x + cX, el.y + cY);
+				context.rotate(el.rotation * Math.PI / 180);
+				context.translate(-el.x - cX, -el.y - cY);
+
+				context.drawImage(image, el.x, el.y);
+				context.restore();
 			}
-			this.#context.restore();
 		}
 
 		this.#updatePreviews();

@@ -61,19 +61,7 @@ export class Tween {
 
 		this.#propertiesKeysList.forEach((key) => {
 			const value = this.#isCompleted ? el[key] : this.#startValues[key] + (this.#distances[key] * position);
-
-			switch (key) {
-				case "rotation":
-					const cX = el.width / 2;
-					const cY = el.height / 2;
-					el.rotation = value;
-					context.translate(el.x + cX, el.y + cY);
-					context.rotate(value * Math.PI / 180);
-					context.translate(-el.x - cX, -el.y - cY);
-					break;
-				default:
-					el[key] = value;
-			}
+			el[key] = value;
 		});
 
 		if(this.#currentFrame === this.#lastFrame) {
