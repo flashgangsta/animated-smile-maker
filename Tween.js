@@ -4,6 +4,7 @@ export class Tween {
 
 	static #framerate;
 	static #tickTimer;
+	static #context;
 
 	#currentFrame = 0;
 	#startsFromFrame;
@@ -18,7 +19,8 @@ export class Tween {
 	#onCompleteCallback;
 	#isCompleted = false;
 
-	static init(framerate = 120) {
+	static init(context = null, framerate = 120) {
+		Tween.#context = context;
 		Tween.#framerate = framerate;
 		Tween.#tickTimer = 1000 / Tween.#framerate;
 	}
@@ -36,9 +38,9 @@ export class Tween {
 		this.#easingFunction = easing;
 		this.#onCompleteCallback = onComplete;
 
-		console.log("start from frame", this.#startsFromFrame);
-		console.log("total frames", this.#totalFrames);
-		console.log("last frame:", this.#lastFrame);
+		//console.log("start from frame", this.#startsFromFrame);
+		//console.log("total frames", this.#totalFrames);
+		//console.log("last frame:", this.#lastFrame);
 
 		this.#propertiesKeysList.forEach((key) => {
 			this.#startValues[key] = el[key];
@@ -48,15 +50,30 @@ export class Tween {
 	}
 
 	goToNextFrame() {
-		if(this.#isCompleted) return;
+		//if(this.#isCompleted) return;
 		this.#currentFrame++;
 
 		if(this.#currentFrame < this.#startsFromFrame) return;
 
-		const position = this.#easingFunction((this.#currentFrame - this.#startsFromFrame) / this.#totalFrames);
+		const context = Tween.#context;
+		const el = this.#el;
+		const position = this.#isCompleted ? 1 : this.#easingFunction((this.#currentFrame - this.#startsFromFrame) / this.#totalFrames);
 
 		this.#propertiesKeysList.forEach((key) => {
-			this.#el[key] = this.#startValues[key] + (this.#distances[key] * position);
+			const value = this.#isCompleted ? el[key] : this.#startValues[key] + (this.#distances[key] * position);
+
+			switch (key) {
+				case "rotation":
+					const cX = el.width / 2;
+					const cY = el.height / 2;
+					el.rotation = value;
+					context.translate(el.x + cX, el.y + cY);
+					context.rotate(value * Math.PI / 180);
+					context.translate(-el.x - cX, -el.y - cY);
+					break;
+				default:
+					el[key] = value;
+			}
 		});
 
 		if(this.#currentFrame === this.#lastFrame) {

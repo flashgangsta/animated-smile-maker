@@ -31,7 +31,7 @@ export class App {
 	#animations = [];
 
 	constructor() {
-		Tween.init(this.#framerate);
+		Tween.init(this.#context, this.#framerate);
 
 		this.#canvas.width = this.#canvas.height = this.#sizePreview;
 		this.#canvasBig.width = this.#canvasBig.height = this.#sizeBig;
@@ -77,6 +77,7 @@ export class App {
 	}
 
 	#onImagesLoaded(event) {
+		window.me = this.#meBitmap;
 		this.#startAnimation();
 	}
 
@@ -91,15 +92,17 @@ export class App {
 	}
 
 	#startAnimation() {
-		this.#meBitmap.y = this.#sizePreview;
+		//this.#meBitmap.y = this.#sizePreview;
 		this.#handBitmap.x = -this.#sizePreview;
 		this.#handBitmap.y = this.#sizePreview / 2;
 
 		//const onComplete = (tween) => this.#animations.splice(this.#animations.indexOf(tween), 1);
 
 		this.#animations.push(
-			new Tween(this.#meBitmap, {y: 0}, Easings.EASE_OUT_BACK, 400, 0),
-			new Tween(this.#handBitmap, {x: 10, y: 70}, Easings.EASE_OUT_CUBIC, 250, 150)
+			new Tween(this.#meBitmap, {rotation: 45}, Easings.EASE_OUT_CUBIC, 450),
+			//new Tween(this.#meBitmap, {y: 0}, Easings.EASE_OUT_BACK, 400, 0),
+			//new Tween(this.#meBitmap, {rotation: 45}, Easings.EASE_OUT_CUBIC, 150, 300),
+			//new Tween(this.#handBitmap, {x: 10, y: 70}, Easings.EASE_OUT_CUBIC, 250, 150),
 		)
 
 		this.#drawInterval = setInterval(() => this.#tick(), this.#drawIntervalTimeout);
@@ -115,6 +118,7 @@ export class App {
 
 	#draw() {
 		if(this.#animations.length) {
+			//this.#context.setTransform(1, 0, 0, 1, 0, 0);
 			this.#context.clearRect(0, 0, this.#sizePreview, this.#sizePreview);
 		} else {
 			//console.log("no animations in queue");
@@ -123,13 +127,16 @@ export class App {
 
 		for(let i = 0; i < this.#animations.length; i++) {
 			const tween = this.#animations[i];
+			this.#context.save();
 			tween.goToNextFrame();
 
 			if(tween.el instanceof Bitmap) {
 				const el = tween.el;
 				const image = tween.el.image;
+				//this.#context.save();
 				this.#context.drawImage(image, el.x, el.y);
 			}
+			this.#context.restore();
 		}
 
 		this.#updatePreviews();
