@@ -19,6 +19,10 @@ export class Easings {
 		return (x) => 1 - Math.pow(1 - x, 3);
 	}
 
+	static get EASE_IN_OUT_CUBIC() {
+		return (x) => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+	}
+
 	static get LINEAR() {
 		return (x) => x;
 	}

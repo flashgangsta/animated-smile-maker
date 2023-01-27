@@ -4,13 +4,13 @@ export class Tween {
 
 	static #framerate;
 	static #tickTimer;
-	static #context;
 
 	#currentFrame = 0;
 	#startsFromFrame;
 	#totalFrames;
 	#lastFrame;
 	#el;
+	#properties;
 	#propertiesKeysList;
 	#startValues = {};
 	#targetValues = {};
@@ -19,8 +19,7 @@ export class Tween {
 	#onCompleteCallback;
 	#isCompleted = false;
 
-	static init(context = null, framerate = 120) {
-		Tween.#context = context;
+	static init(framerate = 120) {
 		Tween.#framerate = framerate;
 		Tween.#tickTimer = 1000 / Tween.#framerate;
 	}
@@ -37,25 +36,29 @@ export class Tween {
 		this.#el = el;
 		this.#easingFunction = easing;
 		this.#onCompleteCallback = onComplete;
+		this.#properties = properties;
 
 		//console.log("start from frame", this.#startsFromFrame);
 		//console.log("total frames", this.#totalFrames);
 		//console.log("last frame:", this.#lastFrame);
-
-		this.#propertiesKeysList.forEach((key) => {
-			this.#startValues[key] = el[key];
-			this.#targetValues[key] = properties[key];
-			this.#distances[key] = properties[key] - el[key];
-		});
 	}
 
 	goToNextFrame() {
 		//if(this.#isCompleted) return;
 		this.#currentFrame++;
 
-		if(this.#currentFrame < this.#startsFromFrame) return;
+		if(this.#currentFrame < this.#startsFromFrame) {
+			//wait delay
+			return;
+		} else if(this.#currentFrame === this.#startsFromFrame) {
+			//starts animation
+			this.#propertiesKeysList.forEach((key) => {
+				this.#startValues[key] = this.#el[key];
+				this.#targetValues[key] = this.#properties[key];
+				this.#distances[key] = this.#properties[key] - this.#el[key];
+			});
+		}
 
-		const context = Tween.#context;
 		const el = this.#el;
 		const position = this.#isCompleted ? 1 : this.#easingFunction((this.#currentFrame - this.#startsFromFrame) / this.#totalFrames);
 

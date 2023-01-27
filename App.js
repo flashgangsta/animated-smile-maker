@@ -5,7 +5,7 @@ import {Easings} from "./Easings.js";
 export class App {
 
 	#currentFrame = 0;
-	#framerate = 100;
+	#framerate = 60;
 	#maxFrames = 60;
 	#drawInterval = null;
 	#drawIntervalTimeout = 1000 / this.#framerate;
@@ -31,7 +31,7 @@ export class App {
 	#animations = [];
 
 	constructor() {
-		Tween.init(this.#context, this.#framerate);
+		Tween.init(this.#framerate);
 
 		this.#canvas.width = this.#canvas.height = this.#sizePreview;
 		this.#canvasBig.width = this.#canvasBig.height = this.#sizeBig;
@@ -102,7 +102,10 @@ export class App {
 			//new Tween(this.#meBitmap, {rotation: 45}, Easings.EASE_OUT_CUBIC, 450),
 			new Tween(this.#meBitmap, {y: -20, x: 40}, Easings.EASE_OUT_BACK, 400, 0),
 			new Tween(this.#meBitmap, {rotation: 35}, Easings.EASE_OUT_CUBIC, 150, 200),
-			new Tween(this.#handBitmap, {x: 10, y: 100}, Easings.EASE_OUT_CUBIC, 250, 250),
+			new Tween(this.#handBitmap, {x: 170, y: 20, rotation: 20}, Easings.EASE_OUT_CUBIC, 200, 250),
+			new Tween(this.#handBitmap, {x: 0, y: 100, rotation: 0}, Easings.EASE_IN_OUT_CUBIC, 150, 450),
+			new Tween(this.#handBitmap, {x: 170, y: 20, rotation: 20}, Easings.EASE_IN_OUT_CUBIC, 150, 600),
+			new Tween(this.#handBitmap, {x: 0, y: 100, rotation: 0}, Easings.EASE_IN_OUT_CUBIC, 150, 750),
 		)
 
 		this.#drawInterval = setInterval(() => this.#tick(), this.#drawIntervalTimeout);
