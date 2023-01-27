@@ -92,12 +92,14 @@ export class App {
 
 	#startAnimation() {
 		this.#meBitmap.y = this.#sizePreview;
+		this.#handBitmap.x = -this.#sizePreview;
+		this.#handBitmap.y = this.#sizePreview / 2;
+
+		//const onComplete = (tween) => this.#animations.splice(this.#animations.indexOf(tween), 1);
 
 		this.#animations.push(
-			new Tween(this.#meBitmap, {y: 0}, Easings.EASE_OUT_BACK, 500, (tween) => {
-				this.#animations.splice(this.#animations.indexOf(tween), 1);
-				console.log("Tween Completed");
-			})
+			new Tween(this.#meBitmap, {y: 0}, Easings.EASE_OUT_BACK, 400, 0),
+			new Tween(this.#handBitmap, {x: 10, y: 70}, Easings.EASE_OUT_CUBIC, 250, 150)
 		)
 
 		this.#drawInterval = setInterval(() => this.#tick(), this.#drawIntervalTimeout);

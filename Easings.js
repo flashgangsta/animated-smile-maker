@@ -11,6 +11,14 @@ export class Easings {
 		}
 	}
 
+	static get EASE_OUT_QART() {
+		return (x) => Math.pow(1 - x, 4);
+	}
+
+	static get EASE_OUT_CUBIC() {
+		return (x) => 1 - Math.pow(1 - x, 3);
+	}
+
 	static get LINEAR() {
 		return (x) => x;
 	}
