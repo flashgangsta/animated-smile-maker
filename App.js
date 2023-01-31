@@ -9,6 +9,7 @@ export class App {
 	#maxFrames = 60;
 	#drawInterval = null;
 	#drawIntervalTimeout = 1000 / this.#framerate;
+	#saveIntervalTimeout = 1000;
 	#sizePreview = 600;
 	#sizeBig = 112;
 	#sizeMid = 56;
@@ -27,8 +28,18 @@ export class App {
 	#meBitmap;
 	#imagePaths = ["me.png", "hand.png"];
 	#handBitmap;
-
 	#tweenList = [];
+	#buttonSave = null;
+	#buttonPlay = null;
+	#buttonPause = null;
+	#buttonStop = null;
+	#isSaveToggle = false;
+	#saveConfig = [
+		{name: "preview", canvas: this.#canvas},
+		{name: "big", canvas: this.#canvasBig},
+		{name: "mid", canvas: this.#canvasMid},
+		{name: "small", canvas: this.#canvasSmall},
+	];
 
 	constructor() {
 		Tween.init(this.#framerate);
@@ -68,6 +79,35 @@ export class App {
 
 		this.#loadImages();
 
+		this.#buttonSave = this.#body.querySelector("#button_save");
+		this.#buttonPlay = this.#body.querySelector("#button_play");
+		this.#buttonPause = this.#body.querySelector("#button_pause");
+		this.#buttonStop = this.#body.querySelector("#button_stop");
+
+		this.#buttonSave.addEventListener("click", (event) => this.#onButtonSaveClick(event));
+		this.#buttonPlay.addEventListener("click", (event) => this.#play());
+		this.#buttonPause.addEventListener("click", (event) => this.#pause());
+		this.#buttonStop.addEventListener("click", (event) => this.#stop());
+
+		document.addEventListener("keydown", (event) => {
+			if(this.#isSaveToggle) {
+				return;
+			}
+
+			switch (event.key) {
+				case ".":
+					this.#tick();
+					break;
+				case ",":
+					if(this.#currentFrame > 1) {
+						this.#currentFrame -= 2;
+						this.#tick();
+					}
+					break;
+			}
+		});
+
+
 	}
 
 
@@ -92,8 +132,9 @@ export class App {
 	}
 
 	#onImagesLoaded(event) {
-		window.me = this.#meBitmap;
-		this.#startAnimation();
+		this.#prepareElements();
+		this.#createTweenList();
+		this.#tick();
 	}
 
 
@@ -106,19 +147,7 @@ export class App {
 		this.#contextSmall.drawImage(this.#canvas, 0, 0, this.#sizePreview, this.#sizePreview, 0, 0, this.#sizeSmall, this.#sizeSmall);
 	}
 
-	#startAnimation() {
-		this.#meBitmap.x = -75;
-		this.#meBitmap.y = this.#sizePreview;
-		this.#handBitmap.x = -450;
-		this.#handBitmap.y = this.#sizePreview / 2;
-
-		//const onComplete = (tween) => this.#tweenList.splice(this.#tweenList.indexOf(tween), 1);
-
-		let dur = 300;
-		let del = 200;
-
-		const getDelay = () => dur;
-
+	#createTweenList() {
 		this.#tweenList.push(
 			new Tween(this.#meBitmap, {y: 0}, Easing.OUT_BACK, 300),
 			new Tween(this.#meBitmap, {y: this.#sizePreview}, Easing.IN_BACK, 300, 650),
@@ -126,23 +155,60 @@ export class App {
 			new Tween(this.#handBitmap, {x: 0, rotation: 0}, Easing.IN_OUT_CIRC, 200, 250),
 			new Tween(this.#handBitmap, {x: 170, rotation: 45}, Easing.IN_OUT_CIRC, 200, 450),
 			new Tween(this.#handBitmap, {x: -450, y: this.#sizePreview / 2, rotation: 0}, Easing.IN_CIRC, 200, 650),
-
-			//new Tween(this.#meBitmap, {rotation: 35}, Easing.OUT_CUBIC, 150, 150),
-
-			//new Tween(this.#handBitmap, {x: 0, y: 100, rotation: 0}, Easing.IN_OUT_CUBIC, 125, 450),
-			//new Tween(this.#handBitmap, {x: 170, y: 20, rotation: 20}, Easing.IN_OUT_CUBIC, 125, 575),
-			//new Tween(this.#handBitmap, {x: 0, y: 100, rotation: 0}, Easing.IN_OUT_CUBIC, 125, 700),
 		)
+	}
 
-		//document.addEventListener("keydown", (e) => e.key === "." && this.#tick());
-		this.#drawInterval = setInterval(() => this.#tick(), this.#drawIntervalTimeout);
+
+	#prepareElements() {
+		this.#meBitmap.x = -75;
+		this.#meBitmap.y = this.#sizePreview;
+		this.#handBitmap.x = -450;
+		this.#handBitmap.y = this.#sizePreview / 2;
+		this.#meBitmap.rotation = 0;
+		this.#handBitmap.rotation = 0;
+	}
+
+
+	#play() {
+		if(!this.#drawInterval) {
+			const timeout = this.#isSaveToggle ? this.#saveIntervalTimeout : this.#drawIntervalTimeout;
+			this.#drawInterval = setInterval(() => this.#tick(), timeout);
+		}
+
+		this.#buttonPlay.disabled = true;
+		this.#buttonStop.disabled = false;
+		this.#buttonPause.disabled = false;
+	}
+
+
+	#stop() {
+		this.#isSaveToggle = false;
+		this.#pause();
+		this.#currentFrame = 0;
+		this.#tweenList.forEach((tween) => tween.reset());
+		this.#prepareElements();
 		this.#tick();
 
-		window.hand = this.#handBitmap;
+		this.#buttonSave.disabled = false;
+		this.#buttonStop.disabled = true;
+		this.#buttonPause.disabled = true;
+		this.#buttonPlay.disabled = false;
+	}
+
+
+	#pause() {
+		clearInterval(this.#drawInterval);
+		this.#drawInterval = null;
+		this.#buttonPause.disabled = true;
+		this.#buttonPlay.disabled = false;
 	}
 
 
 	#tick() {
+		if(this.#isSaveToggle) {
+			this.#savePictures();
+		}
+
 		this.#currentFrame++;
 		this.#draw();
 	}
@@ -154,18 +220,15 @@ export class App {
 		const context = this.#context;
 		let completedCount = 0;
 
-		if(tweenList.length) {
-			context.clearRect(0, 0, this.#sizePreview, this.#sizePreview);
-		} else {
-			//console.log("no animations in queue");
-			return;
-		}
+		context.clearRect(0, 0, this.#sizePreview, this.#sizePreview);
+
+		const currentFrame = this.#currentFrame;
 
 		for (let i = 0, len = tweenList.length; i < len; i++) {
 			const tween = tweenList[i];
 			const el = tween.el;
 
-			tween.goToNextFrame();
+			tween.goToFrame(currentFrame);
 
 			if(tween.isComplete) completedCount++;
 
@@ -187,9 +250,8 @@ export class App {
 
 		this.#updatePreviews();
 
-		if(this.#currentFrame === this.#maxFrames || completedCount === tweenList.length) {
-			clearInterval(this.#drawInterval);
-			this.#drawInterval = null;
+		if(currentFrame === this.#maxFrames || completedCount === tweenList.length) {
+			this.#onAnimationsComplete();
 		}
 	}
 
@@ -207,6 +269,38 @@ export class App {
 		return false;
 	}
 
+
+	#onAnimationsComplete() {
+		this.#stop();
+
+	}
+
+	#onButtonSaveClick(event) {
+		this.#stop();
+		this.#isSaveToggle = true;
+
+		this.#play();
+
+		this.#buttonSave.disabled = true;
+		this.#buttonPlay.disabled = true;
+		this.#buttonPause.disabled = true;
+		this.#buttonStop.disabled = true;
+	}
+
+
+	#savePictures() {
+		const link = document.createElement("a");
+
+		this.#saveConfig.forEach((el) => {
+			const canvas = el.canvas;
+			const name = el.name;
+			link.download = `${name}_frame_${this.#currentFrame}.png`;
+			link.href = canvas.toDataURL();
+			link.click();
+		});
+
+		link.remove();
+	}
 }
 
 new App();

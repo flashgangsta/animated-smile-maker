@@ -18,6 +18,18 @@ export class Tween {
 	#easingFunction;
 	#onCompleteCallback;
 	#isComplete = false;
+	#isInit = false;
+
+	constructor(el, properties, easing = Easing.LINEAR, duration, delay = 0, onComplete=null) {
+		this.#startsFromFrame = Math.round(delay / Tween.#tickTimer) || 1;
+		this.#totalFrames = Math.round(duration / Tween.#tickTimer) || 1;
+		this.#lastFrame = this.#startsFromFrame + this.#totalFrames;
+		this.#propertiesKeysList = Object.keys(properties);
+		this.#el = el;
+		this.#easingFunction = easing;
+		this.#onCompleteCallback = onComplete;
+		this.#properties = properties;
+	}
 
 	static init(framerate = 120) {
 		Tween.#framerate = framerate;
@@ -33,35 +45,32 @@ export class Tween {
 		return this.#isComplete;
 	}
 
-	constructor(el, properties, easing = Easing.LINEAR, duration, delay = 0, onComplete=null) {
-		this.#startsFromFrame = Math.round(delay / Tween.#tickTimer) || 1;
-		this.#totalFrames = Math.round(duration / Tween.#tickTimer) || 1;
-		this.#lastFrame = this.#startsFromFrame + this.#totalFrames;
-		this.#propertiesKeysList = Object.keys(properties);
-		this.#el = el;
-		this.#easingFunction = easing;
-		this.#onCompleteCallback = onComplete;
-		this.#properties = properties;
 
-		//console.log("start from frame", this.#startsFromFrame);
-		//console.log("total frames", this.#totalFrames);
-		//console.log("last frame:", this.#lastFrame);
+	reset() {
+		this.#isComplete = false;
+		this.#currentFrame = 0;
 	}
 
-	goToNextFrame() {
-		//if(this.#isComplete) return;
-		this.#currentFrame++;
+	goToFrame(frameNum) {
+		if(frameNum < 1) frameNum = 1;
+		this.#currentFrame = frameNum;
+		this.#setProperties();
+	}
 
+
+	#setProperties() {
+		//if(this.#isComplete) return;
 		if(this.#currentFrame < this.#startsFromFrame) {
 			//wait delay
 			return;
-		} else if(this.#currentFrame === this.#startsFromFrame) {
+		} else if(!this.#isInit && this.#currentFrame === this.#startsFromFrame) {
 			//starts animation
 			this.#propertiesKeysList.forEach((key) => {
 				this.#startValues[key] = this.#el[key];
 				this.#targetValues[key] = this.#properties[key];
 				this.#distances[key] = this.#properties[key] - this.#el[key];
 			});
+			this.#isInit = true;
 		}
 
 		const el = this.#el;
