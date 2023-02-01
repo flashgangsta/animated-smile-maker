@@ -1,0 +1,31 @@
+#timeline-layers {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 250px;
+  height: 100%;
+  background-color: @color_background_default;
+  border-right: 1px solid @color_background_dark;
+
+  .header, .footer {
+    display: flex;
+    padding: 4px 2px;
+  }
+
+  .header {
+    border-bottom: 1px solid @color_background_dark;
+    display: flex;
+    align-content: flex-end;
+    justify-content: flex-end;
+    button {
+      margin-right: 6px;
+    }
+  }
+
+  .footer {
+    border-top: 1px solid @color_background_dark;
+    button {
+      margin-left: 6px;
+    }
+  }
+}

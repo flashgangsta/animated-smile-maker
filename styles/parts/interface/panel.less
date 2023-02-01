@@ -1,0 +1,33 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: @color_background_dark;
+
+  .panel-header {
+    display: flex;
+    width: 100%;
+    background-color: @color_background_dark;
+    .panel-tab-button {
+      padding: 0 7px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      background-color: @color_background_default;
+      width: fit-content;
+      border-radius: 8px 8px 0 0;
+    }
+  }
+
+  .panel-button {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+}

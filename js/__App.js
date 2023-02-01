@@ -1,8 +1,8 @@
-import {Bitmap} from "./Bitmap.js";
-import {Tween} from "./Tween.js";
-import {Easing} from "./Easing.js";
+import {Bitmap} from "./display/Bitmap.js";
+import {Tween} from "./transitions/Tween.js";
+import {Easing} from "./transitions/Easing.js";
 
-export class App {
+export class __App {
 
 	#currentFrame = 0;
 	#framerate = 60;
@@ -303,4 +303,4 @@ export class App {
 	}
 }
 
-new App();
+new __App();

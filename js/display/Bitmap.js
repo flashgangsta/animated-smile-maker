@@ -1,5 +1,6 @@
 import {DisplayObject} from "./DisplayObject.js";
 
+
 export class Bitmap extends DisplayObject {
 
 	#image = null;
