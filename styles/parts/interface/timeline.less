@@ -1,4 +1,68 @@
 #timeline {
   height: 250px;
-  @import "timeline-layers";
+  .panels-container {
+    @layers-width: 250px;
+
+    #timeline-layers {
+      width: @layers-width;
+      max-height: 220px;
+
+      .header {
+        justify-content: flex-end;
+        button {
+          margin-right: 6px;
+        }
+      }
+
+      .footer {
+        button {
+          margin-left: 6px;
+        }
+      }
+
+      .layers-container {
+        border-right: 1px solid @color_background_dark;
+
+        .timeline-layers-layer {
+          display: flex;
+          align-items: center;
+          //width: 100%;
+          height: 22px;
+          font-size: 0.8rem;
+          padding: 0 9px 0 20px;
+          &:not(:first-child) {
+            border-top: 1px solid @color_background_dark;
+          }
+
+          &.selected {
+            background-color: @color_background_light;
+          }
+
+          label {
+            user-select: none;
+
+            &[contenteditable] {
+              background-color: @color_background_dark;
+              padding: 4px;
+              white-space: nowrap;
+              overflow: hidden;
+
+              br {
+                display: none;
+              }
+
+              * {
+                display: inline;
+                white-space: nowrap;
+              }
+            }
+          }
+        }
+      }
+    }
+    #timeline-track {
+      display: flex;
+      width: calc(100% - @layers-width);
+    }
+  }
 }

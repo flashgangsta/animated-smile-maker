@@ -9,13 +9,49 @@
     width: 100%;
     background-color: @color_background_dark;
     .panel-tab-button {
-      padding: 0 7px;
+      padding: 0 10px;
       height: 30px;
       display: flex;
       align-items: center;
       background-color: @color_background_default;
       width: fit-content;
+      font-size: 0.9rem;
       //border-radius: 8px 8px 0 0;
+    }
+  }
+
+  .panels-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    .sub-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      background-color: @color_background_default;
+
+      .header, .footer {
+        display: flex;
+        padding: 4px 2px;
+        height: 30px;
+        max-height: 30px;
+      }
+
+      .header {
+        border-bottom: 1px solid @color_background_dark;
+        display: flex;
+      }
+
+      .footer {
+        border-top: 1px solid @color_background_dark;
+      }
+
+      .sub-panel-container {
+        height: 100%;
+        overflow-y: scroll;
+      }
     }
   }
 

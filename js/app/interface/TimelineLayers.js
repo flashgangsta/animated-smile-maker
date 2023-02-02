@@ -1,18 +1,14 @@
 import {PanelButton} from "./PanelButton.js";
 import {TimelineLayersLayer} from "./TimelineLayersLayer.js";
+import {SubPanel} from "./SubPanel.js";
 
-export class TimelineLayers extends HTMLElement {
+export class TimelineLayers extends SubPanel {
 
-	#layersContainer = document.createElement("div");
 	#unnamedLayerNum = 0;
 
 	constructor() {
 		super();
 		this.id = "timeline-layers";
-
-		const header = document.createElement("div");
-		const layersContainer = this.#layersContainer = document.createElement("div");
-		const footer = document.createElement("div");
 
 		const buttonVisibility = new PanelButton("./assets/eye-ico.png");
 		const buttonLock = new PanelButton("./assets/lock-ico.png");
@@ -25,19 +21,16 @@ export class TimelineLayers extends HTMLElement {
 		buttonNewLayer.addEventListener("click", (event) => this.#addLayer());
 		buttonRemoveLayer.addEventListener("click", (event) => this.#removeSelectedLayer());
 
-		header.classList.add("header");
-		footer.classList.add("footer");
-		layersContainer.classList.add("layers-container");
 
-		layersContainer.addEventListener("LAYER_SELECT", (event) => {
+		this.subPanelContainer.classList.add("layers-container");
+
+		this.subPanelContainer.addEventListener("LAYER_SELECT", (event) => {
 			event.stopPropagation();
 			this.#getSelectedLayer()?.unselect();
 		});
 
-		header.append(buttonVisibility, buttonLock);
-		footer.append(buttonNewLayer, buttonRemoveLayer);
-
-		this.append(header, layersContainer, footer);
+		this.header.append(buttonVisibility, buttonLock);
+		this.footer.append(buttonNewLayer, buttonRemoveLayer);
 	}
 
 
@@ -46,9 +39,9 @@ export class TimelineLayers extends HTMLElement {
 		const lastSelectedLayer = this.#getSelectedLayer();
 		if(lastSelectedLayer) {
 			lastSelectedLayer.unselect();
-			this.#layersContainer.insertBefore(layer, lastSelectedLayer);
+			this.subPanelContainer.insertBefore(layer, lastSelectedLayer);
 		} else {
-			this.#layersContainer.prepend(layer);
+			this.subPanelContainer.prepend(layer);
 		}
 
 		layer.select();
@@ -56,7 +49,7 @@ export class TimelineLayers extends HTMLElement {
 
 
 	#removeSelectedLayer() {
-		const layersList = this.#layersContainer.children;
+		const layersList = this.subPanelContainer.children;
 		if(layersList.length > 1) {
 			const selectedLayer = this.#getSelectedLayer();
 			const selectedLayerIndex = Array.from(layersList).indexOf(selectedLayer);
@@ -67,7 +60,7 @@ export class TimelineLayers extends HTMLElement {
 
 
 	#getSelectedLayer() {
-		return this.#layersContainer.querySelector(".selected");
+		return this.subPanelContainer.querySelector(".selected");
 	}
 }
 

@@ -19,12 +19,43 @@ body h5 {
   background-color: #252525;
 }
 #interface .panel .panel-header .panel-tab-button {
-  padding: 0 7px;
+  padding: 0 10px;
   height: 30px;
   display: flex;
   align-items: center;
   background-color: #454545;
   width: fit-content;
+  font-size: 0.9rem;
+}
+#interface .panel .panels-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+#interface .panel .panels-container .sub-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  background-color: #454545;
+}
+#interface .panel .panels-container .sub-panel .header,
+#interface .panel .panels-container .sub-panel .footer {
+  display: flex;
+  padding: 4px 2px;
+  height: 30px;
+  max-height: 30px;
+}
+#interface .panel .panels-container .sub-panel .header {
+  border-bottom: 1px solid #252525;
+  display: flex;
+}
+#interface .panel .panels-container .sub-panel .footer {
+  border-top: 1px solid #252525;
+}
+#interface .panel .panels-container .sub-panel .sub-panel-container {
+  height: 100%;
+  overflow-y: scroll;
 }
 #interface .panel .panel-button {
   width: 20px;
@@ -40,69 +71,54 @@ body h5 {
 #interface #timeline {
   height: 250px;
 }
-#interface #timeline #timeline-layers {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+#interface #timeline .panels-container #timeline-layers {
   width: 250px;
-  height: 100%;
   max-height: 220px;
-  background-color: #454545;
-  border-right: 1px solid #252525;
 }
-#interface #timeline #timeline-layers .header,
-#interface #timeline #timeline-layers .footer {
-  display: flex;
-  padding: 4px 2px;
-  height: 30px;
-  max-height: 30px;
-}
-#interface #timeline #timeline-layers .header {
-  border-bottom: 1px solid #252525;
-  display: flex;
+#interface #timeline .panels-container #timeline-layers .header {
   justify-content: flex-end;
 }
-#interface #timeline #timeline-layers .header button {
+#interface #timeline .panels-container #timeline-layers .header button {
   margin-right: 6px;
 }
-#interface #timeline #timeline-layers .footer {
-  border-top: 1px solid #252525;
-}
-#interface #timeline #timeline-layers .footer button {
+#interface #timeline .panels-container #timeline-layers .footer button {
   margin-left: 6px;
 }
-#interface #timeline #timeline-layers .layers-container {
-  height: 100%;
-  overflow-y: scroll;
+#interface #timeline .panels-container #timeline-layers .layers-container {
+  border-right: 1px solid #252525;
 }
-#interface #timeline #timeline-layers .layers-container .timeline-layers-layer {
+#interface #timeline .panels-container #timeline-layers .layers-container .timeline-layers-layer {
   display: flex;
   align-items: center;
   height: 22px;
   font-size: 0.8rem;
   padding: 0 9px 0 20px;
 }
-#interface #timeline #timeline-layers .layers-container .timeline-layers-layer:not(:first-child) {
+#interface #timeline .panels-container #timeline-layers .layers-container .timeline-layers-layer:not(:first-child) {
   border-top: 1px solid #252525;
 }
-#interface #timeline #timeline-layers .layers-container .timeline-layers-layer.selected {
+#interface #timeline .panels-container #timeline-layers .layers-container .timeline-layers-layer.selected {
   background-color: #5d5d5d;
 }
-#interface #timeline #timeline-layers .layers-container .timeline-layers-layer label {
+#interface #timeline .panels-container #timeline-layers .layers-container .timeline-layers-layer label {
   user-select: none;
 }
-#interface #timeline #timeline-layers .layers-container .timeline-layers-layer label[contenteditable] {
+#interface #timeline .panels-container #timeline-layers .layers-container .timeline-layers-layer label[contenteditable] {
   background-color: #252525;
   padding: 4px;
   white-space: nowrap;
   overflow: hidden;
 }
-#interface #timeline #timeline-layers .layers-container .timeline-layers-layer label[contenteditable] br {
+#interface #timeline .panels-container #timeline-layers .layers-container .timeline-layers-layer label[contenteditable] br {
   display: none;
 }
-#interface #timeline #timeline-layers .layers-container .timeline-layers-layer label[contenteditable] * {
+#interface #timeline .panels-container #timeline-layers .layers-container .timeline-layers-layer label[contenteditable] * {
   display: inline;
   white-space: nowrap;
+}
+#interface #timeline .panels-container #timeline-track {
+  display: flex;
+  width: calc(100% - 250px);
 }
 button {
   padding: 3px;
