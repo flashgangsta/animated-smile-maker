@@ -58,8 +58,10 @@ export class TimelineLayers extends HTMLElement {
 	#removeSelectedLayer() {
 		const layersList = this.#layersContainer.children;
 		if(layersList.length > 1) {
-			this.#getSelectedLayer().remove();
-			layersList[0].select();
+			const selectedLayer = this.#getSelectedLayer();
+			const selectedLayerIndex = Array.from(layersList).indexOf(selectedLayer);
+			selectedLayer.remove();
+			layersList[Math.min(selectedLayerIndex, layersList.length-1)].select();
 		}
 	}
 
