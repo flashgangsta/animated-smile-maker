@@ -45,6 +45,8 @@ export class TimelineLayers extends SubPanel {
 		}
 
 		layer.select();
+
+		this.dispatchEvent(new Event("LAYER_ADDED", {bubbles: true}))
 	}
 
 

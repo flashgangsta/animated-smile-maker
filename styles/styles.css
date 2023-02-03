@@ -120,6 +120,12 @@ body h5 {
   display: flex;
   width: calc(100% - 250px);
 }
+#interface #timeline .panels-container #timeline-track .timeline-track-layer {
+  display: flex;
+  height: 22px;
+  background-image: url("../assets/frames-pattern.png");
+  background-size: contain;
+}
 button {
   padding: 3px;
   border-radius: 3px;

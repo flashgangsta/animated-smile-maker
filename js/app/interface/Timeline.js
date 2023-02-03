@@ -12,6 +12,11 @@ export class Timeline extends Panel {
 
 		panelsContainer.classList.add("panels-container");
 		panelsContainer.append(timelineLayers, timelineTrack);
+
+		timelineLayers.addEventListener("LAYER_ADDED", (event) => {
+			timelineTrack.addLayer();
+		});
+
 		this.append(panelsContainer);
 	}
 }

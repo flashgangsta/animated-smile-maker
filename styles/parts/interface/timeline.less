@@ -2,6 +2,7 @@
   height: 250px;
   .panels-container {
     @layers-width: 250px;
+    @layer-height: 22px;
 
     #timeline-layers {
       width: @layers-width;
@@ -26,8 +27,7 @@
         .timeline-layers-layer {
           display: flex;
           align-items: center;
-          //width: 100%;
-          height: 22px;
+          height: @layer-height;
           font-size: 0.8rem;
           padding: 0 9px 0 20px;
           &:not(:first-child) {
@@ -63,6 +63,12 @@
     #timeline-track {
       display: flex;
       width: calc(100% - @layers-width);
+      .timeline-track-layer {
+        display: flex;
+        height: @layer-height;
+        background-image: url("../assets/frames-pattern.png");
+        background-size: contain;
+      }
     }
   }
 }
