@@ -15,6 +15,11 @@ export class TimelineTrack extends SubPanel {
 		const layer = new TimelineTrackLayer();
 		this.subPanelContainer.append(layer);
 	}
+
+
+	removeLayer() {
+		this.subPanelContainer.children[0].remove();
+	}
 }
 
 customElements.define("timeline-track", TimelineTrack);

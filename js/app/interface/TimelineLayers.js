@@ -57,6 +57,7 @@ export class TimelineLayers extends SubPanel {
 			const selectedLayerIndex = Array.from(layersList).indexOf(selectedLayer);
 			selectedLayer.remove();
 			layersList[Math.min(selectedLayerIndex, layersList.length-1)].select();
+			this.dispatchEvent(new Event("LAYER_REMOVED", {bubbles: true}));
 		}
 	}
 

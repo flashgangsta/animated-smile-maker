@@ -17,6 +17,10 @@ export class Timeline extends Panel {
 			timelineTrack.addLayer();
 		});
 
+		timelineLayers.addEventListener("LAYER_REMOVED", (event) => {
+			timelineTrack.removeLayer();
+		});
+
 		this.append(panelsContainer);
 	}
 }
