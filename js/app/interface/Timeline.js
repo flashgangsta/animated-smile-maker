@@ -2,16 +2,15 @@ import {TimelineLayers} from "./TimelineLayers.js";
 import {Panel} from "./Panel.js";
 import {TimelineTrack} from "./TimelineTrack.js";
 
+
 export class Timeline extends Panel {
 	constructor() {
 		super("Timeline");
 		this.id = "timeline";
-		const panelsContainer = document.createElement("div");
 		const timelineLayers = new TimelineLayers();
 		const timelineTrack = new TimelineTrack();
 
-		panelsContainer.classList.add("panels-container");
-		panelsContainer.append(timelineLayers, timelineTrack);
+		this.panelsContainer.append(timelineLayers, timelineTrack);
 
 		timelineLayers.addEventListener("LAYER_ADDED", (event) => {
 			timelineTrack.addLayer();
@@ -21,7 +20,17 @@ export class Timeline extends Panel {
 			timelineTrack.removeLayer();
 		});
 
-		this.append(panelsContainer);
+		const subPanelContainers = this.querySelectorAll(".sub-panel-container");
+
+		subPanelContainers.forEach((el) => {
+			el.addEventListener("mousewheel", (event) => {
+				const delta = event.wheelDelta;
+				const target = el.scrollTop - delta;
+				subPanelContainers.forEach((el) => {
+					el.scroll(0, target);
+				});
+			})
+		})
 	}
 }
 

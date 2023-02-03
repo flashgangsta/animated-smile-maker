@@ -73,7 +73,6 @@ body h5 {
 }
 #interface #timeline .panels-container #timeline-layers {
   width: 250px;
-  max-height: 220px;
 }
 #interface #timeline .panels-container #timeline-layers .header {
   justify-content: flex-end;
@@ -125,6 +124,18 @@ body h5 {
   height: 22px;
   background-image: url("../assets/frames-pattern.png");
   background-size: contain;
+}
+#interface #timeline .panels-container #timeline-track .timeline-track-layer .timeline-key-frame {
+  width: 12px;
+  height: 100%;
+  background-image: url("../assets/keyframe-empty.png");
+  background-size: contain;
+}
+#interface #timeline .panels-container .sub-panel {
+  max-height: 220px;
+}
+#interface #timeline .panels-container .sub-panel .sub-panel-container {
+  overflow: hidden;
 }
 button {
   padding: 3px;

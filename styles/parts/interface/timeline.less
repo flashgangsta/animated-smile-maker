@@ -6,7 +6,6 @@
 
     #timeline-layers {
       width: @layers-width;
-      max-height: 220px;
 
       .header {
         justify-content: flex-end;
@@ -68,6 +67,20 @@
         height: @layer-height;
         background-image: url("../assets/frames-pattern.png");
         background-size: contain;
+
+        .timeline-key-frame {
+          width: 12px;
+          height: 100%;
+          background-image: url("../assets/keyframe-empty.png");
+          background-size: contain;
+        }
+      }
+    }
+
+    .sub-panel {
+      max-height: 220px;
+      .sub-panel-container {
+        overflow: hidden;
       }
     }
   }
