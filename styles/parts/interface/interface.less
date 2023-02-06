@@ -1,5 +1,29 @@
 #interface {
   @import "panel";
+  @import "menu";
+  @import "tools";
   @import "timeline";
+  @import "library";
+  @import "body";
+
   width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .mid-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .center-container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
 }

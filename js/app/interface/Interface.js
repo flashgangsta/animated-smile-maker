@@ -1,11 +1,33 @@
 import {Timeline} from "./Timeline.js";
+import {Library} from "./Library.js";
+import {Menu} from "./Menu.js";
+import {Tools} from "./Tools.js";
+import {Body} from "./Body.js";
 
 export class Interface extends HTMLElement {
 
 	constructor() {
 		super();
 		this.id = "interface"
-		this.append(new Timeline());
+
+		const topContainer = document.createElement("div");
+		const midContainer = document.createElement("div");
+		const leftContainer = document.createElement("div");
+		const centerContainer = document.createElement("div");
+		const rightContainer = document.createElement("div");
+
+		midContainer.classList.add("mid-container");
+		midContainer.append(leftContainer, centerContainer, rightContainer);
+
+		centerContainer.classList.add("center-container");
+
+		this.append(topContainer, midContainer);
+
+		topContainer.append(new Menu());
+		leftContainer.append(new Tools());
+		rightContainer.append(new Library());
+		centerContainer.append(new Body(), new Timeline());
+
 	}
 }
 

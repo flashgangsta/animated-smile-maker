@@ -1,7 +1,11 @@
-import {DisplayObjectContainer} from "../../display/DisplayObjectContainer.js";
+import {Panel} from "./Panel.js";
 
-export class Library extends DisplayObjectContainer {
+export class Library extends Panel {
 	constructor() {
-		super();
+		super("Library");
+
+		this.id = "library";
 	}
 }
+
+customElements.define("library-el", Library);

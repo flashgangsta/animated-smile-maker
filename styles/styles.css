@@ -6,12 +6,16 @@ body h5 {
 }
 #interface {
   width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 #interface .panel {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: #252525;
+  background-color: #454545;
 }
 #interface .panel .panel-header {
   display: flex;
@@ -37,7 +41,6 @@ body h5 {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  background-color: #454545;
 }
 #interface .panel .panels-container .sub-panel .header,
 #interface .panel .panels-container .sub-panel .footer {
@@ -45,6 +48,7 @@ body h5 {
   padding: 4px 2px;
   height: 30px;
   max-height: 30px;
+  min-height: 30px;
 }
 #interface .panel .panels-container .sub-panel .header {
   border-bottom: 1px solid #252525;
@@ -68,8 +72,25 @@ body h5 {
   max-width: 100%;
   max-height: 100%;
 }
+#interface #menu {
+  display: flex;
+  height: 35px;
+  width: 100%;
+  background-color: #454545;
+  border-bottom: 1px solid #5d5d5d;
+}
+#interface #tools {
+  display: flex;
+  width: 35px;
+  height: 100%;
+  background-color: #454545;
+  border-bottom: 1px solid #5d5d5d;
+  border-right: 1px solid #5d5d5d;
+}
 #interface #timeline {
   height: 250px;
+  min-height: 250px;
+  border-top: 1px solid #5d5d5d;
 }
 #interface #timeline .panels-container #timeline-layers {
   width: 250px;
@@ -77,10 +98,10 @@ body h5 {
 #interface #timeline .panels-container #timeline-layers .header {
   justify-content: flex-end;
 }
-#interface #timeline .panels-container #timeline-layers .header button {
+#interface #timeline .panels-container #timeline-layers .header .button {
   margin-right: 6px;
 }
-#interface #timeline .panels-container #timeline-layers .footer button {
+#interface #timeline .panels-container #timeline-layers .footer .button {
   margin-left: 6px;
 }
 #interface #timeline .panels-container #timeline-layers .layers-container {
@@ -137,7 +158,32 @@ body h5 {
 #interface #timeline .panels-container .sub-panel .sub-panel-container {
   overflow: hidden;
 }
-button {
+#interface #library {
+  display: flex;
+  width: 250px;
+  height: 100%;
+  border-left: 1px solid #5d5d5d;
+}
+#interface #body {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+#interface .mid-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+#interface .mid-container .center-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+button,
+.button {
   padding: 3px;
   border-radius: 3px;
   color: white;
@@ -146,11 +192,16 @@ button {
   background-color: #454545;
   border: none;
 }
-button > img {
+button > img,
+.button > img {
   filter: invert(1);
 }
-button:hover {
+button:hover,
+.button:hover {
   background-color: #252525;
+}
+html * {
+  box-sizing: border-box;
 }
 html body {
   display: flex;

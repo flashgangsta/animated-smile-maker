@@ -1,5 +1,7 @@
 #timeline {
   height: 250px;
+  min-height: 250px;
+  border-top: 1px solid @color_background_light;
   .panels-container {
     @layers-width: 250px;
     @layer-height: 22px;
@@ -9,13 +11,13 @@
 
       .header {
         justify-content: flex-end;
-        button {
+        .button {
           margin-right: 6px;
         }
       }
 
       .footer {
-        button {
+        .button {
           margin-left: 6px;
         }
       }
