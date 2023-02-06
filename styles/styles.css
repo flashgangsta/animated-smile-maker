@@ -213,5 +213,6 @@ html body {
   background-color: #252525;
   color: white;
   margin: 0;
+  overflow: hidden;
 }
 /*# sourceMappingURL=styles.css.map */
