@@ -7,6 +7,11 @@ button, .button {
   background-color: @color_background_default;
   border: none;
 
+  > label, img {
+    user-select: none;
+    pointer-events: none;
+  }
+
   > img {
     filter: invert(1);
   }

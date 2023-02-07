@@ -30,6 +30,7 @@ body h5 {
   background-color: #454545;
   width: fit-content;
   font-size: 0.9rem;
+  border-radius: 0;
 }
 #interface .panel .panels-container {
   display: flex;
@@ -78,13 +79,21 @@ body h5 {
   width: 100%;
   background-color: #454545;
   border-bottom: 1px solid #5d5d5d;
+  align-items: center;
+}
+#interface #menu > .button {
+  padding: 3px 5px;
+  margin: 0 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 0.9rem;
 }
 #interface #tools {
   display: flex;
   width: 35px;
   height: 100%;
   background-color: #454545;
-  border-bottom: 1px solid #5d5d5d;
   border-right: 1px solid #5d5d5d;
 }
 #interface #timeline {
@@ -191,6 +200,13 @@ button,
   margin: 0;
   background-color: #454545;
   border: none;
+}
+button > label,
+.button > label,
+button img,
+.button img {
+  user-select: none;
+  pointer-events: none;
 }
 button > img,
 .button > img {

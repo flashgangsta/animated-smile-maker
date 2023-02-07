@@ -1,6 +1,6 @@
 export class TimelineLayersLayer extends HTMLElement {
 
-	#handlers = [];
+	#handlers = []; //todo: move this functionality to CustomElement class
 	#lastLabelName;
 
 	constructor(index) {

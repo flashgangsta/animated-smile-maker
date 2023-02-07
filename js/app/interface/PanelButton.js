@@ -1,28 +1,11 @@
-export class PanelButton extends HTMLElement {
+import {Button} from "./Button.js";
 
-	#disabled = false;
+export class PanelButton extends Button {
+
 
 	constructor(iconPath) {
-		super();
-
-		this.classList.add("panel-button", "button");
-		const icon = new Image();
-		icon.src = iconPath;
-		this.append(icon);
-	}
-
-
-	get disabled() {
-		return this.#disabled;
-	}
-
-	set disabled(value) {
-		this.#disabled = !!value;
-		if(this.#disabled) {
-			this.setAttribute("disabled", "true");
-		} else {
-			this.removeAttribute("disabled");
-		}
+		super(null, iconPath);
+		this.classList.add("panel-button");
 	}
 }
 
