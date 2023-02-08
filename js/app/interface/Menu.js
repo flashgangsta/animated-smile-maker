@@ -3,6 +3,7 @@ import {MenuButton} from "./MenuButton.js";
 import {MenuContext} from "./MenuContext.js";
 import {MenuContextButton} from "./MenuContextButton.js";
 import {FileManager} from "../utils/FileManager.js";
+import {ProjectConfig} from "../ProjectConfig.js";
 
 export class Menu extends CustomElement {
 
@@ -36,6 +37,7 @@ export class Menu extends CustomElement {
 
 	#activeContext;
 	#fileManager = new FileManager();
+	#projectConfig = new ProjectConfig();
 
 	constructor() {
 		super();
@@ -54,6 +56,9 @@ export class Menu extends CustomElement {
 
 	#onClick(event) {
 		const target = event.target;
+		if(target instanceof MenuContextButton) {
+			this.#closeContext();
+		}
 		this.#openContext(event.target);
 	}
 
@@ -98,6 +103,8 @@ export class Menu extends CustomElement {
 	#importMedia() {
 		this.#fileManager.openFile(FileManager.CONTENT_TYPE_IMAGES, true).then((files) => {
 			console.log("files:", files);
+			console.log(">>>", URL.createObjectURL(files[0]));
+			this.#projectConfig.pushLibraryMedia(...files);
 		});
 	}
 

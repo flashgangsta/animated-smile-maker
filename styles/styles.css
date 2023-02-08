@@ -195,6 +195,57 @@ body h5 {
   height: 100%;
   border-left: 1px solid #5d5d5d;
 }
+#interface #library .panels-container {
+  flex-direction: column;
+  padding: 3px;
+}
+#interface #library .panels-container #library-item-preview {
+  height: 130px;
+  min-height: 130px;
+  background: white;
+}
+#interface #library .panels-container #library-item-preview > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+#interface #library .panels-container #library-items-list {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: calc(100% - 130px);
+  max-height: calc(100% - 130px);
+}
+#interface #library .panels-container #library-items-list .library-item-list-el {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  font-size: 0.85rem;
+  align-items: center;
+  padding: 5px 20px 5px 15px;
+}
+#interface #library .panels-container #library-items-list .library-item-list-el.selected {
+  background-color: #5d5d5d;
+}
+#interface #library .panels-container #library-items-list .library-item-list-el > label {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#interface #library .panels-container #library-items-list .library-item-list-el > img {
+  max-height: 100%;
+  margin-right: 10px;
+  filter: invert(1);
+}
+#interface #library .panels-container #library-items-list .library-item-list-el > img,
+#interface #library .panels-container #library-items-list .library-item-list-el > label {
+  user-select: none;
+  pointer-events: none;
+}
+#interface #library .panels-container #library-item-preview,
+#interface #library .panels-container #library-items-list {
+  width: 100%;
+}
 #interface #body {
   display: flex;
   width: 100%;
