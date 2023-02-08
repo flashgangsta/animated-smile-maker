@@ -2,6 +2,7 @@ import {CustomElement} from "./CustomElement.js";
 import {MenuButton} from "./MenuButton.js";
 import {MenuContext} from "./MenuContext.js";
 import {MenuContextButton} from "./MenuContextButton.js";
+import {FileManager} from "../utils/FileManager.js";
 
 export class Menu extends CustomElement {
 
@@ -10,8 +11,12 @@ export class Menu extends CustomElement {
 			"New...": {},
 			"Open": {},
 			"Save": {},
-			"Save As": {},
-			"Import": {},
+			"Save As": {
+				handler: () => this.#saveAs()
+			},
+			"Import": {
+				handler: () => this.#importMedia()
+			},
 			"Export": {},
 			"Settings": {},
 			"Exit": {}
@@ -30,6 +35,7 @@ export class Menu extends CustomElement {
 	}
 
 	#activeContext;
+	#fileManager = new FileManager();
 
 	constructor() {
 		super();
@@ -49,9 +55,6 @@ export class Menu extends CustomElement {
 	#onClick(event) {
 		const target = event.target;
 		this.#openContext(event.target);
-		if(target && target instanceof MenuButton) {
-
-		}
 	}
 
 
@@ -89,6 +92,20 @@ export class Menu extends CustomElement {
 		if(!(target instanceof MenuButton) && !(target instanceof MenuContextButton)) {
 			this.#closeContext();
 		}
+	}
+
+
+	#importMedia() {
+		this.#fileManager.openFile(FileManager.CONTENT_TYPE_IMAGES, true).then((files) => {
+			console.log("files:", files);
+		});
+	}
+
+
+	#saveAs() {
+		this.#fileManager.saveFile().then(() => {
+			console.log("File Successfully Saved");
+		});
 	}
 }
 

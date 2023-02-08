@@ -1,8 +1,13 @@
 import {Button} from "./Button.js";
 
 export class MenuContextButton extends Button {
-	constructor(label) {
+	constructor(label, data) {
 		super(label);
+
+		if(data.handler) {
+			//todo: dispose it
+			this.addEventListener("click", () => data.handler());
+		}
 	}
 }
 

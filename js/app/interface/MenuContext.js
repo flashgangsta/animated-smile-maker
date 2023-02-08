@@ -12,8 +12,7 @@ export class MenuContext extends CustomElement {
 		this.#button = button;
 
 		Object.keys(contextData).forEach((el) => {
-			console.log(el);
-			this.append(new MenuContextButton(el));
+			this.append(new MenuContextButton(el, contextData[el]));
 		});
 
 		this.style.left = button.offsetLeft + "px";
