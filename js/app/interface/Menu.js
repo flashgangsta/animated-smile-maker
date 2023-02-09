@@ -19,7 +19,6 @@ export class Menu extends CustomElement {
 				handler: () => this.#importMedia()
 			},
 			"Export": {},
-			"Settings": {},
 			"Exit": {}
 		},
 		"Edit": {
@@ -27,7 +26,8 @@ export class Menu extends CustomElement {
 			"Cut": {},
 			"Copy": {},
 			"Paste": {},
-			"Clear": {}
+			"Clear": {},
+			"Preferences": {},
 		},
 		"View": {
 			"Zoom In": {},
@@ -102,8 +102,6 @@ export class Menu extends CustomElement {
 
 	#importMedia() {
 		this.#fileManager.openFile(FileManager.CONTENT_TYPE_IMAGES, true).then((files) => {
-			console.log("files:", files);
-			console.log(">>>", URL.createObjectURL(files[0]));
 			this.#projectConfig.pushLibraryMedia(...files);
 		});
 	}
@@ -116,4 +114,4 @@ export class Menu extends CustomElement {
 	}
 }
 
-customElements.define("menu-el", Menu)
+customElements.define("menu-el", Menu);

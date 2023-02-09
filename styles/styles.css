@@ -59,6 +59,9 @@ body h5 {
 #interface .panel .panels-container .sub-panel .footer {
   border-top: 1px solid #252525;
 }
+#interface .panel .panels-container .sub-panel .footer .button {
+  margin-left: 6px;
+}
 #interface .panel .panels-container .sub-panel .sub-panel-container {
   height: 100%;
   overflow-y: auto;
@@ -132,9 +135,6 @@ body h5 {
 }
 #interface #timeline .panels-container #timeline-layers .header .button {
   margin-right: 6px;
-}
-#interface #timeline .panels-container #timeline-layers .footer .button {
-  margin-left: 6px;
 }
 #interface #timeline .panels-container #timeline-layers .layers-container {
   border-right: 1px solid #252525;
@@ -285,6 +285,11 @@ button > img,
 button:hover,
 .button:hover {
   background-color: #252525;
+}
+button[disabled],
+.button[disabled] {
+  pointer-events: none;
+  opacity: 0.5;
 }
 html * {
   box-sizing: border-box;

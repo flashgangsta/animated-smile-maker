@@ -2,7 +2,6 @@ import {Panel} from "./Panel.js";
 import {ProjectConfig} from "../ProjectConfig.js";
 import {LibraryItemPreview} from "./LibraryItemPreview.js";
 import {LibraryItemListElement} from "./LibraryItemListElement.js";
-import {SubPanel} from "./SubPanel.js";
 import {LibraryItemsList} from "./LibraryItemsList.js";
 
 
@@ -25,26 +24,43 @@ export class Library extends Panel {
 			});
 		});
 
-		this.#itemsList.id = "library-items-list";
+
 		this.#itemsList.addEventListener("LIBRARY_ITEM_SELECTED", (event) => {
 			const selectedItem = event.target;
-			const image = new Image();
-			const lastImage = this.#preview.children[0];
+			const lastSelectedItem = this.#itemsList.selectedItem;
 
 			event.preventDefault();
 
-			if(lastImage) {
-				URL.revokeObjectURL(lastImage.src);
-				lastImage.remove();
+			if(selectedItem === lastSelectedItem) {
+				return;
 			}
 
+			const image = new Image();
+
+			this.#removePreviewImage();
+
 			image.src = URL.createObjectURL(selectedItem.file);
-			this.#itemsList.querySelector(".selected")?.classList.remove("selected");
+			lastSelectedItem?.classList.remove("selected");
 			selectedItem.classList.add("selected");
 			this.#preview.append(image);
-		})
+		});
+
+		this.addEventListener("LIBRARY_ITEM_REMOVED", (event) => {
+			if(!this.#itemsList.subPanelContainer.children.length) {
+				this.#removePreviewImage();
+			}
+		});
 
 		this.panelsContainer.append(this.#preview, this.#itemsList);
+	}
+
+
+	#removePreviewImage() {
+		const image = this.#preview.children[0];
+		if(image) {
+			URL.revokeObjectURL(image.src);
+			image.remove();
+		}
 	}
 }
 

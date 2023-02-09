@@ -1,6 +1,7 @@
 import {PanelButton} from "./PanelButton.js";
 import {TimelineLayersLayer} from "./TimelineLayersLayer.js";
 import {SubPanel} from "./SubPanel.js";
+import {PanelButtonRemove} from "./PanelButtonRemove.js";
 
 export class TimelineLayers extends SubPanel {
 
@@ -14,7 +15,7 @@ export class TimelineLayers extends SubPanel {
 		const buttonLock = new PanelButton("./assets/lock-ico.png");
 
 		const buttonNewLayer = new PanelButton("./assets/new-layer-ico.png");
-		const buttonRemoveLayer = new PanelButton("./assets/remove-layer-ico.png");
+		const buttonRemoveLayer = new PanelButtonRemove();
 
 		this.#addLayer();
 

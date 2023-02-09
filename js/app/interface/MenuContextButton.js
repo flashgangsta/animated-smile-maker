@@ -7,6 +7,8 @@ export class MenuContextButton extends Button {
 		if(data.handler) {
 			//todo: dispose it
 			this.addEventListener("click", () => data.handler());
+		} else {
+			this.disabled = true;
 		}
 	}
 }

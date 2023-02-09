@@ -19,4 +19,9 @@ button, .button {
   &:hover {
     background-color: @color_background_dark;
   }
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
