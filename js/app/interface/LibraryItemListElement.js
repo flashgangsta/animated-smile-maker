@@ -13,7 +13,7 @@ export class LibraryItemListElement extends CustomElement {
 		this.#label.innerText = file.name;
 
 		if(file.type.startsWith("image/")) {
-			this.#icon.src = "/assets/image-ico.png";
+			this.#icon.src = "./assets/image-ico.png";
 		}
 
 		this.append(this.#icon, this.#label);

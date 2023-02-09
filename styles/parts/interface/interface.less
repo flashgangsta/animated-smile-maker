@@ -1,4 +1,6 @@
 #interface {
+  @menuHeight: 35px;
+
   @import "panel";
   @import "menu";
   @import "tools";
@@ -14,7 +16,7 @@
 
   .mid-container {
     width: 100%;
-    height: 100%;
+    height: calc(100% - @menuHeight);
     display: flex;
     justify-content: space-between;
 

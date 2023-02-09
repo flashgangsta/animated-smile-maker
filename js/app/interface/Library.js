@@ -2,13 +2,15 @@ import {Panel} from "./Panel.js";
 import {ProjectConfig} from "../ProjectConfig.js";
 import {LibraryItemPreview} from "./LibraryItemPreview.js";
 import {LibraryItemListElement} from "./LibraryItemListElement.js";
+import {SubPanel} from "./SubPanel.js";
+import {LibraryItemsList} from "./LibraryItemsList.js";
 
 
 export class Library extends Panel {
 
 	#projectConfig = new ProjectConfig();
 	#preview = new LibraryItemPreview();
-	#itemsList = document.createElement("div");
+	#itemsList = new LibraryItemsList();
 
 	constructor() {
 		super("Library");
@@ -19,8 +21,7 @@ export class Library extends Panel {
 			const imports = this.#projectConfig.lastImports;
 			imports.forEach((file) => {
 				const libraryItemListElement = new LibraryItemListElement(file);
-				this.#itemsList.append(libraryItemListElement);
-				console.log("±±", file);
+				this.#itemsList.subPanelContainer.append(libraryItemListElement);
 			});
 		});
 
