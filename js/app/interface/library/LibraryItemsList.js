@@ -1,5 +1,5 @@
-import {SubPanel} from "./SubPanel.js";
-import {PanelButtonRemove} from "./PanelButtonRemove.js";
+import {SubPanel} from "../panels/SubPanel.js";
+import {PanelButtonRemove} from "../panels/PanelButtonRemove.js";
 
 
 export class LibraryItemsList extends SubPanel {

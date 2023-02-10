@@ -1,5 +1,5 @@
-import {CustomElement} from "./CustomElement.js";
 import {MenuContextButton} from "./MenuContextButton.js";
+import {CustomElement} from "../CustomElement.js";
 
 export class MenuContext extends CustomElement {
 

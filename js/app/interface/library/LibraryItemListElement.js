@@ -1,4 +1,4 @@
-import {CustomElement} from "./CustomElement.js";
+import {CustomElement} from "../CustomElement.js";
 
 export class LibraryItemListElement extends CustomElement {
 

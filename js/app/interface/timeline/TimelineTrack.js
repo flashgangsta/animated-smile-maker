@@ -1,5 +1,6 @@
-import {SubPanel} from "./SubPanel.js";
 import {TimelineTrackLayer} from "./TimelineTrackLayer.js";
+import {SubPanel} from "../panels/SubPanel.js";
+
 
 export class TimelineTrack extends SubPanel {
 	constructor() {

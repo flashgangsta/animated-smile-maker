@@ -1,7 +1,7 @@
-import {PanelButton} from "./PanelButton.js";
 import {TimelineLayersLayer} from "./TimelineLayersLayer.js";
-import {SubPanel} from "./SubPanel.js";
-import {PanelButtonRemove} from "./PanelButtonRemove.js";
+import {SubPanel} from "../panels/SubPanel.js";
+import {PanelButton} from "../panels/PanelButton.js";
+import {PanelButtonRemove} from "../panels/PanelButtonRemove.js";
 
 export class TimelineLayers extends SubPanel {
 

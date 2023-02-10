@@ -1,10 +1,10 @@
-import {CustomElement} from "./CustomElement.js";
 import {MenuButton} from "./MenuButton.js";
 import {MenuContext} from "./MenuContext.js";
 import {MenuContextButton} from "./MenuContextButton.js";
-import {FileManager} from "../utils/FileManager.js";
-import {ProjectConfig} from "../ProjectConfig.js";
-import {MediaFile} from "../models/MediaFile.js";
+import {CustomElement} from "../CustomElement.js";
+import {FileManager} from "../../utils/FileManager.js";
+import {ProjectConfig} from "../../ProjectConfig.js";
+import {MediaFile} from "../../models/MediaFile.js";
 
 export class Menu extends CustomElement {
 

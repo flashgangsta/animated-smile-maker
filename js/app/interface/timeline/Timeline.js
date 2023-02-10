@@ -1,6 +1,6 @@
 import {TimelineLayers} from "./TimelineLayers.js";
-import {Panel} from "./Panel.js";
 import {TimelineTrack} from "./TimelineTrack.js";
+import {Panel} from "../panels/Panel.js";
 
 
 export class Timeline extends Panel {

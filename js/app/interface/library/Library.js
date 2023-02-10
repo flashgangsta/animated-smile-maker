@@ -1,8 +1,8 @@
-import {Panel} from "./Panel.js";
-import {ProjectConfig} from "../ProjectConfig.js";
 import {LibraryItemPreview} from "./LibraryItemPreview.js";
 import {LibraryItemListElement} from "./LibraryItemListElement.js";
 import {LibraryItemsList} from "./LibraryItemsList.js";
+import {Panel} from "../panels/Panel.js";
+import {ProjectConfig} from "../../ProjectConfig.js";
 
 
 export class Library extends Panel {

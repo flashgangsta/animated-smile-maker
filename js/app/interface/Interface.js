@@ -1,6 +1,6 @@
-import {Timeline} from "./Timeline.js";
-import {Library} from "./Library.js";
-import {Menu} from "./Menu.js";
+import {Timeline} from "./timeline/Timeline.js";
+import {Library} from "./library/Library.js";
+import {Menu} from "./menu/Menu.js";
 import {Tools} from "./Tools.js";
 import {Body} from "./Body.js";
 
