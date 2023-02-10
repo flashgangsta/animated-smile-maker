@@ -1,3 +1,5 @@
+import {MediaFile} from "./models/MediaFile.js";
+
 export class ProjectConfig extends EventTarget {
 	static instance;
 
@@ -19,20 +21,43 @@ export class ProjectConfig extends EventTarget {
 	}
 
 
-	pushLibraryMedia(...files) {
-		this.#library.push(...files);
-		files.forEach((file) => {
-			const url = URL.createObjectURL(file);
-		});
+	loadProject(config) {
+		const library = config.library;
+		if(library && library.length) {
+			const mediaFilesList = library.map((fileModel) => {
+				const mediaFile = new MediaFile();
+				mediaFile.write(fileModel);
+				return mediaFile;
+			});
 
-		this.#lastImports = [...files];
+			this.pushLibraryMedia(...mediaFilesList);
+		}
+	}
 
+
+	pushLibraryMedia(...mediaFiles) {
+		this.#library.push(...mediaFiles);
+		this.#lastImports = [...mediaFiles];
 		this.dispatchEvent(new Event("MEDIA_IMPORTED"));
+	}
+
+
+	removeLibraryMedia(mediaFile) {
+		const index = this.#library.findIndex((el) => el.name === mediaFile.name);
+		this.#library.splice(index, 1);
+		console.log(this.#library);
 	}
 
 
 	get lastImports() {
 		return this.#lastImports;
+	}
+
+
+	toString() {
+		return JSON.stringify({
+			library: this.#library.map(el => el.serializeObject())
+		});
 	}
 
 }

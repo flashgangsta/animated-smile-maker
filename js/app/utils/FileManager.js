@@ -1,8 +1,11 @@
+import {ProjectConfig} from "../ProjectConfig.js";
+
 export class FileManager {
 
 	static instance;
 	static get CONTENT_TYPE_IMAGES() {return "image/*"}
 
+	#projectConfig = new ProjectConfig();
 	#input = document.createElement("input");
 
 	constructor() {
@@ -28,16 +31,16 @@ export class FileManager {
 			input.onchange = () => {
 				let files = Array.from(input.files);
 				input.onchange = null;
-				resolve(files);
+				resolve(multiple ? files : files[0]);
 			}
 			input.click();
 		})
 	}
 
-	async saveFile() {
+	async saveProjectAs() {
 		const filename = "animation";
 		const fileExt = ".anmtr";
-		const contents = "Hui nahui blyad";
+		const contents = this.#projectConfig.toString();
 
 		if(window.showSaveFilePicker) {
 			//FileSystem API
@@ -71,24 +74,37 @@ export class FileManager {
 
 	fileToBase64(file) {
 		return new Promise((resolve, reject) => {
-			const reader = new FileReader();
-			reader.onload = (event) => {
-				resolve(reader.result);
-			}
-
-			reader.onerror = (error) => {
-				reject(error);
-			}
-
-			reader.onloadend = (event) => {
-				reader.onloadend = null;
-				reader.onload = null;
-				reader.onerror = null;
-				console.log("dispose file reader");
-			}
-
+			const reader = this.#initFileReader(resolve, reject);
 			reader.readAsDataURL(file);
 		});
+	}
+
+
+	readFile(file) {
+		return new Promise((resolve, reject) => {
+			const reader = this.#initFileReader(resolve, reject);
+			reader.readAsText(file);
+		});
+	}
+
+
+	#initFileReader(resolve, reject) {
+		const fileReader = new FileReader();
+		fileReader.onload = (event) => {
+			resolve(fileReader.result);
+		}
+
+		fileReader.onerror = (error) => {
+			reject(error);
+		}
+
+		fileReader.onloadend = (event) => {
+			fileReader.onloadend = null;
+			fileReader.onload = null;
+			fileReader.onerror = null;
+		}
+
+		return fileReader;
 	}
 
 }

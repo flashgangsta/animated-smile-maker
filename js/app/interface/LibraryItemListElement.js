@@ -4,15 +4,15 @@ export class LibraryItemListElement extends CustomElement {
 
 	#label = document.createElement("label");
 	#icon = new Image();
-	#file;
+	#mediaFile;
 
-	constructor(file) {
+	constructor(mediaFile) {
 		super();
 		this.classList.add("library-item-list-el");
-		this.#file = file;
-		this.#label.innerText = file.name;
+		this.#mediaFile = mediaFile;
+		this.#label.innerText = mediaFile.name;
 
-		if(file.type.startsWith("image/")) {
+		if(mediaFile.type.startsWith("image/")) {
 			this.#icon.src = "./assets/image-ico.png";
 		}
 
@@ -26,8 +26,8 @@ export class LibraryItemListElement extends CustomElement {
 	}
 
 
-	get file() {
-		return this.#file;
+	get mediaFile() {
+		return this.#mediaFile;
 	}
 }
 

@@ -52,6 +52,7 @@ export class TimelineLayers extends SubPanel {
 
 
 	#removeSelectedLayer() {
+		//TODO: Move this and same in LibraryItemsList to extends class
 		const layersList = this.subPanelContainer.children;
 		if(layersList.length > 1) {
 			const selectedLayer = this.#getSelectedLayer();

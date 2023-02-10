@@ -4,13 +4,16 @@ import {MenuContext} from "./MenuContext.js";
 import {MenuContextButton} from "./MenuContextButton.js";
 import {FileManager} from "../utils/FileManager.js";
 import {ProjectConfig} from "../ProjectConfig.js";
+import {MediaFile} from "../models/MediaFile.js";
 
 export class Menu extends CustomElement {
 
 	#menuContent = {
 		"File": {
 			"New...": {},
-			"Open": {},
+			"Open": {
+				handler: () => this.#openProject()
+			},
 			"Save": {},
 			"Save As": {
 				handler: () => this.#saveAs()
@@ -101,15 +104,40 @@ export class Menu extends CustomElement {
 
 
 	#importMedia() {
-		this.#fileManager.openFile(FileManager.CONTENT_TYPE_IMAGES, true).then((files) => {
-			this.#projectConfig.pushLibraryMedia(...files);
+		this.#fileManager.openFile(FileManager.CONTENT_TYPE_IMAGES, true).then(async (files) => {
+			//todo: check duplicates
+
+			const mediaFiles = [];
+
+			for(let i = 0, len = files.length; i < len; i++) {
+				const file = files[i];
+				const base64 = await this.#fileManager.fileToBase64(file);
+				const mediaFile = new MediaFile(file.name, file.type, base64);
+				mediaFiles.push(mediaFile);
+			}
+
+			this.#projectConfig.pushLibraryMedia(...mediaFiles);
 		});
 	}
 
 
+	#save() {
+
+	}
+
+
 	#saveAs() {
-		this.#fileManager.saveFile().then(() => {
+		this.#fileManager.saveProjectAs().then((a) => {
 			console.log("File Successfully Saved");
+		});
+	}
+
+
+	#openProject() {
+		this.#fileManager.openFile(".anmtr").then((file) => {
+			this.#fileManager.readFile(file).then((result) => {
+				this.#projectConfig.loadProject(JSON.parse(String(result)));
+			})
 		});
 	}
 }

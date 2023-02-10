@@ -18,8 +18,8 @@ export class Library extends Panel {
 
 		this.#projectConfig.addEventListener("MEDIA_IMPORTED", (event) => {
 			const imports = this.#projectConfig.lastImports;
-			imports.forEach((file) => {
-				const libraryItemListElement = new LibraryItemListElement(file);
+			imports.forEach((mediaFile) => {
+				const libraryItemListElement = new LibraryItemListElement(mediaFile);
 				this.#itemsList.subPanelContainer.append(libraryItemListElement);
 			});
 		});
@@ -29,7 +29,7 @@ export class Library extends Panel {
 			const selectedItem = event.target;
 			const lastSelectedItem = this.#itemsList.selectedItem;
 
-			event.preventDefault();
+			event.stopPropagation();
 
 			if(selectedItem === lastSelectedItem) {
 				return;
@@ -39,13 +39,21 @@ export class Library extends Panel {
 
 			this.#removePreviewImage();
 
-			image.src = URL.createObjectURL(selectedItem.file);
+			image.src = selectedItem.mediaFile.base64;
 			lastSelectedItem?.classList.remove("selected");
 			selectedItem.classList.add("selected");
 			this.#preview.append(image);
 		});
 
+
+		this.addEventListener("LIBRARY_ITEM_REMOVE", (event) => {
+			this.#projectConfig.removeLibraryMedia(event.target.mediaFile);
+		})
+
+
 		this.addEventListener("LIBRARY_ITEM_REMOVED", (event) => {
+			event.stopPropagation();
+
 			if(!this.#itemsList.subPanelContainer.children.length) {
 				this.#removePreviewImage();
 			}
