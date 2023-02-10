@@ -41,4 +41,9 @@ export class MediaFile {
 			base64: this.#base64
 		}
 	}
+
+
+	dispose() {
+		//todo: dispose it
+	}
 }

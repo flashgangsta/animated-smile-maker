@@ -1,12 +1,14 @@
 import {Button} from "../Button.js";
+import {EventListener} from "../../models/EventListener.js";
 
 export class MenuContextButton extends Button {
 	constructor(label, data) {
 		super(label);
 
 		if(data.handler) {
-			//todo: dispose it
-			this.addEventListener("click", () => data.handler());
+			this.setEventListeners(
+				new EventListener(this, "click", () => data.handler()),
+			)
 		} else {
 			this.disabled = true;
 		}

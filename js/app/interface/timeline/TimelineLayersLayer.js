@@ -1,6 +1,8 @@
-export class TimelineLayersLayer extends HTMLElement {
+import {CustomElement} from "../CustomElement.js";
+import {EventListener} from "../../models/EventListener.js";
 
-	#handlers = []; //todo: move this functionality to CustomElement class
+export class TimelineLayersLayer extends CustomElement {
+
 	#lastLabelName;
 
 	constructor(index) {
@@ -10,17 +12,12 @@ export class TimelineLayersLayer extends HTMLElement {
 		this.append(labelEl);
 		this.classList.add("timeline-layers-layer");
 
-		this.#handlers.push(
-			{el: this, type: "click", handler: () => this.select()},
-			{el: labelEl, type: "dblclick", handler: (event) => this.#setLabelEditable(event)},
-			{el: labelEl, type: "keydown", handler: (event) => this.#onLabelKeydown(event)},
-			{el: labelEl, type: "blur", handler: (event) => this.#onLabelFocusOut(event)}
+		this.setEventListeners(
+			new EventListener(this, "click", (event) => this.select(event)),
+			new EventListener(labelEl, "dblclick", (event) => this.#setLabelEditable(event)),
+			new EventListener(labelEl, "keydown", (event) => this.#onLabelKeydown(event)),
+			new EventListener(labelEl, "blur", (event) => this.#onLabelFocusOut(event)),
 		);
-
-		this.#handlers.forEach((event) => {
-			event.el.addEventListener(event.type, event.handler);
-		});
-
 	}
 
 
@@ -69,12 +66,6 @@ export class TimelineLayersLayer extends HTMLElement {
 		this.classList.remove("selected");
 	}
 
-	remove() {
-		this.#handlers.forEach((event) => {
-			event.el.removeEventListener(event.type, event.handler);
-		});
-		super.remove();
-	}
 }
 
 customElements.define("timeline-layers-layer", TimelineLayersLayer);

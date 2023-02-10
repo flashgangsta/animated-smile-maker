@@ -44,8 +44,7 @@ export class ProjectConfig extends EventTarget {
 
 	removeLibraryMedia(mediaFile) {
 		const index = this.#library.findIndex((el) => el.name === mediaFile.name);
-		this.#library.splice(index, 1);
-		console.log(this.#library);
+		mediaFile.dispose();
 	}
 
 

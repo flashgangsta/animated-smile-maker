@@ -22,6 +22,12 @@ export class MenuContext extends CustomElement {
 	get buttonLabel() {
 		return this.#button.label;
 	}
+
+
+	remove() {
+		this.#button = null;
+		super.remove();
+	}
 }
 
 customElements.define("menu-context-el", MenuContext);

@@ -1,4 +1,5 @@
 import {CustomElement} from "../CustomElement.js";
+import {EventListener} from "../../models/EventListener.js";
 
 export class LibraryItemListElement extends CustomElement {
 
@@ -18,16 +19,26 @@ export class LibraryItemListElement extends CustomElement {
 
 		this.append(this.#icon, this.#label);
 
-		//todo: dispose it
-		this.addEventListener("click", (event) => {
-			this.dispatchEvent(new Event("LIBRARY_ITEM_SELECTED", {bubbles: true}));
-			this.classList.add("selected");
-		});
+		this.setEventListeners(
+			new EventListener(this, "click", (event) => {
+				this.dispatchEvent(new Event("LIBRARY_ITEM_SELECTED", {bubbles: true}));
+				this.classList.add("selected");
+			}),
+		);
 	}
 
 
 	get mediaFile() {
 		return this.#mediaFile;
+	}
+
+
+	remove() {
+		//todo: add dispose
+		super.remove();
+		this.#label = null;
+		this.#icon = null;
+		this.#mediaFile = null;
 	}
 }
 
