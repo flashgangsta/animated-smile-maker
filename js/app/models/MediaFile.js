@@ -19,6 +19,11 @@ export class MediaFile {
 	get name() {
 		return this.#name;
 	}
+	
+	
+	set name(value) {
+		this.#name = value;
+	}
 
 
 	get base64() {
@@ -45,5 +50,8 @@ export class MediaFile {
 
 	dispose() {
 		//todo: dispose it
+		this.#name = null;
+		this.#base64 = null;
+		this.#type = null;
 	}
 }

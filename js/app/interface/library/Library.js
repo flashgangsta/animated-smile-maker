@@ -66,7 +66,6 @@ export class Library extends Panel {
 	#removePreviewImage() {
 		const image = this.#preview.children[0];
 		if(image) {
-			URL.revokeObjectURL(image.src);
 			image.remove();
 		}
 	}

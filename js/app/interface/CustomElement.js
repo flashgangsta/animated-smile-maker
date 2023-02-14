@@ -1,6 +1,6 @@
 export class CustomElement extends HTMLElement {
 
-	#eventListeners;
+	#eventListeners = [];
 
 	constructor() {
 		super();
@@ -12,9 +12,14 @@ export class CustomElement extends HTMLElement {
 	}
 
 
-	setEventListeners(...eventListeners) {
+	removeAndSetNewEventListeners(...eventListeners) {
 		this.removeEventListeners();
 		this.#eventListeners = [];
+		this.#eventListeners.push(...eventListeners);
+	}
+
+
+	addEventListeners(...eventListeners) {
 		this.#eventListeners.push(...eventListeners);
 	}
 
@@ -28,9 +33,38 @@ export class CustomElement extends HTMLElement {
 
 	remove() {
 		this.removeEventListeners();
+		this.removeChildren();
+		super.remove();
+		this.dispatchEvent(new Event("REMOVED_FROM_DOM"));
+	}
+
+
+	removeChildren() {
 		Array.from(this.children).forEach((child) => {
 			child.remove();
-		})
-		super.remove();
+		});
 	}
+
+
+	append(...nodes) {
+		super.append(...nodes);
+
+		nodes.forEach((node) => {
+			this.#dispatchAddedToDOM(...nodes);
+		});
+	}
+
+
+	prepend(...nodes) {
+		super.prepend(...nodes);
+		this.#dispatchAddedToDOM(...nodes);
+	}
+
+
+	#dispatchAddedToDOM(...nodes) {
+		nodes.forEach((node) => {
+			node.dispatchEvent(new Event("ADDED_TO_DOM"));
+		});
+	}
+
 }

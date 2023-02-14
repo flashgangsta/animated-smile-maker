@@ -1,29 +1,31 @@
-import {CustomElement} from "../CustomElement.js";
 import {EventListener} from "../../models/EventListener.js";
+import {ListElementWithRenameLabel} from "../ListElementWithRenameLabel.js";
 
-export class LibraryItemListElement extends CustomElement {
+export class LibraryItemListElement extends ListElementWithRenameLabel {
 
-	#label = document.createElement("label");
 	#icon = new Image();
 	#mediaFile;
 
 	constructor(mediaFile) {
-		super();
+		super(mediaFile.name);
 		this.classList.add("library-item-list-el");
 		this.#mediaFile = mediaFile;
-		this.#label.innerText = mediaFile.name;
 
 		if(mediaFile.type.startsWith("image/")) {
 			this.#icon.src = "./assets/image-ico.png";
 		}
 
-		this.append(this.#icon, this.#label);
+		this.prepend(this.#icon);
 
-		this.setEventListeners(
+		this.addEventListeners(
 			new EventListener(this, "click", (event) => {
 				this.dispatchEvent(new Event("LIBRARY_ITEM_SELECTED", {bubbles: true}));
 				this.classList.add("selected");
 			}),
+			new EventListener(this, "LABEL_CHANGED", (event) => {
+				mediaFile.name = this.labelText;
+			}),
+
 		);
 	}
 
@@ -36,7 +38,7 @@ export class LibraryItemListElement extends CustomElement {
 	remove() {
 		//todo: add dispose
 		super.remove();
-		this.#label = null;
+		this.#mediaFile.dispose();
 		this.#icon = null;
 		this.#mediaFile = null;
 	}
