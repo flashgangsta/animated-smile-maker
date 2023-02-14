@@ -1,10 +1,14 @@
 import {MediaFile} from "./models/MediaFile.js";
+import {TimelineLayersLayer} from "./interface/timeline/TimelineLayersLayer.js";
 
 export class ProjectConfig extends EventTarget {
 	static instance;
 
 	#library = [];
 	#lastImports;
+	#timeline = {
+		layers: []
+	};
 
 	constructor() {
 		if (!ProjectConfig.instance) {
@@ -21,6 +25,8 @@ export class ProjectConfig extends EventTarget {
 
 
 	loadProject(config) {
+		this.dispatchEvent(new Event("PROJECT_OPEN"));
+
 		const library = config.library;
 		if(library && library.length) {
 			const mediaFilesList = library.map((fileModel) => {
@@ -30,6 +36,17 @@ export class ProjectConfig extends EventTarget {
 			});
 
 			this.pushLibraryMedia(...mediaFilesList);
+		}
+
+		const timeline = config.timeline;
+		if(timeline && timeline.layers && timeline.layers.length) {
+			const layers = timeline.layers;
+			this.#clearTimelineData();
+
+			layers.forEach((layerData) => {
+				const layer = new TimelineLayersLayer(layerData.id, layerData.label);
+			})
+			this.dispatchEvent(new Event("PROJECT_LAYERS_INIT"));
 		}
 	}
 
@@ -55,8 +72,39 @@ export class ProjectConfig extends EventTarget {
 
 	toString() {
 		return JSON.stringify({
-			library: this.#library.map(el => el.serializeObject())
+			library: this.#library.map(el => el.serializeObject()),
+			timeline: {
+				layers: this.libraryLayers.map((el) => el.serializeObject())
+			}
 		});
+	}
+
+
+	get layersLength() {
+		return this.libraryLayers.length;
+	}
+
+
+	get libraryLayers() {
+		return this.#timeline.layers;
+	}
+
+
+	pushLibraryLayer(layer) {
+		this.libraryLayers.push(layer);
+	}
+
+
+	removeLibraryLayer(layer) {
+		const index = this.libraryLayers.findIndex((el) => el.id === layer.id);
+		this.libraryLayers.splice(index, 1);
+	}
+
+
+	#clearTimelineData() {
+		this.#timeline = {
+			layers: [],
+		}
 	}
 
 }

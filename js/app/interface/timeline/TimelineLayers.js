@@ -2,10 +2,12 @@ import {TimelineLayersLayer} from "./TimelineLayersLayer.js";
 import {SubPanel} from "../panels/SubPanel.js";
 import {PanelButton} from "../panels/PanelButton.js";
 import {PanelButtonRemove} from "../panels/PanelButtonRemove.js";
+import {ProjectConfig} from "../../ProjectConfig.js";
 
 export class TimelineLayers extends SubPanel {
 
-	#unnamedLayerNum = 0;
+	#projectConfig = new ProjectConfig();
+	#unnamedLayerNum = this.#projectConfig.layersLength;
 
 	constructor() {
 		super();
@@ -21,7 +23,8 @@ export class TimelineLayers extends SubPanel {
 
 		buttonNewLayer.addEventListener("click", (event) => this.#addLayer());
 		buttonRemoveLayer.addEventListener("click", (event) => this.#removeSelectedLayer());
-
+		this.#projectConfig.addEventListener("PROJECT_OPEN", (event) => this.#onProjectOpen());
+		this.#projectConfig.addEventListener("PROJECT_LAYERS_INIT", (event) => this.#loadProjectLayers());
 
 		this.subPanelContainer.classList.add("layers-container");
 
@@ -32,6 +35,7 @@ export class TimelineLayers extends SubPanel {
 
 		this.header.append(buttonVisibility, buttonLock);
 		this.footer.append(buttonNewLayer, buttonRemoveLayer);
+
 	}
 
 
@@ -47,7 +51,7 @@ export class TimelineLayers extends SubPanel {
 
 		layer.select();
 
-		this.dispatchEvent(new Event("LAYER_ADDED", {bubbles: true}))
+		this.#dispatchLayerAdded();
 	}
 
 
@@ -64,9 +68,41 @@ export class TimelineLayers extends SubPanel {
 	}
 
 
+	#removeAllLayers() {
+		const layersList = Array.from(this.subPanelContainer.children);
+		layersList.forEach((layer) => {
+			layer.remove();
+			this.dispatchEvent(new Event("LAYER_REMOVED", {bubbles: true}));
+		})
+	}
+
+
 	#getSelectedLayer() {
 		return this.subPanelContainer.querySelector(".selected");
 	}
+
+
+	#onProjectOpen() {
+		this.#removeAllLayers();
+	}
+
+
+	#loadProjectLayers() {
+		const layersList = this.#projectConfig.libraryLayers;
+		layersList.forEach((layer) => {
+			this.subPanelContainer.prepend(layer);
+			this.#dispatchLayerAdded();
+		})
+
+		layersList[layersList.length - 1].select();
+
+	}
+
+
+	#dispatchLayerAdded() {
+		this.dispatchEvent(new Event("LAYER_ADDED", {bubbles: true}));
+	}
+
 }
 
 customElements.define("timeline-layers-el", TimelineLayers);
