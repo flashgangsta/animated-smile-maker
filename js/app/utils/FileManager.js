@@ -6,7 +6,9 @@ export class FileManager {
 	static get CONTENT_TYPE_IMAGES() {return "image/*"}
 
 	#projectConfig = new ProjectConfig();
+	#fileExt = ".anmtr";
 	#input = document.createElement("input");
+	#projectFile;
 
 	constructor() {
 		if(!FileManager.instance) {
@@ -37,10 +39,27 @@ export class FileManager {
 		})
 	}
 
+
+	async openProject() {
+		const [fileHandle] = await window.showOpenFilePicker({
+			types: [{
+				description: "Animator file",
+				accept: {'text/plain': [this.#fileExt]}
+			}],
+			excludeAcceptAllOption: true,
+			multiple: false,
+		});
+
+		this.#projectFile = fileHandle;
+
+		const file = await fileHandle.getFile();
+		return file;
+	}
+
+
 	async saveProjectAs() {
-		const filename = "animation";
-		const fileExt = ".anmtr";
-		const contents = this.#projectConfig.toString();
+		const filename = this.#projectConfig.projectName || "Untitled";
+		const fileExt = this.#fileExt;
 
 		if(window.showSaveFilePicker) {
 			//FileSystem API
@@ -52,25 +71,30 @@ export class FileManager {
 					accept: {'text/plain': [fileExt]},
 				}]
 			}
-			const saveFile = await window.showSaveFilePicker(options);
+			const saveFile = this.#projectFile = await window.showSaveFilePicker(options);
+			this.#projectConfig.projectName = saveFile.name.slice(0, -(fileExt.length));
 
-			if(await saveFile.queryPermission() === "granted") {
-				const writable = await saveFile.createWritable();
-				await writable.write(contents);
-				await writable.close();
-			}
+			await this.saveProject();
 		} else {
 			//legacy
 			const a = document.createElement("a");
-			a.href = URL.createObjectURL(new Blob([contents], { type: 'text/plain' }));
+			a.href = URL.createObjectURL(new Blob([this.#projectConfig.toString()], { type: 'text/plain' }));
 			a.download = `${filename}${fileExt}`;
 			a.click();
 			URL.revokeObjectURL(a.href);
 			a.remove();
 		}
-
-		return true;
 	}
+
+
+	async saveProject() {
+		if(await this.#projectFile.queryPermission() === "granted") {
+			const writable = await this.#projectFile.createWritable();
+			await writable.write(this.#projectConfig.toString());
+			await writable.close();
+		}
+	}
+
 
 	fileToBase64(file) {
 		return new Promise((resolve, reject) => {

@@ -14,9 +14,12 @@ export class Menu extends CustomElement {
 			"Open": {
 				handler: () => this.#openProject()
 			},
-			"Save": {},
+			"Save": {
+				handler: () => this.#saveProject(),
+				disabled: true
+			},
 			"Save As": {
-				handler: () => this.#saveAs()
+				handler: () => this.#saveProjectAs()
 			},
 			"Import": {
 				handler: () => this.#importMedia()
@@ -121,24 +124,33 @@ export class Menu extends CustomElement {
 	}
 
 
-	#save() {
-
+	#saveProject() {
+		this.#fileManager.saveProject().then(() => {
+			console.log(`Project file ${this.#projectConfig.projectName} successfully saved.`);
+		});
 	}
 
 
-	#saveAs() {
+	#saveProjectAs() {
 		this.#fileManager.saveProjectAs().then((a) => {
-			console.log("File Successfully Saved");
+			console.log(`Project file successfully Saved As ${this.#projectConfig.projectName}`);
+			this.#enableSaveButton();
 		});
 	}
 
 
 	#openProject() {
-		this.#fileManager.openFile(".anmtr").then((file) => {
+		this.#fileManager.openProject().then((file) => {
 			this.#fileManager.readFile(file).then((result) => {
 				this.#projectConfig.loadProject(JSON.parse(String(result)));
-			})
+				this.#enableSaveButton();
+			});
 		});
+	}
+
+
+	#enableSaveButton() {
+		this.#menuContent.File.Save.disabled = false;
 	}
 }
 

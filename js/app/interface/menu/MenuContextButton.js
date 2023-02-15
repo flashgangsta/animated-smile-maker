@@ -12,6 +12,10 @@ export class MenuContextButton extends Button {
 		} else {
 			this.disabled = true;
 		}
+
+		if(data.disabled) {
+			this.disabled = true;
+		}
 	}
 }
 

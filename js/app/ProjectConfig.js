@@ -4,6 +4,7 @@ import {TimelineLayersLayer} from "./interface/timeline/TimelineLayersLayer.js";
 export class ProjectConfig extends EventTarget {
 	static instance;
 
+	#projectName = "";
 	#library = [];
 	#lastImports;
 	#timeline = {
@@ -22,6 +23,10 @@ export class ProjectConfig extends EventTarget {
 	static getInstance() {
 		return new ProjectConfig();
 	}
+
+
+	get projectName() { return this.#projectName };
+	set projectName(value) {this.#projectName = value};
 
 
 	loadProject(config) {
@@ -44,7 +49,7 @@ export class ProjectConfig extends EventTarget {
 			this.#clearTimelineData();
 
 			layers.forEach((layerData) => {
-				const layer = new TimelineLayersLayer(layerData.id, layerData.label);
+				new TimelineLayersLayer(layerData.id, layerData.label);
 			})
 			this.dispatchEvent(new Event("PROJECT_LAYERS_INIT"));
 		}

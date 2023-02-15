@@ -59,6 +59,10 @@ export class Library extends Panel {
 			}
 		});
 
+
+		this.#projectConfig.addEventListener("PROJECT_OPEN", (event) => this.#clearLibrary())
+
+
 		this.panelsContainer.append(this.#preview, this.#itemsList);
 	}
 
@@ -68,6 +72,13 @@ export class Library extends Panel {
 		if(image) {
 			image.remove();
 		}
+	}
+
+	#clearLibrary() {
+		this.#removePreviewImage();
+		Array.from(this.#itemsList.subPanelContainer.children).forEach((libraryItem) => {
+			libraryItem.remove();
+		});
 	}
 }
 
