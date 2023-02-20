@@ -11,6 +11,11 @@ export class ProjectConfig extends EventTarget {
 		layers: []
 	};
 
+	#canvasSize = {
+		width: 550,
+		height: 400
+	}
+
 	constructor() {
 		if (!ProjectConfig.instance) {
 			super();
@@ -53,6 +58,9 @@ export class ProjectConfig extends EventTarget {
 			})
 			this.dispatchEvent(new Event("PROJECT_LAYERS_INIT"));
 		}
+
+
+		this.#canvasSize = config.canvasSize;
 	}
 
 
@@ -80,7 +88,8 @@ export class ProjectConfig extends EventTarget {
 			library: this.#library.map(el => el.serializeObject()),
 			timeline: {
 				layers: this.libraryLayers.map((el) => el.serializeObject())
-			}
+			},
+			canvasSize: this.#canvasSize,
 		});
 	}
 
@@ -92,6 +101,11 @@ export class ProjectConfig extends EventTarget {
 
 	get libraryLayers() {
 		return this.#timeline.layers;
+	}
+
+
+	get canvasSize() {
+		return this.#canvasSize;
 	}
 
 

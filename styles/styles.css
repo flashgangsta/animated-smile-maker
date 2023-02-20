@@ -69,13 +69,6 @@ body h5 {
 #interface .panel .panel-button {
   width: 20px;
   height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#interface .panel .panel-button > img {
-  max-width: 100%;
-  max-height: 100%;
 }
 #interface #menu {
   display: flex;
@@ -121,6 +114,15 @@ body h5 {
   height: 100%;
   background-color: #454545;
   border-right: 1px solid #5d5d5d;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 0;
+}
+#interface #tools .panel-button {
+  width: 32px;
+  height: 28px;
+  margin: 2px 1px 1px 1px;
+  padding: 4px;
 }
 #interface #timeline {
   height: 250px;
@@ -251,6 +253,9 @@ body h5 {
 #interface #body canvas {
   position: absolute;
 }
+#interface #body canvas.hand-active {
+  cursor: grab;
+}
 #interface .container {
   display: block;
 }
@@ -296,6 +301,17 @@ button[disabled],
 .button[disabled] {
   pointer-events: none;
   opacity: 0.5;
+}
+button.panel-button,
+.button.panel-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button.panel-button > img,
+.button.panel-button > img {
+  max-width: 100%;
+  max-height: 100%;
 }
 html * {
   box-sizing: border-box;
