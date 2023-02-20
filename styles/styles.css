@@ -248,6 +248,12 @@ body h5 {
   width: 100%;
   height: 100%;
 }
+#interface #body canvas {
+  position: absolute;
+}
+#interface .container {
+  display: block;
+}
 #interface .mid-container {
   width: 100%;
   height: calc(100% - 35px);

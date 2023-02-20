@@ -1,4 +1,6 @@
-export class Tools extends HTMLElement {
+import {CustomElement} from "./CustomElement.js";
+
+export class Tools extends CustomElement {
 	constructor() {
 		super();
 		this.id = "tools";

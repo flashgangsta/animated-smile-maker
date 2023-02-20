@@ -6,7 +6,7 @@ export class MenuContextButton extends Button {
 		super(label);
 
 		if(data.handler) {
-			this.addEventListeners(
+			this.listenEvents(
 				new EventListener(this, "click", () => data.handler()),
 			)
 		} else {

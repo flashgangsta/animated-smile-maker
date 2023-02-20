@@ -1,8 +1,10 @@
 import {PanelHeader} from "./PanelHeader.js";
+import {CustomElement} from "../CustomElement.js";
+import {Container} from "../Container.js";
 
-export class Panel extends HTMLElement {
+export class Panel extends CustomElement {
 
-	#panelsContainer = document.createElement("div");
+	#panelsContainer = new Container();
 	#panelHeader;
 
 

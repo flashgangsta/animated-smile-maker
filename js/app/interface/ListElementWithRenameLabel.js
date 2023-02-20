@@ -12,7 +12,7 @@ export class ListElementWithRenameLabel extends CustomElement {
 		this.#labelEl.innerText = labelText;
 		this.append(this.#labelEl);
 
-		this.addEventListeners(
+		this.listenEvents(
 			new EventListener(this, "dblclick", (event) => this.#setLabelEditable(event)),
 			new EventListener(this.#labelEl, "keydown", (event) => this.#onLabelKeydown(event)),
 			new EventListener(this.#labelEl, "blur", (event) => this.#onLabelFocusOut(event)),

@@ -14,7 +14,7 @@ export class TimelineLayersLayer extends ListElementWithRenameLabel {
 
 		this.classList.add("timeline-layers-layer");
 
-		this.addEventListeners(
+		this.listenEvents(
 			new EventListener(this, "click", (event) => this.select(event)),
 		);
 

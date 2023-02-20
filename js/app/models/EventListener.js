@@ -12,6 +12,16 @@ export class EventListener {
 	}
 
 
+	get type() {
+		return this.#type;
+	}
+
+
+	get handler() {
+		return this.#handler;
+	}
+
+
 	dispose() {
 		this.#target.removeEventListener(this.#type, this.#handler);
 		this.#target = null;

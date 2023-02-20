@@ -9,16 +9,18 @@ export class Body extends CustomElement {
 	constructor() {
 		super();
 		this.id = "body";
-		this.append(this.#canvas);
 
-		this.addEventListeners(
+		this.listenEvents(
 			new EventListener(window, "resize", (event) => {this.#onWindowResize(event)}),
+			new EventListener(this, "ADDED_TO_DOM", () => {this.#onWindowResize()})
 		);
+
+		this.append(this.#canvas);
 
 	}
 
 
-	#onWindowResize(event) {
+	#onWindowResize(event=null) {
 		this.#canvas.width = this.offsetWidth;
 		this.#canvas.height = this.offsetHeight;
 	}

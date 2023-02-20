@@ -1,8 +1,11 @@
-export class SubPanel extends HTMLElement {
+import {CustomElement} from "../CustomElement.js";
+import {Container} from "../Container.js";
 
-	#header = document.createElement("div");
-	#footer = document.createElement("div");
-	#subPanelContainer = document.createElement("div");
+export class SubPanel extends CustomElement {
+
+	#header = new Container();
+	#footer = new Container();
+	#subPanelContainer = new Container();
 
 
 	constructor() {
