@@ -6,6 +6,7 @@ import {Body} from "./Body.js";
 import {Container} from "./Container.js";
 import {CustomElement} from "./CustomElement.js";
 import {EventListener} from "../models/EventListener.js";
+import {Events} from "../Events.js";
 
 export class Interface extends CustomElement {
 
@@ -15,11 +16,11 @@ export class Interface extends CustomElement {
 
 		const handler = () => {
 			this.#addedToDOM();
-			this.stopListenEvent("ADDED_TO_DOM", handler);
+			this.stopListenEvent(Event.ADDED_TO_DOM, handler);
 		}
 
 		this.listenEvents(
-			new EventListener(this, "ADDED_TO_DOM", handler),
+			new EventListener(this, Events.ADDED_TO_DOM, handler),
 		);
 	}
 
@@ -46,7 +47,7 @@ export class Interface extends CustomElement {
 		rightContainer.append(new Library());
 		centerContainer.append(body, new Timeline());
 
-		tools.addEventListener("TOOL_SELECT", (event) => {
+		tools.addEventListener(Events.TOOL_SELECT, (event) => {
 			body.onToolSelect(tools.selectedToolName);
 		});
 	}

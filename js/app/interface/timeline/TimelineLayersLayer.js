@@ -1,6 +1,7 @@
 import {EventListener} from "../../models/EventListener.js";
 import {ListElementWithRenameLabel} from "../ListElementWithRenameLabel.js";
 import {ProjectConfig} from "../../ProjectConfig.js";
+import {Events} from "../../Events.js";
 
 export class TimelineLayersLayer extends ListElementWithRenameLabel {
 
@@ -15,7 +16,7 @@ export class TimelineLayersLayer extends ListElementWithRenameLabel {
 		this.classList.add("timeline-layers-layer");
 
 		this.listenEvents(
-			new EventListener(this, "click", (event) => this.select(event)),
+			new EventListener(this, Events.CLICK, (event) => this.select(event)),
 		);
 
 		this.#projectConfig.pushLibraryLayer(this);
@@ -23,7 +24,7 @@ export class TimelineLayersLayer extends ListElementWithRenameLabel {
 
 
 	select() {
-		this.dispatchEvent(new Event("LAYER_SELECT", {bubbles: true}));
+		this.dispatchEvent(new Event(Events.LAYER_SELECT, {bubbles: true}));
 		this.classList.add("selected");
 	}
 

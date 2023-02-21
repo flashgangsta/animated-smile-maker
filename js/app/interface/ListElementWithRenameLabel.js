@@ -1,5 +1,6 @@
 import {CustomElement} from "./CustomElement.js";
 import {EventListener} from "../models/EventListener.js";
+import {Events} from "../Events.js";
 
 export class ListElementWithRenameLabel extends CustomElement {
 
@@ -13,9 +14,9 @@ export class ListElementWithRenameLabel extends CustomElement {
 		this.append(this.#labelEl);
 
 		this.listenEvents(
-			new EventListener(this, "dblclick", (event) => this.#setLabelEditable(event)),
-			new EventListener(this.#labelEl, "keydown", (event) => this.#onLabelKeydown(event)),
-			new EventListener(this.#labelEl, "blur", (event) => this.#onLabelFocusOut(event)),
+			new EventListener(this, Events.DB_CLICK, (event) => this.#setLabelEditable(event)),
+			new EventListener(this.#labelEl, Events.KEY_DOWN, (event) => this.#onLabelKeydown(event)),
+			new EventListener(this.#labelEl, Events.BLUR, (event) => this.#onLabelFocusOut(event)),
 		)
 	}
 
@@ -64,6 +65,6 @@ export class ListElementWithRenameLabel extends CustomElement {
 
 
 	#onLabelChanged() {
-		this.dispatchEvent(new Event("LABEL_CHANGED", {bubbles: true}));
+		this.dispatchEvent(new Event(Events.LABEL_CHANGED, {bubbles: true}));
 	}
 }

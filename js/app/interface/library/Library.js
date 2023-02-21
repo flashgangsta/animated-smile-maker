@@ -3,6 +3,7 @@ import {LibraryItemListElement} from "./LibraryItemListElement.js";
 import {LibraryItemsList} from "./LibraryItemsList.js";
 import {Panel} from "../panels/Panel.js";
 import {ProjectConfig} from "../../ProjectConfig.js";
+import {Events} from "../../Events.js";
 
 
 export class Library extends Panel {
@@ -16,7 +17,7 @@ export class Library extends Panel {
 
 		this.id = "library";
 
-		this.#projectConfig.addEventListener("MEDIA_IMPORTED", (event) => {
+		this.#projectConfig.addEventListener(Events.MEDIA_IMPORTED, (event) => {
 			const imports = this.#projectConfig.lastImports;
 			imports.forEach((mediaFile) => {
 				const libraryItemListElement = new LibraryItemListElement(mediaFile);
@@ -25,7 +26,7 @@ export class Library extends Panel {
 		});
 
 
-		this.#itemsList.addEventListener("LIBRARY_ITEM_SELECTED", (event) => {
+		this.#itemsList.addEventListener(Events.LIBRARY_ITEM_SELECTED, (event) => {
 			const selectedItem = event.target;
 			const lastSelectedItem = this.#itemsList.selectedItem;
 
@@ -46,12 +47,12 @@ export class Library extends Panel {
 		});
 
 
-		this.addEventListener("LIBRARY_ITEM_REMOVE", (event) => {
+		this.addEventListener(Events.LIBRARY_ITEM_REMOVE, (event) => {
 			this.#projectConfig.removeLibraryMedia(event.target.mediaFile);
 		})
 
 
-		this.addEventListener("LIBRARY_ITEM_REMOVED", (event) => {
+		this.addEventListener(Events.LIBRARY_ITEM_REMOVED, (event) => {
 			event.stopPropagation();
 
 			if(!this.#itemsList.subPanelContainer.children.length) {
@@ -60,7 +61,7 @@ export class Library extends Panel {
 		});
 
 
-		this.#projectConfig.addEventListener("PROJECT_OPEN", (event) => this.#clearLibrary())
+		this.#projectConfig.addEventListener(Events.PROJECT_OPEN, (event) => this.#clearLibrary())
 
 
 		this.panelsContainer.append(this.#preview, this.#itemsList);

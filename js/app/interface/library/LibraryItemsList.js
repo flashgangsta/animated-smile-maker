@@ -1,5 +1,6 @@
 import {SubPanel} from "../panels/SubPanel.js";
 import {PanelButtonRemove} from "../panels/PanelButtonRemove.js";
+import {Events} from "../../Events.js";
 
 
 export class LibraryItemsList extends SubPanel {
@@ -11,7 +12,7 @@ export class LibraryItemsList extends SubPanel {
 
 		const removeButton = new PanelButtonRemove();
 
-		removeButton.addEventListener("click", (event) => {
+		removeButton.addEventListener(Events.CLICK, (event) => {
 
 			//TODO: Move this and same in TimelineLayers to extends class
 
@@ -19,12 +20,12 @@ export class LibraryItemsList extends SubPanel {
 			if(selectedItem) {
 				const children = this.subPanelContainer.children;
 				const index = Array.from(children).indexOf(selectedItem);
-				selectedItem.dispatchEvent(new Event("LIBRARY_ITEM_REMOVE", {bubbles: true}));
+				selectedItem.dispatchEvent(new Event(Events.LIBRARY_ITEM_REMOVE, {bubbles: true}));
 				selectedItem.remove();
 				if(children.length) {
 					children[Math.min(index, children.length-1)].click();
 				}
-				this.dispatchEvent(new Event("LIBRARY_ITEM_REMOVED", {bubbles: true}));
+				this.dispatchEvent(new Event(Events.LIBRARY_ITEM_REMOVED, {bubbles: true}));
 			}
 		});
 

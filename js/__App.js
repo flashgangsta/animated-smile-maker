@@ -1,6 +1,7 @@
 import {Bitmap} from "./display/Bitmap.js";
 import {Tween} from "./transitions/Tween.js";
 import {Easing} from "./transitions/Easing.js";
+import {Events} from "./app/Events.js";
 
 export class __App {
 
@@ -84,12 +85,12 @@ export class __App {
 		this.#buttonPause = this.#body.querySelector("#button_pause");
 		this.#buttonStop = this.#body.querySelector("#button_stop");
 
-		this.#buttonSave.addEventListener("click", (event) => this.#onButtonSaveClick(event));
-		this.#buttonPlay.addEventListener("click", (event) => this.#play());
-		this.#buttonPause.addEventListener("click", (event) => this.#pause());
-		this.#buttonStop.addEventListener("click", (event) => this.#stop());
+		this.#buttonSave.addEventListener(Events.CLICK, (event) => this.#onButtonSaveClick(event));
+		this.#buttonPlay.addEventListener(Events.CLICK, (event) => this.#play());
+		this.#buttonPause.addEventListener(Events.CLICK, (event) => this.#pause());
+		this.#buttonStop.addEventListener(Events.CLICK, (event) => this.#stop());
 
-		document.addEventListener("keydown", (event) => {
+		document.addEventListener(Events.KEY_DOWN, (event) => {
 			if(this.#isSaveToggle) {
 				return;
 			}

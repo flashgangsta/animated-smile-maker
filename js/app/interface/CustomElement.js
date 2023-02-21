@@ -1,4 +1,5 @@
 import {EventListener} from "../models/EventListener.js";
+import {Events} from "../Events.js";
 
 export class CustomElement extends HTMLElement {
 
@@ -10,10 +11,10 @@ export class CustomElement extends HTMLElement {
 
 		const thisAddedToDOMHandler = () => {
 			this.#isAddedToDOM = true;
-			this.stopListenEvent("ADDED_TO_DOM", thisAddedToDOMHandler);
+			this.stopListenEvent(Event.ADDED_TO_DOM, thisAddedToDOMHandler);
 		};
 
-		this.listenEvents(new EventListener(this, "ADDED_TO_DOM", thisAddedToDOMHandler));
+		this.listenEvents(new EventListener(this, Events.ADDED_TO_DOM, thisAddedToDOMHandler));
 	}
 
 
@@ -56,7 +57,7 @@ export class CustomElement extends HTMLElement {
 		this.stopListenEvents();
 		this.removeChildren();
 		super.remove();
-		this.dispatchEvent(new Event("REMOVED_FROM_DOM"));
+		this.dispatchEvent(new Event(Events.REMOVED_FROM_DOM));
 		this.#isAddedToDOM = false;
 	}
 
@@ -84,19 +85,19 @@ export class CustomElement extends HTMLElement {
 		if(document.body.contains(this)) {
 			nodes.forEach((node) => {
 				if(!node.isAddedToDom) {
-					node.dispatchEvent(new Event("ADDED_TO_DOM"));
+					node.dispatchEvent(new Event(Events.ADDED_TO_DOM));
 				}
 			});
 		} else {
 			const handler = () => {
-				this.stopListenEvent("ADDED_TO_DOM", handler);
+				this.stopListenEvent(Event.ADDED_TO_DOM, handler);
 				Array.from(this.children).forEach((child) => {
 					if(!child.isAddedToDom) {
-						child.dispatchEvent(new Event("ADDED_TO_DOM"));
+						child.dispatchEvent(new Event(Events.ADDED_TO_DOM));
 					}
 				});
 			}
-			const event = new EventListener(this, "ADDED_TO_DOM", handler);
+			const event = new EventListener(this, Events.ADDED_TO_DOM, handler);
 			this.listenEvents(event);
 		}
 	}

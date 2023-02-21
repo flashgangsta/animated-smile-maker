@@ -1,5 +1,6 @@
 import {EventListener} from "../../models/EventListener.js";
 import {ListElementWithRenameLabel} from "../ListElementWithRenameLabel.js";
+import {Events} from "../../Events.js";
 
 export class LibraryItemListElement extends ListElementWithRenameLabel {
 
@@ -18,11 +19,11 @@ export class LibraryItemListElement extends ListElementWithRenameLabel {
 		this.prepend(this.#icon);
 
 		this.listenEvents(
-			new EventListener(this, "click", (event) => {
-				this.dispatchEvent(new Event("LIBRARY_ITEM_SELECTED", {bubbles: true}));
+			new EventListener(this, Events.CLICK, (event) => {
+				this.dispatchEvent(new Event(Events.LIBRARY_ITEM_SELECTED, {bubbles: true}));
 				this.classList.add("selected");
 			}),
-			new EventListener(this, "LABEL_CHANGED", (event) => {
+			new EventListener(this, Events.LABEL_CHANGED, (event) => {
 				mediaFile.name = this.labelText;
 			}),
 

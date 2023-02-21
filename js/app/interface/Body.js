@@ -2,6 +2,7 @@ import {CustomElement} from "./CustomElement.js";
 import {EventListener} from "../models/EventListener.js";
 import {ProjectConfig} from "../ProjectConfig.js";
 import {Tools} from "./tools/Tools.js";
+import {Events} from "../Events.js";
 
 export class Body extends CustomElement {
 
@@ -19,14 +20,14 @@ export class Body extends CustomElement {
 		this.id = "body";
 
 		this.listenEvents(
-			new EventListener(window, "resize", (event) => {this.#onWindowResize(event)}),
-			new EventListener(this, "ADDED_TO_DOM", () => {this.#onAddedToDOM()}),
-			new EventListener(window, "keydown", (event) => {this.#onKeyDown(event)}),
-			new EventListener(window, "keyup", (event) => {this.#onKeyUp(event)}),
-			new EventListener(window, "mousedown", (event) => {this.#onMouseDown(event)}),
-			new EventListener(window, "mouseup", (event) => {this.#onMouseUp(event)}),
-			new EventListener(window, "mousemove", (event) => {this.#onMouseMove(event)}),
-			new EventListener(this, "wheel", (event) => {this.#onWheel(event)}, {passive: true})
+			new EventListener(window, Events.RESIZE, (event) => {this.#onWindowResize(event)}),
+			new EventListener(this, Events.ADDED_TO_DOM, () => {this.#onAddedToDOM()}),
+			new EventListener(window, Events.KEY_DOWN, (event) => {this.#onKeyDown(event)}),
+			new EventListener(window, Events.KEY_UP, (event) => {this.#onKeyUp(event)}),
+			new EventListener(window, Events.MOUSE_DOWN, (event) => {this.#onMouseDown(event)}),
+			new EventListener(window, Events.MOUSE_UP, (event) => {this.#onMouseUp(event)}),
+			new EventListener(window, Events.MOUSE_MOVE, (event) => {this.#onMouseMove(event)}),
+			new EventListener(this, Events.WHEEL, (event) => {this.#onWheel(event)}, {passive: true})
 		);
 
 		this.append(this.#canvas);

@@ -1,5 +1,6 @@
 import {MediaFile} from "./models/MediaFile.js";
 import {TimelineLayersLayer} from "./interface/timeline/TimelineLayersLayer.js";
+import {Events} from "./Events.js";
 
 export class ProjectConfig extends EventTarget {
 	static instance;
@@ -35,7 +36,7 @@ export class ProjectConfig extends EventTarget {
 
 
 	loadProject(config) {
-		this.dispatchEvent(new Event("PROJECT_OPEN"));
+		this.dispatchEvent(new Event(Events.PROJECT_OPEN));
 
 		const library = config.library;
 		if(library && library.length) {
@@ -56,7 +57,7 @@ export class ProjectConfig extends EventTarget {
 			layers.forEach((layerData) => {
 				new TimelineLayersLayer(layerData.id, layerData.label);
 			})
-			this.dispatchEvent(new Event("PROJECT_LAYERS_INIT"));
+			this.dispatchEvent(new Event(Events.PROJECT_LAYERS_INIT));
 		}
 
 
@@ -67,7 +68,7 @@ export class ProjectConfig extends EventTarget {
 	pushLibraryMedia(...mediaFiles) {
 		this.#library.push(...mediaFiles);
 		this.#lastImports = [...mediaFiles];
-		this.dispatchEvent(new Event("MEDIA_IMPORTED"));
+		this.dispatchEvent(new Event(Events.MEDIA_IMPORTED));
 	}
 
 

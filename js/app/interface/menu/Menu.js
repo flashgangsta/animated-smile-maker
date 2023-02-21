@@ -5,6 +5,7 @@ import {CustomElement} from "../CustomElement.js";
 import {FileManager} from "../../utils/FileManager.js";
 import {ProjectConfig} from "../../ProjectConfig.js";
 import {MediaFile} from "../../models/MediaFile.js";
+import {Events} from "../../Events.js";
 
 export class Menu extends CustomElement {
 
@@ -53,10 +54,10 @@ export class Menu extends CustomElement {
 			this.append(new MenuButton(label));
 		});
 
-		this.addEventListener("click", (event) => this.#onClick(event));
-		this.addEventListener("mouseover", (event) => this.#onMouseOver(event));
-		window.addEventListener("blur", (event) => this.#onWindowBlur(event));
-		window.addEventListener("mousedown", (event) => this.#onWindowMouseDown(event));
+		this.addEventListener(Events.CLICK, (event) => this.#onClick(event));
+		this.addEventListener(Events.MOUSE_OVER, (event) => this.#onMouseOver(event));
+		window.addEventListener(Events.BLUR, (event) => this.#onWindowBlur(event));
+		window.addEventListener(Events.MOUSE_DOWN, (event) => this.#onWindowMouseDown(event));
 	}
 
 

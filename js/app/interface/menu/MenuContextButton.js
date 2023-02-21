@@ -1,5 +1,6 @@
 import {Button} from "../Button.js";
 import {EventListener} from "../../models/EventListener.js";
+import {Events} from "../../Events.js";
 
 export class MenuContextButton extends Button {
 	constructor(label, data) {
@@ -7,7 +8,7 @@ export class MenuContextButton extends Button {
 
 		if(data.handler) {
 			this.listenEvents(
-				new EventListener(this, "click", () => data.handler()),
+				new EventListener(this, Events.CLICK, () => data.handler()),
 			)
 		} else {
 			this.disabled = true;

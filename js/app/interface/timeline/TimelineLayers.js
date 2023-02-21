@@ -3,6 +3,7 @@ import {SubPanel} from "../panels/SubPanel.js";
 import {PanelButton} from "../panels/PanelButton.js";
 import {PanelButtonRemove} from "../panels/PanelButtonRemove.js";
 import {ProjectConfig} from "../../ProjectConfig.js";
+import {Events} from "../../Events.js";
 
 export class TimelineLayers extends SubPanel {
 
@@ -21,14 +22,14 @@ export class TimelineLayers extends SubPanel {
 
 		this.#addLayer();
 
-		buttonNewLayer.addEventListener("click", (event) => this.#addLayer());
-		buttonRemoveLayer.addEventListener("click", (event) => this.#removeSelectedLayer());
-		this.#projectConfig.addEventListener("PROJECT_OPEN", (event) => this.#onProjectOpen());
-		this.#projectConfig.addEventListener("PROJECT_LAYERS_INIT", (event) => this.#loadProjectLayers());
+		buttonNewLayer.addEventListener(Events.CLICK, (event) => this.#addLayer());
+		buttonRemoveLayer.addEventListener(Events.CLICK, (event) => this.#removeSelectedLayer());
+		this.#projectConfig.addEventListener(Events.PROJECT_OPEN, (event) => this.#onProjectOpen());
+		this.#projectConfig.addEventListener(Events.PROJECT_LAYERS_INIT, (event) => this.#loadProjectLayers());
 
 		this.subPanelContainer.classList.add("layers-container");
 
-		this.subPanelContainer.addEventListener("LAYER_SELECT", (event) => {
+		this.subPanelContainer.addEventListener(Events.LAYER_SELECT, (event) => {
 			event.stopPropagation();
 			this.#getSelectedLayer()?.unselect();
 		});
@@ -63,7 +64,7 @@ export class TimelineLayers extends SubPanel {
 			const selectedLayerIndex = Array.from(layersList).indexOf(selectedLayer);
 			selectedLayer.remove();
 			layersList[Math.min(selectedLayerIndex, layersList.length-1)].select();
-			this.dispatchEvent(new Event("LAYER_REMOVED", {bubbles: true}));
+			this.dispatchEvent(new Event(Events.LAYER_REMOVED, {bubbles: true}));
 		}
 	}
 
@@ -72,7 +73,7 @@ export class TimelineLayers extends SubPanel {
 		const layersList = Array.from(this.subPanelContainer.children);
 		layersList.forEach((layer) => {
 			layer.remove();
-			this.dispatchEvent(new Event("LAYER_REMOVED", {bubbles: true}));
+			this.dispatchEvent(new Event(Events.LAYER_REMOVED, {bubbles: true}));
 		})
 	}
 
@@ -100,7 +101,7 @@ export class TimelineLayers extends SubPanel {
 
 
 	#dispatchLayerAdded() {
-		this.dispatchEvent(new Event("LAYER_ADDED", {bubbles: true}));
+		this.dispatchEvent(new Event(Events.LAYER_ADDED, {bubbles: true}));
 	}
 
 }
