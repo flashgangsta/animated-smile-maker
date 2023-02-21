@@ -124,6 +124,12 @@ body h5 {
   margin: 2px 1px 1px 1px;
   padding: 4px;
 }
+#interface #tools .panel-button.active {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background-color: #5d5d5d;
+  border-left: 3px solid #bee6ff;
+}
 #interface #timeline {
   height: 250px;
   min-height: 250px;

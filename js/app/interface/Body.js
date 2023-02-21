@@ -1,6 +1,7 @@
 import {CustomElement} from "./CustomElement.js";
 import {EventListener} from "../models/EventListener.js";
 import {ProjectConfig} from "../ProjectConfig.js";
+import {Tools} from "./tools/Tools.js";
 
 export class Body extends CustomElement {
 
@@ -10,6 +11,8 @@ export class Body extends CustomElement {
 	#handActive = false;
 	#moveMouseStart = null;
 	#ctxPosition = {};
+	#scrollBorders = {};
+	#scrollBorderSize = 50;
 
 	constructor() {
 		super();
@@ -23,6 +26,7 @@ export class Body extends CustomElement {
 			new EventListener(window, "mousedown", (event) => {this.#onMouseDown(event)}),
 			new EventListener(window, "mouseup", (event) => {this.#onMouseUp(event)}),
 			new EventListener(window, "mousemove", (event) => {this.#onMouseMove(event)}),
+			new EventListener(this, "wheel", (event) => {this.#onWheel(event)}, {passive: true})
 		);
 
 		this.append(this.#canvas);
@@ -33,8 +37,8 @@ export class Body extends CustomElement {
 	#onAddedToDOM() {
 		this.#onWindowResize();
 		const canvasSize = this.#projectConfig.canvasSize;
-		const centerX = this.#canvas.width / 2;
-		const centerY = this.#canvas.height / 2;
+		const centerX = this.width / 2;
+		const centerY = this.height / 2;
 		const width = canvasSize.width;
 		const height = canvasSize.height;
 		this.#ctxPosition = {
@@ -42,6 +46,12 @@ export class Body extends CustomElement {
 			y: Math.round(centerY - (height / 2)),
 			width: canvasSize.width,
 			height: canvasSize.height
+		}
+		this.#scrollBorders = {
+			top: -this.#ctxPosition.height + this.#scrollBorderSize,
+			left: -this.#ctxPosition.width + this.#scrollBorderSize,
+			bottom: this.height - this.#scrollBorderSize,
+			right: this.width - this.#scrollBorderSize
 		}
 
 		this.#drawCtx();
@@ -58,20 +68,25 @@ export class Body extends CustomElement {
 	#onWindowResize(event=null) {
 		this.#canvas.width = this.offsetWidth;
 		this.#canvas.height = this.offsetHeight;
+
+		this.#scrollBorders.bottom = this.height - this.#scrollBorderSize;
+		this.#scrollBorders.right = this.width - this.#scrollBorderSize;
+
+		this.#setBorders();
+		this.#drawCtx();
 	}
 
 
 	#onKeyDown(event) {
-		if(event.code === "Space") {
-			this.#canvas.classList.add("hand-active");
-			this.#handActive = true;
+		if(event.code === "Space" && !this.#handActive) {
+			this.onToolSelect("hand");
 		}
 	}
 
 
 	#onKeyUp(event) {
 		if(event.code === "Space") {
-			this.#canvas.classList.remove("hand-active");
+			this.#canvas.classList.toggle("hand-active", false);
 			this.#handActive = false;
 		}
 	}
@@ -93,14 +108,76 @@ export class Body extends CustomElement {
 
 	#onMouseMove(event) {
 		if(this.#handActive && this.#moveMouseStart) {
-			const moveX = event.clientX - this.#moveMouseStart.x;
-			const moveY = event.clientY - this.#moveMouseStart.y;
-			this.#ctxPosition.x += moveX;
-			this.#ctxPosition.y += moveY;
+			const moveX = this.#moveMouseStart.x - event.clientX;
+			const moveY = this.#moveMouseStart.y - event.clientY;
 			this.#moveMouseStart.x = event.clientX;
 			this.#moveMouseStart.y = event.clientY;
-			this.#drawCtx();
+			this.#moveCanvas(moveX, moveY);
 		}
+	}
+
+
+	#onWheel(event) {
+		this.#moveCanvas(event.deltaX, event.deltaY);
+	}
+
+
+	#moveCanvas(x=0, y=0) {
+		const ctxPosition = this.#ctxPosition;
+
+		ctxPosition.x -= x;
+		ctxPosition.y -= y;
+
+		this.#setBorders();
+
+		this.#drawCtx();
+	}
+
+
+	#setBorders() {
+		const ctxPosition = this.#ctxPosition;
+		const scrollBorders = this.#scrollBorders;
+
+		if(ctxPosition.x < scrollBorders.left) {
+			ctxPosition.x = scrollBorders.left;
+		}
+
+		if(ctxPosition.y < scrollBorders.top) {
+			ctxPosition.y = scrollBorders.top;
+		}
+
+		if(ctxPosition.x > scrollBorders.right) {
+			ctxPosition.x = scrollBorders.right;
+		}
+
+		if(ctxPosition.y > scrollBorders.bottom) {
+			ctxPosition.y = scrollBorders.bottom;
+		}
+	}
+
+
+	onToolSelect(toolName) {
+
+		this.#handActive = false;
+		this.#canvas.classList.toggle("hand-active", false);
+
+		switch (toolName) {
+			case Tools.TOOL_HAND: {
+				this.#canvas.classList.toggle("hand-active", true);
+				this.#handActive = true;
+				break;
+			}
+		}
+	}
+
+
+	get width() {
+		return this.#canvas.width;
+	}
+
+
+	get height() {
+		return this.#canvas.height;
 	}
 }
 

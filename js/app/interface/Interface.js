@@ -1,7 +1,7 @@
 import {Timeline} from "./timeline/Timeline.js";
 import {Library} from "./library/Library.js";
 import {Menu} from "./menu/Menu.js";
-import {Tools} from "./Tools.js";
+import {Tools} from "./tools/Tools.js";
 import {Body} from "./Body.js";
 import {Container} from "./Container.js";
 import {CustomElement} from "./CustomElement.js";
@@ -30,6 +30,9 @@ export class Interface extends CustomElement {
 		const leftContainer = new Container();
 		const centerContainer = new Container();
 		const rightContainer = new Container();
+		const menu = new Menu();
+		const tools = new Tools();
+		const body = new Body();
 
 		midContainer.classList.add("mid-container");
 		midContainer.append(leftContainer, centerContainer, rightContainer);
@@ -38,10 +41,14 @@ export class Interface extends CustomElement {
 
 		this.append(topContainer, midContainer);
 
-		topContainer.append(new Menu());
-		leftContainer.append(new Tools());
+		topContainer.append(menu);
+		leftContainer.append(tools);
 		rightContainer.append(new Library());
-		centerContainer.append(new Body(), new Timeline());
+		centerContainer.append(body, new Timeline());
+
+		tools.addEventListener("TOOL_SELECT", (event) => {
+			body.onToolSelect(tools.selectedToolName);
+		});
 	}
 }
 

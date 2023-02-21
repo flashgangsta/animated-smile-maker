@@ -24,12 +24,11 @@ export class Timeline extends Panel {
 
 		subPanelContainers.forEach((el) => {
 			el.addEventListener("mousewheel", (event) => {
-				const delta = event.wheelDelta;
-				const target = el.scrollTop - (delta / 4);
+				const target = el.scrollTop - (event.wheelDelta / 4);
 				subPanelContainers.forEach((el) => {
-					el.scroll(0, target, "smooth");
+					el.scroll({top: 0, left: target, behavior: "smooth"});
 				});
-			})
+			}, {passive: true});
 		})
 	}
 }
