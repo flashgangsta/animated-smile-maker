@@ -8,6 +8,7 @@ export class Events {
 	static get MOUSE_WHEEL() { return "mousewheel" };
 	static get WHEEL() { return "wheel" };
 	static get DB_CLICK() { return "dblclick" };
+	static get CONTEXT_MENU() { return "contextmenu" };
 	static get KEY_DOWN() { return "keydown" };
 	static get KEY_UP() { return "keyup" };
 	static get BLUR() { return "blur" };
@@ -25,4 +26,5 @@ export class Events {
 	static get LAYER_SELECT() { return "LAYER_SELECT" };
 	static get TOOL_SELECT() { return "TOOL_SELECT" };
 	static get LABEL_CHANGED() { return "LABEL_CHANGED" };
+	static get TIMELINE_CONTEXT_CALL() { return "TIMELINE_CONTEXT_CALL" };
 }

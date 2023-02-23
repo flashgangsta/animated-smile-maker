@@ -97,9 +97,7 @@ export class CustomElement extends HTMLElement {
 					}
 				});
 			}
-			const event = new EventListener(this, Events.ADDED_TO_DOM, handler);
-			this.listenEvents(event);
+			this.listenEvents(new EventListener(this, Events.ADDED_TO_DOM, handler));
 		}
 	}
-
 }

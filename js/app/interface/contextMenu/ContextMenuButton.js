@@ -2,7 +2,7 @@ import {Button} from "../Button.js";
 import {EventListener} from "../../models/EventListener.js";
 import {Events} from "../../Events.js";
 
-export class MenuContextButton extends Button {
+export class ContextMenuButton extends Button {
 	constructor(label, data) {
 		super(label);
 
@@ -20,4 +20,4 @@ export class MenuContextButton extends Button {
 	}
 }
 
-customElements.define("menu-context-button-el", MenuContextButton);
+customElements.define("menu-context-button-el", ContextMenuButton);

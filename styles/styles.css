@@ -5,6 +5,7 @@ body h5 {
   margin: 0;
 }
 #interface {
+  position: relative;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -86,28 +87,6 @@ body h5 {
   text-align: center;
   font-size: 0.9rem;
 }
-#interface #menu .menu-context {
-  position: absolute;
-  z-index: 1000;
-  top: 32px;
-  background-color: white;
-  color: black;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  text-shadow: none;
-  border: 1px solid #252525;
-  display: flex;
-  flex-direction: column;
-}
-#interface #menu .menu-context > .button {
-  background: none;
-  color: inherit;
-  font-size: 0.8rem;
-  padding: 7px 13px 7px 20px;
-  min-width: 150px;
-}
-#interface #menu .menu-context > .button:hover {
-  background-color: #bee6ff;
-}
 #interface #tools {
   display: flex;
   width: 35px;
@@ -177,10 +156,12 @@ body h5 {
   white-space: nowrap;
 }
 #interface #timeline .panels-container #timeline-track {
+  position: relative;
   display: flex;
   width: calc(100% - 250px);
 }
 #interface #timeline .panels-container #timeline-track .timeline-track-layer {
+  position: relative;
   display: flex;
   height: 22px;
   background-image: url("../assets/frames-pattern.png");
@@ -261,6 +242,28 @@ body h5 {
 }
 #interface #body canvas.hand-active {
   cursor: grab;
+}
+#interface .context-menu {
+  position: absolute;
+  z-index: 1000;
+  top: 32px;
+  background-color: white;
+  color: black;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  text-shadow: none;
+  border: 1px solid #252525;
+  display: flex;
+  flex-direction: column;
+}
+#interface .context-menu > .button {
+  background: none;
+  color: inherit;
+  font-size: 0.8rem;
+  padding: 7px 13px 7px 20px;
+  min-width: 150px;
+}
+#interface .context-menu > .button:hover {
+  background-color: #bee6ff;
 }
 #interface .container {
   display: block;

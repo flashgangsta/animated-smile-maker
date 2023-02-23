@@ -1,11 +1,11 @@
 import {MenuButton} from "./MenuButton.js";
-import {MenuContext} from "./MenuContext.js";
-import {MenuContextButton} from "./MenuContextButton.js";
 import {CustomElement} from "../CustomElement.js";
 import {FileManager} from "../../utils/FileManager.js";
 import {ProjectConfig} from "../../ProjectConfig.js";
 import {MediaFile} from "../../models/MediaFile.js";
 import {Events} from "../../Events.js";
+import {ContextMenuButton} from "../contextMenu/ContextMenuButton.js";
+import {MenuContextMenu} from "./MenuContextMenu.js";
 
 export class Menu extends CustomElement {
 
@@ -41,7 +41,6 @@ export class Menu extends CustomElement {
 			"Zoom Out": {},
 		}
 	}
-
 	#activeContext;
 	#fileManager = new FileManager();
 	#projectConfig = new ProjectConfig();
@@ -56,14 +55,13 @@ export class Menu extends CustomElement {
 
 		this.addEventListener(Events.CLICK, (event) => this.#onClick(event));
 		this.addEventListener(Events.MOUSE_OVER, (event) => this.#onMouseOver(event));
-		window.addEventListener(Events.BLUR, (event) => this.#onWindowBlur(event));
 		window.addEventListener(Events.MOUSE_DOWN, (event) => this.#onWindowMouseDown(event));
 	}
 
 
 	#onClick(event) {
 		const target = event.target;
-		if(target instanceof MenuContextButton) {
+		if(target instanceof MenuContextMenu) {
 			this.#closeContext();
 		}
 		this.#openContext(event.target);
@@ -79,11 +77,11 @@ export class Menu extends CustomElement {
 
 	#openContext(target) {
 		const button = (target && target instanceof MenuButton) ? target : null;
-		if(!button || this.#activeContext?.buttonLabel === button.label) return;
+		if(!button || this.#activeContext?.menuButtonLabel === button.label) return;
 		const label = button.label;
 		const contextData = this.#menuContent[label];
 		this.#closeContext();
-		this.#activeContext = new MenuContext(button, contextData);
+		this.#activeContext = new MenuContextMenu(button, contextData, () => this.#closeContext());
 		this.append(this.#activeContext);
 	}
 
@@ -94,14 +92,9 @@ export class Menu extends CustomElement {
 	}
 
 
-	#onWindowBlur(event) {
-		this.#closeContext();
-	}
-
-
 	#onWindowMouseDown(event) {
 		const target = event.target;
-		if(!(target instanceof MenuButton) && !(target instanceof MenuContextButton)) {
+		if(!(target instanceof MenuButton) && !(target instanceof ContextMenuButton)) {
 			this.#closeContext();
 		}
 	}

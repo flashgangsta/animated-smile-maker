@@ -34,6 +34,8 @@ export class Interface extends CustomElement {
 		const menu = new Menu();
 		const tools = new Tools();
 		const body = new Body();
+		const library = new Library();
+		const timeline = new Timeline();
 
 		midContainer.classList.add("mid-container");
 		midContainer.append(leftContainer, centerContainer, rightContainer);
@@ -44,8 +46,8 @@ export class Interface extends CustomElement {
 
 		topContainer.append(menu);
 		leftContainer.append(tools);
-		rightContainer.append(new Library());
-		centerContainer.append(body, new Timeline());
+		rightContainer.append(library);
+		centerContainer.append(body, timeline);
 
 		tools.addEventListener(Events.TOOL_SELECT, (event) => {
 			body.onToolSelect(tools.selectedToolName);
