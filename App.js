@@ -33,6 +33,8 @@ export class App {
 	#buttonPlay = null;
 	#buttonPause = null;
 	#buttonStop = null;
+	#buttonNextFrame = null;
+	#buttonPrevFrame = null;
 	#isSaveToggle = false;
 	#saveConfig = [
 		{name: "preview", canvas: this.#canvas},
@@ -83,11 +85,15 @@ export class App {
 		this.#buttonPlay = this.#body.querySelector("#button_play");
 		this.#buttonPause = this.#body.querySelector("#button_pause");
 		this.#buttonStop = this.#body.querySelector("#button_stop");
+		this.#buttonNextFrame = this.#body.querySelector("#button_next_frame");
+		this.#buttonPrevFrame = this.#body.querySelector("#button_prev_frame");
 
 		this.#buttonSave.addEventListener("click", (event) => this.#onButtonSaveClick(event));
 		this.#buttonPlay.addEventListener("click", (event) => this.#play());
 		this.#buttonPause.addEventListener("click", (event) => this.#pause());
 		this.#buttonStop.addEventListener("click", (event) => this.#stop());
+		this.#buttonNextFrame.addEventListener("click", (event) => this.#showNextFrame());
+		this.#buttonPrevFrame.addEventListener("click", (event) => this.#showPrevFrame());
 
 		document.addEventListener("keydown", (event) => {
 			if(this.#isSaveToggle) {
@@ -96,13 +102,10 @@ export class App {
 
 			switch (event.key) {
 				case ".":
-					this.#tick();
+					this.#showNextFrame();
 					break;
 				case ",":
-					if(this.#currentFrame > 1) {
-						this.#currentFrame -= 2;
-						this.#tick();
-					}
+					this.#showPrevFrame();
 					break;
 			}
 		});
@@ -204,6 +207,19 @@ export class App {
 	}
 
 
+	#showNextFrame() {
+		this.#tick();
+	}
+
+
+	#showPrevFrame() {
+		if(this.#currentFrame > 1) {
+			this.#currentFrame -= 2;
+			this.#tick();
+		}
+	}
+
+
 	#tick() {
 		if(this.#isSaveToggle) {
 			this.#savePictures();
@@ -272,7 +288,6 @@ export class App {
 
 	#onAnimationsComplete() {
 		this.#stop();
-
 	}
 
 	#onButtonSaveClick(event) {
