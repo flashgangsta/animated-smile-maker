@@ -181,6 +181,8 @@ export class App {
 		this.#buttonPlay.disabled = true;
 		this.#buttonStop.disabled = false;
 		this.#buttonPause.disabled = false;
+		this.#buttonNextFrame.disabled = true;
+		this.#buttonPrevFrame.disabled = true;
 	}
 
 
@@ -196,6 +198,8 @@ export class App {
 		this.#buttonStop.disabled = true;
 		this.#buttonPause.disabled = true;
 		this.#buttonPlay.disabled = false;
+		this.#buttonNextFrame.disabled = false;
+		this.#buttonPrevFrame.disabled = false;
 	}
 
 
@@ -204,6 +208,8 @@ export class App {
 		this.#drawInterval = null;
 		this.#buttonPause.disabled = true;
 		this.#buttonPlay.disabled = false;
+		this.#buttonNextFrame.disabled = false;
+		this.#buttonPrevFrame.disabled = false;
 	}
 
 
@@ -300,6 +306,8 @@ export class App {
 		this.#buttonPlay.disabled = true;
 		this.#buttonPause.disabled = true;
 		this.#buttonStop.disabled = true;
+		this.#buttonNextFrame.disabled = true;
+		this.#buttonPrevFrame.disabled = true;
 	}
 
 
