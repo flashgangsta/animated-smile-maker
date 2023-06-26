@@ -12,7 +12,7 @@ export class DisplayObject {
 		this.#rotation = parseFloat(value) || 0;
 	}
 
-	get rotation() { return this.#rotation};
+	get rotation() { return this.#rotation };
 
 	constructor() {
 
