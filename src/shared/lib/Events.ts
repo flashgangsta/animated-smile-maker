@@ -1,0 +1,30 @@
+export class Events {
+    static readonly LOAD:string = "load";
+    static readonly CLICK:string = "click";
+    static readonly MOUSE_OVER:string = "mouseover";
+    static readonly MOUSE_DOWN:string = "mousedown";
+    static readonly MOUSE_UP:string = "mouseup";
+    static readonly MOUSE_MOVE:string = "mousemove";
+    static readonly MOUSE_WHEEL:string = "mousewheel";
+    static readonly WHEEL:string = "wheel";
+    static readonly DB_CLICK:string = "dblclick";
+    static readonly CONTEXT_MENU:string = "contextmenu";
+    static readonly KEY_DOWN:string = "keydown";
+    static readonly KEY_UP:string = "keyup";
+    static readonly BLUR:string = "blur";
+    static readonly RESIZE:string = "resize";
+    static readonly ADDED_TO_DOM:string = "ADDED_TO_DOM";
+    static readonly REMOVED_FROM_DOM:string = "REMOVED_FROM_DOM";
+    static readonly PROJECT_OPEN:string = "PROJECT_OPEN";
+    static readonly PROJECT_LAYERS_INIT:string = "PROJECT_LAYERS_INIT";
+    static readonly MEDIA_IMPORTED:string = "MEDIA_IMPORTED";
+    static readonly LIBRARY_ITEM_SELECTED:string = "LIBRARY_ITEM_SELECTED";
+    static readonly LIBRARY_ITEM_REMOVE:string = "LIBRARY_ITEM_REMOVE";
+    static readonly LIBRARY_ITEM_REMOVED:string = "LIBRARY_ITEM_REMOVED";
+    static readonly LAYER_ADDED:string = "LAYER_ADDED";
+    static readonly LAYER_REMOVED:string = "LAYER_REMOVED";
+    static readonly LAYER_SELECT:string = "LAYER_SELECT";
+    static readonly TOOL_SELECT:string = "TOOL_SELECT";
+    static readonly LABEL_CHANGED:string = "LABEL_CHANGED";
+    static readonly TIMELINE_CONTEXT_CALL:string = "TIMELINE_CONTEXT_CALL";
+}
