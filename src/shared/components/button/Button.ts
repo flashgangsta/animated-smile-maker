@@ -1,4 +1,4 @@
-import {ElementBase} from "../../ElementBase";
+import {ElementBase} from "../../ElementBase.js";
 
 export class Button extends ElementBase {
 

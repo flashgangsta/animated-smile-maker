@@ -1,1 +1,0 @@
-{"version":3,"file":"MenuButton.js","sourceRoot":"","sources":["../../../src/features/menu_button/MenuButton.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,MAAM,EAAC,MAAM,0CAA0C,CAAC;AAEhE,MAAM,OAAO,UAAW,SAAQ,MAAM;IAClC,YAAY,KAAY;QACpB,KAAK,CAAC,KAAK,CAAC,CAAC;QACb,IAAI,CAAC,SAAS,CAAC,GAAG,CAAC,aAAa,CAAC,CAAC;IACtC,CAAC;CACJ;AAED,cAAc,CAAC,MAAM,CAAC,gBAAgB,EAAE,UAAU,CAAC,CAAC"}

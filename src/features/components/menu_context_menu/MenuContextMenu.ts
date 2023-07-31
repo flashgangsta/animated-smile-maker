@@ -1,5 +1,5 @@
-import {ContextMenu} from "../../../entities/components/context_menu/ContextMenu";
-import {MenuButton} from "../menu_button/MenuButton";
+import {ContextMenu} from "../../../entities/components/context_menu/ContextMenu.js";
+import {MenuButton} from "../menu_button/MenuButton.js";
 import {IMenuContextItem} from "../../../shared/interfaces/IMenuContentData";
 
 export class MenuContextMenu extends ContextMenu {

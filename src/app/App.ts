@@ -1,5 +1,5 @@
-import {WorkspaceScreen} from "../pages/workspace/WorkspaceScreen";
-import {Events} from "../shared/lib/Events";
+import {WorkspaceScreen} from "../pages/workspace/WorkspaceScreen.js";
+import {Events} from "../shared/lib/Events.js";
 
 export class App {
     constructor() {

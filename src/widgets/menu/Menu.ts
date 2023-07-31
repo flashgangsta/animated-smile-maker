@@ -1,9 +1,9 @@
-import {ElementBase} from "../../shared/ElementBase";
-import {Events} from "../../shared/lib/Events";
-import {MenuButton} from "../../features/components/menu_button/MenuButton";
-import {MenuContextMenu} from "../../features/components/menu_context_menu/MenuContextMenu";
+import {ElementBase} from "../../shared/ElementBase.js";
+import {Events} from "../../shared/lib/Events.js";
+import {MenuButton} from "../../features/components/menu_button/MenuButton.js";
+import {MenuContextMenu} from "../../features/components/menu_context_menu/MenuContextMenu.js";
 import {IMenuContent, IMenuContextItem} from "../../shared/interfaces/IMenuContentData";
-import {ContextMenuButton} from "../../entities/components/context_menu_button/ContextMenuButton";
+import {ContextMenuButton} from "../../entities/components/context_menu_button/ContextMenuButton.js";
 
 
 export class Menu extends ElementBase {

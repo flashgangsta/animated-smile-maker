@@ -1,4 +1,4 @@
-import {Button} from "../../../shared/components/button/Button";
+import {Button} from "../../../shared/components/button/Button.js";
 
 export class MenuButton extends Button {
     constructor(label:string) {
