@@ -1,0 +1,1 @@
+{"version":3,"file":"Scene.js","sourceRoot":"","sources":["../../../src/widgets/scene/Scene.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,WAAW,EAAC,MAAM,6BAA6B,CAAC;AAExD,MAAM,OAAO,KAAM,SAAQ,WAAW;IAClC;QACI,KAAK,EAAE,CAAC;QACR,IAAI,CAAC,EAAE,GAAG,OAAO,CAAC;IACtB,CAAC;CACJ;AAED,cAAc,CAAC,MAAM,CAAC,UAAU,EAAE,KAAK,CAAC,CAAC"}

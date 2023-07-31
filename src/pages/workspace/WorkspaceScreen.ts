@@ -3,6 +3,8 @@ import {Container} from "../../shared/components/container/Container.js";
 import {Menu} from "../../widgets/menu/Menu.js";
 import {Tools} from "../../widgets/tools/Tools.js";
 import {Library} from "../../widgets/library/Library.js";
+import {Timeline} from "../../widgets/timeline/Timeline.js";
+import {Scene} from "../../widgets/scene/Scene.js";
 
 export class WorkspaceScreen extends PageBase {
     constructor() {
@@ -19,16 +21,16 @@ export class WorkspaceScreen extends PageBase {
         const rightContainer:Container = new Container();
         const menu:Menu = new Menu();
         const tools:Tools = new Tools();
-        //const body = new Body();
-        const library = new Library();
-        //const timeline = new Timeline();
+        const scene:Scene = new Scene();
+        const library:Library = new Library();
+        const timeline:Timeline = new Timeline();
 
         midContainer.append(leftContainer, centerContainer, rightContainer);
 
         topContainer.append(menu);
         leftContainer.append(tools);
         rightContainer.append(library);
-        //centerContainer.append(body, timeline);
+        centerContainer.append(scene, timeline);
 
         this.append(topContainer, midContainer);
     }

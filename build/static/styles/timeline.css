@@ -1,0 +1,5 @@
+#timeline {
+    height: 250px;
+    min-height: 250px;
+    border-top: 1px solid var(--color_background_light);
+}

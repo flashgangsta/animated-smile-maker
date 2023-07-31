@@ -1,0 +1,1 @@
+{"version":3,"file":"Timeline.js","sourceRoot":"","sources":["../../../src/widgets/timeline/Timeline.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,KAAK,EAAC,MAAM,0CAA0C,CAAC;AAE/D,MAAM,OAAO,QAAS,SAAQ,KAAK;IAC/B;QACI,KAAK,CAAC,UAAU,CAAC,CAAC;QAClB,IAAI,CAAC,EAAE,GAAG,UAAU,CAAC;IACzB,CAAC;CACJ;AAED,cAAc,CAAC,MAAM,CAAC,aAAa,EAAE,QAAQ,CAAC,CAAC"}
