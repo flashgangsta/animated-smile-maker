@@ -40,6 +40,7 @@ export class ElementBase extends HTMLElement {
         dispatchEvent(new Event(Events.ADDED_TO_DOM));
     }
     disconnectedCallback() {
+        this.stopListenEvents();
         dispatchEvent(new Event(Events.REMOVED_FROM_DOM));
     }
 }

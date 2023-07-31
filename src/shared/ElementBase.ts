@@ -56,6 +56,7 @@ export class ElementBase extends HTMLElement {
     }
 
     disconnectedCallback():void {
+        this.stopListenEvents();
         dispatchEvent(new Event(Events.REMOVED_FROM_DOM));
     }
 }
