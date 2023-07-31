@@ -167,6 +167,23 @@ html body {
     flex-direction: column;
     width: 100%;
     background-color: var(--color_background_default);
+
+    .panel-header {
+        display: flex;
+        width: 100%;
+        background-color: var(--color_background_dark);
+
+        .panel-tab-button {
+            padding: 0 10px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            background-color: var(--color_background_default);
+            width: fit-content;
+            font-size: 0.9rem;
+            border-radius: 0;
+        }
+    }
 }
 
 #library {
