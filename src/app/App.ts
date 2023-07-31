@@ -3,7 +3,7 @@ import {Events} from "../shared/lib/Events.js";
 
 export class App {
     constructor() {
-        const workspaceScreen = new WorkspaceScreen();
+        const workspaceScreen:WorkspaceScreen = new WorkspaceScreen();
         document.body.append(workspaceScreen);
     }
 }

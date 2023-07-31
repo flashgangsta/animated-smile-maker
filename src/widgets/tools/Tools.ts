@@ -8,6 +8,7 @@ export class Tools extends ElementBase {
     private static readonly TOOL_HAND = "hand";
     constructor() {
         super();
+        this.id = "tools";
         this.init();
     }
 

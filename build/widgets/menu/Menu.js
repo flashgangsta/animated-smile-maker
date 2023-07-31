@@ -38,6 +38,7 @@ export class Menu extends ElementBase {
                 "Zoom Out": {},
             }
         };
+        this.id = "menu";
         this.init();
     }
     init() {

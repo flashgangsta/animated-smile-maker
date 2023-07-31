@@ -44,6 +44,7 @@ export class Menu extends ElementBase {
 
     constructor() {
         super();
+        this.id = "menu";
         this.init();
     }
 

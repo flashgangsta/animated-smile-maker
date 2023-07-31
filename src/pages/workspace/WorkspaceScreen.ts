@@ -7,6 +7,7 @@ import {Library} from "../../widgets/library/Library.js";
 export class WorkspaceScreen extends PageBase {
     constructor() {
         super();
+        this.id = "workspace-screen";
         this.init();
     }
 

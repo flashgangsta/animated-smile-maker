@@ -4,6 +4,7 @@ import { ToolButton } from "../../entities/components/tool_button/ToolButton.js"
 export class Tools extends ElementBase {
     constructor() {
         super();
+        this.id = "tools";
         this.init();
     }
     init() {
