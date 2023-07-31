@@ -170,3 +170,17 @@ el-tools {
     align-items: center;
     justify-content: center;
 }
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--color_background_default);
+}
+
+#library {
+    display: flex;
+    width: 250px;
+    height: 100%;
+    border-left: 1px solid var(--color_background_light);
+}

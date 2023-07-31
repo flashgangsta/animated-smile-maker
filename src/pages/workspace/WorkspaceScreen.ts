@@ -2,6 +2,7 @@ import {PageBase} from "../PageBase.js";
 import {Container} from "../../shared/components/container/Container.js";
 import {Menu} from "../../widgets/menu/Menu.js";
 import {Tools} from "../../widgets/tools/Tools.js";
+import {Library} from "../../widgets/library/Library.js";
 
 export class WorkspaceScreen extends PageBase {
     constructor() {
@@ -15,17 +16,17 @@ export class WorkspaceScreen extends PageBase {
         const leftContainer:Container = new Container();
         const centerContainer:Container = new Container(["center-container"]);
         const rightContainer:Container = new Container();
-        const menu = new Menu();
-        const tools = new Tools();
-        /*const body = new Body();
+        const menu:Menu = new Menu();
+        const tools:Tools = new Tools();
+        //const body = new Body();
         const library = new Library();
-        const timeline = new Timeline();*/
+        //const timeline = new Timeline();
 
         midContainer.append(leftContainer, centerContainer, rightContainer);
 
         topContainer.append(menu);
         leftContainer.append(tools);
-        //rightContainer.append(library);
+        rightContainer.append(library);
         //centerContainer.append(body, timeline);
 
         this.append(topContainer, midContainer);

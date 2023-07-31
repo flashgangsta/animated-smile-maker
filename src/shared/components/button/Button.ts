@@ -11,6 +11,7 @@ export class Button extends ElementBase {
     constructor(label?:string, iconPath?:string) {
         super();
         this.classList.add("button");
+        this.role = "button";
 
         if(label) {
             this.elLabel = document.createElement("label");

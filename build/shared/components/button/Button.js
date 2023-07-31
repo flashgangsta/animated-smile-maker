@@ -5,6 +5,7 @@ export class Button extends ElementBase {
         super();
         this.disabledValue = false;
         this.classList.add("button");
+        this.role = "button";
         if (label) {
             this.elLabel = document.createElement("label");
             this.elLabel.innerText = label;

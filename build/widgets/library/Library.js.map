@@ -1,0 +1,1 @@
+{"version":3,"file":"Library.js","sourceRoot":"","sources":["../../../src/widgets/library/Library.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,KAAK,EAAC,MAAM,0CAA0C,CAAC;AAE/D,MAAM,OAAO,OAAQ,SAAQ,KAAK;IAC9B;QACI,KAAK,CAAC,SAAS,CAAC,CAAC;QACjB,IAAI,CAAC,EAAE,GAAG,SAAS,CAAC;IACxB,CAAC;CACJ;AAED,cAAc,CAAC,MAAM,CAAC,YAAY,EAAE,OAAO,CAAC,CAAC"}
