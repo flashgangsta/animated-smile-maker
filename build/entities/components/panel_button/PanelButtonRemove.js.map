@@ -1,0 +1,1 @@
+{"version":3,"file":"PanelButtonRemove.js","sourceRoot":"","sources":["../../../../src/entities/components/panel_button/PanelButtonRemove.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,WAAW,EAAC,MAAM,kBAAkB,CAAC;AAE7C,MAAM,OAAO,iBAAkB,SAAQ,WAAW;IAC9C;QACI,KAAK,CAAC,sBAAsB,CAAC,CAAC;IAClC,CAAC;CACJ;AAED,cAAc,CAAC,MAAM,CAAC,wBAAwB,EAAE,iBAAiB,CAAC,CAAC"}

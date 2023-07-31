@@ -4,7 +4,7 @@ import {PanelHeader} from "./PanelHeader.js";
 
 export class Panel extends ElementBase {
 
-    private readonly panelsContainer:Container = new Container();
+    protected readonly panelsContainer:Container = new Container();
     private readonly panelHeader:PanelHeader;
 
 

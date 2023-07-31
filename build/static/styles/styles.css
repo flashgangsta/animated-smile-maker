@@ -9,6 +9,7 @@
     --color_hover_background_light_blue: #bee6ff;
     --color-text-primary: white;
     --menu_height: 35px;
+    --panel-header-and-footer-height: 30px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -67,6 +68,11 @@ html body {
     & > img {
         filter: invert(1);
     }
+
+    &.panel-button > img {
+        max-width: 100%;
+        max-height: 100%;
+    }
 }
 
 #workspace-screen {
@@ -118,10 +124,6 @@ html body {
         height: 28px;
         margin: 2px 1px 1px 1px;
         padding: 4px;
-        & > img {
-            max-width: 100%;
-            max-height: 100%;
-        }
 
         &.active {
             border-top-left-radius: 0;
@@ -183,6 +185,50 @@ html body {
             font-size: 0.9rem;
             border-radius: 0;
         }
+    }
+
+    .panels-container {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        max-height: calc(100% - var(--panel-header-and-footer-height));
+
+        .sub-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+
+            .header, .footer {
+                display: flex;
+                padding: 4px 2px;
+                height: var(--panel-header-and-footer-height);
+                max-height: var(--panel-header-and-footer-height);
+                min-height: var(--panel-header-and-footer-height);
+            }
+
+            .header {
+                border-bottom: 1px solid var(--panel-header-and-footer-height);
+                display: flex;
+            }
+
+            .footer {
+                border-top: 1px solid var(--panel-header-and-footer-height);
+                .button {
+                    margin-left: 6px;
+                }
+            }
+
+            .sub-panel-container {
+                height: 100%;
+                overflow-y: auto;
+            }
+        }
+    }
+
+    .panel-button {
+        width: 20px;
+        height: 20px;
     }
 }
 
