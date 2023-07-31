@@ -1,4 +1,4 @@
-import {ElementBase} from "../shared/ElementBase.js";
+import {ElementBase} from "../shared/ElementBase";
 
 export class PageBase extends ElementBase {
     constructor() {

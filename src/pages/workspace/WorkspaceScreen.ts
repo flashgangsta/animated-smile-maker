@@ -1,6 +1,6 @@
-import {PageBase} from "../PageBase.js";
-import {Container} from "../../shared/components/container/Container.js";
-import {Menu} from "../../widgets/menu/Menu.js";
+import {PageBase} from "../PageBase";
+import {Container} from "../../shared/components/container/Container";
+import {Menu} from "../../widgets/menu/Menu";
 
 export class WorkspaceScreen extends PageBase {
     constructor() {

@@ -1,5 +1,5 @@
-import {ElementBase} from "../../../shared/ElementBase.js";
-import {ContextMenuButton} from "../context_menu_button/ContextMenuButton.js";
+import {ElementBase} from "../../../shared/ElementBase";
+import {ContextMenuButton} from "../context_menu_button/ContextMenuButton";
 import {IMenuContextItem} from "../../../shared/interfaces/IMenuContentData";
 
 export class ContextMenu extends ElementBase {

@@ -1,4 +1,4 @@
-import {Button} from "../../../shared/components/button/Button.js";
+import {Button} from "../../../shared/components/button/Button";
 import {Events} from "../../../shared/lib/Events";
 import {IMenuContextItemProps} from "../../../shared/interfaces/IMenuContentData";
 

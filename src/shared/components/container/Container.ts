@@ -1,4 +1,4 @@
-import {ElementBase} from "../../ElementBase.js";
+import {ElementBase} from "../../ElementBase";
 
 export class Container extends ElementBase {
     constructor(classList?:string[]) {
