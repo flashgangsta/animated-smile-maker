@@ -1,12 +1,12 @@
-export interface IMenuContentData {
-    [label: string]: IMenuContentDataItem | IMenuContentSubmenu;
+export interface IMenuContent {
+    [label: string]: IMenuContextItem;
 }
 
-export interface IMenuContentDataItem {
+export interface IMenuContextItem {
+    [label:string]: IMenuContextItemProps;
+}
+
+export interface IMenuContextItemProps {
     handler?: () => void;
     disabled?: boolean;
-}
-
-export interface IMenuContentSubmenu {
-    [subLabel: string]: IMenuContentDataItem;
 }

@@ -2,6 +2,7 @@ import { ElementBase } from "../../shared/ElementBase.js";
 import { Events } from "../../shared/lib/Events.js";
 import { MenuButton } from "../../features/components/menu_button/MenuButton.js";
 import { MenuContextMenu } from "../../features/components/menu_context_menu/MenuContextMenu.js";
+import { ContextMenuButton } from "../../entities/components/context_menu_button/ContextMenuButton.js";
 export class Menu extends ElementBase {
     constructor() {
         super();
@@ -60,19 +61,22 @@ export class Menu extends ElementBase {
         if (target && target instanceof MenuContextMenu) {
             this.closeContext();
         }
-        console.log(target);
         this.openContext(event.target);
     }
     onMouseOver(event) {
+        if (this.activeContext) {
+            this.openContext(event.target);
+        }
     }
     onWindowMouseDown(event) {
-    }
-    closeContext() {
+        const target = event.target;
+        if (!(target instanceof MenuButton) && !(target instanceof ContextMenuButton)) {
+            this.closeContext();
+        }
     }
     openContext(target) {
         var _a;
         const button = (target && target instanceof MenuButton) ? target : undefined;
-        console.log(button);
         if (!button || ((_a = this.activeContext) === null || _a === void 0 ? void 0 : _a.menuButtonLabel) === button.label)
             return;
         const label = button.label;
@@ -80,7 +84,11 @@ export class Menu extends ElementBase {
         this.closeContext();
         this.activeContext = new MenuContextMenu(button, contextData, () => this.closeContext());
         this.append(this.activeContext);
-        console.log("append context");
+    }
+    closeContext() {
+        var _a;
+        (_a = this.activeContext) === null || _a === void 0 ? void 0 : _a.remove();
+        this.activeContext = undefined;
     }
 }
 customElements.define("el-menu", Menu);

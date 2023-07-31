@@ -2,12 +2,13 @@ import {ElementBase} from "../../shared/ElementBase.js";
 import {Events} from "../../shared/lib/Events.js";
 import {MenuButton} from "../../features/components/menu_button/MenuButton.js";
 import {MenuContextMenu} from "../../features/components/menu_context_menu/MenuContextMenu.js";
-import {IMenuContentData} from "../../shared/interfaces/IMenuContentData";
+import {IMenuContent, IMenuContextItem} from "../../shared/interfaces/IMenuContentData";
+import {ContextMenuButton} from "../../entities/components/context_menu_button/ContextMenuButton.js";
 
 
 export class Menu extends ElementBase {
 
-    private readonly menuContent:IMenuContentData = {
+    private readonly menuContent:IMenuContent = {
         "File": {
             "New...": {},
             "Open": {
@@ -79,33 +80,36 @@ export class Menu extends ElementBase {
         if (target && target instanceof MenuContextMenu) {
             this.closeContext();
         }
-        console.log(target);
         this.openContext(event.target);
     }
 
-    private onMouseOver(event: Event) {
-
+    private onMouseOver(event: Event):void {
+        if(this.activeContext) {
+            this.openContext(event.target);
+        }
     }
 
-    private onWindowMouseDown(event: Event) {
-
-    }
-
-    private closeContext() {
-
+    private onWindowMouseDown(event: Event):void {
+        const target = event.target;
+        if(!(target instanceof MenuButton) && !(target instanceof ContextMenuButton)) {
+            this.closeContext();
+        }
     }
 
     private openContext(target: EventTarget | null) {
         const button = (target && target instanceof MenuButton) ? target : undefined;
-        console.log(button)
         if (!button || this.activeContext?.menuButtonLabel === button.label) return;
         const label:string = button.label;
-        const contextData = this.menuContent[label];
+        const contextData:IMenuContextItem = this.menuContent[label];
 
         this.closeContext();
         this.activeContext = new MenuContextMenu(button, contextData, () => this.closeContext());
         this.append(this.activeContext);
-        console.log("append context")
+    }
+
+    private closeContext() {
+        this.activeContext?.remove();
+        this.activeContext = undefined;
     }
 }
 

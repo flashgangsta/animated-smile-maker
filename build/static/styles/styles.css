@@ -44,6 +44,15 @@ html body {
         user-select: none;
         pointer-events: none;
     }
+
+    &[disabled] {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    &:hover {
+        background-color: var(--color_background_dark);
+    }
 }
 
 el-workspace-screen {

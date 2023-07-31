@@ -5,7 +5,6 @@ export class ContextMenu extends ElementBase {
         super();
         this.closeCallback = closeCallback;
         this.classList.add("context-menu");
-        console.log("contextData:", contextData);
         Object.keys(contextData).forEach((el) => {
             this.append(new ContextMenuButton(el, contextData[el]));
         });

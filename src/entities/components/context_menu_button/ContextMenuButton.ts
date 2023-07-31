@@ -1,8 +1,9 @@
 import {Button} from "../../../shared/components/button/Button.js";
 import {Events} from "../../../shared/lib/Events";
+import {IMenuContextItemProps} from "../../../shared/interfaces/IMenuContentData";
 
 export class ContextMenuButton extends Button {
-    constructor(label: string, data: {handler?:()=> void; disabled?:boolean}) {
+    constructor(label: string, data:IMenuContextItemProps) {
         super(label);
 
         if(data.handler) {
