@@ -1,4 +1,5 @@
 import { ElementBase } from "../../ElementBase.js";
+import { Paths } from "../../consts/Paths.js";
 export class Button extends ElementBase {
     constructor(label, iconPath) {
         super();
@@ -11,7 +12,7 @@ export class Button extends ElementBase {
         }
         if (iconPath) {
             this.elIcon = new Image();
-            this.elIcon.src = iconPath;
+            this.elIcon.src = Paths.STATIC_IMGS + iconPath;
             this.append(this.elIcon);
         }
     }

@@ -7,6 +7,8 @@
     --color_background_dark: #252525;
     --color_background_light: #5d5d5d;
     --color_hover_background_light_blue: #bee6ff;
+    --color-text-primary: white;
+    --menu_height: 35px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -40,6 +42,14 @@ html body {
 }
 
 .button {
+    padding: 3px;
+    border-radius: 3px;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    margin: 0;
+    background-color: #454545;
+    border: none;
+
     & > * {
         user-select: none;
         pointer-events: none;
@@ -53,6 +63,10 @@ html body {
     &:hover {
         background-color: var(--color_background_dark);
     }
+
+    & > img {
+        filter: invert(1);
+    }
 }
 
 el-workspace-screen {
@@ -62,15 +76,31 @@ el-workspace-screen {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    .mid-container {
+        width: 100%;
+        height: calc(100% - var(--menu_height));
+        display: flex;
+        justify-content: space-between;
+    }
 }
 
 el-menu {
     display: flex;
-    height: 35px;
+    height: var(--menu_height);
     width: 100%;
     background-color: var(--color_background_default);
     border-bottom: 1px solid var(--color_background_light);
     align-items: center;
+
+    & > .button {
+        padding: 3px 5px;
+        margin: 0 4px;
+        border-radius: 3px;
+        white-space: nowrap;
+        text-align: center;
+        font-size: 0.9rem;
+    }
 }
 
 el-menu-button {
@@ -80,6 +110,35 @@ el-menu-button {
     white-space: nowrap;
     text-align: center;
     font-size: 0.9rem;
+}
+
+el-tools {
+    display: flex;
+    width: 35px;
+    height: 100%;
+    background-color: var(--color_background_default);
+    border-right: 1px solid var(--color_background_light);
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 0;
+
+    & el-tool-button.button {
+        width: 32px;
+        height: 28px;
+        margin: 2px 1px 1px 1px;
+        padding: 4px;
+        & > img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        &.active {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            background-color: var(--color_background_light);
+            border-left: 3px solid var(--color_hover_background_light_blue);
+        }
+    }
 }
 
 .context-menu {
@@ -104,4 +163,10 @@ el-menu-button {
             background-color: var(--color_hover_background_light_blue);
         }
     }
+}
+
+.panel-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
