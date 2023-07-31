@@ -51,12 +51,25 @@ export class ElementBase extends HTMLElement {
     }
 
 
+    removeChildren():void {
+        Array.from(this.children).forEach((child:Element):void => {
+            child.remove();
+        });
+    }
+
+
+    remove():void {
+        this.stopListenEvents();
+        this.removeChildren();
+        super.remove();
+    }
+
     connectedCallback():void {
         dispatchEvent(new Event(Events.ADDED_TO_DOM));
     }
 
     disconnectedCallback():void {
-        this.stopListenEvents();
+        this.remove();
         dispatchEvent(new Event(Events.REMOVED_FROM_DOM));
     }
 }

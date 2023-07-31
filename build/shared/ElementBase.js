@@ -36,11 +36,22 @@ export class ElementBase extends HTMLElement {
             this.eventListeners = undefined;
         }
     }
+    removeChildren() {
+        Array.from(this.children).forEach((child) => {
+            child.remove();
+        });
+    }
+    remove() {
+        this.stopListenEvents();
+        this.removeChildren();
+        super.remove();
+    }
     connectedCallback() {
         dispatchEvent(new Event(Events.ADDED_TO_DOM));
     }
     disconnectedCallback() {
-        this.stopListenEvents();
+        console.log(this, this.remove);
+        this.remove();
         dispatchEvent(new Event(Events.REMOVED_FROM_DOM));
     }
 }
