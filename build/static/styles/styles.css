@@ -1,3 +1,5 @@
+@import url(library.css);
+
 * {
     box-sizing: border-box;
 }
@@ -10,6 +12,7 @@
     --color-text-primary: white;
     --menu_height: 35px;
     --panel-header-and-footer-height: 30px;
+    --library-item-preview-height: 130px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -208,12 +211,12 @@ html body {
             }
 
             .header {
-                border-bottom: 1px solid var(--panel-header-and-footer-height);
+                border-bottom: 1px solid var(--color_background_dark);
                 display: flex;
             }
 
             .footer {
-                border-top: 1px solid var(--panel-header-and-footer-height);
+                border-top: 1px solid var(--color_background_dark);
                 .button {
                     margin-left: 6px;
                 }
@@ -232,9 +235,3 @@ html body {
     }
 }
 
-#library {
-    display: flex;
-    width: 250px;
-    height: 100%;
-    border-left: 1px solid var(--color_background_light);
-}
