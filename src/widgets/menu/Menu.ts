@@ -5,6 +5,9 @@ import {MenuContextMenu} from "../../features/components/menu_context_menu/MenuC
 import {IMenuContent, IMenuContextItem} from "../../shared/interfaces/IMenuContentData";
 import {ContextMenuButton} from "../../entities/components/context_menu_button/ContextMenuButton.js";
 import {EventListener} from "../../shared/utils/EventListener.js";
+import {ProjectConfig} from "../../shared/utils/ProjectConfig.js";
+import {FileManager} from "../../shared/utils/FileManager.js";
+import {MediaFile} from "../../shared/utils/MediaFile.js";
 
 
 export class Menu extends ElementBase {
@@ -42,6 +45,8 @@ export class Menu extends ElementBase {
         }
     }
     private activeContext: MenuContextMenu | undefined;
+    private readonly projectConfig:ProjectConfig = ProjectConfig.getInstance();
+    private readonly fileManager:FileManager = FileManager.getInstance();
 
     constructor() {
         super();
@@ -76,7 +81,21 @@ export class Menu extends ElementBase {
     }
 
     private importMedia(): void {
+        console.log("import media")
+        this.fileManager.openFiles(undefined, true).then(async (files:File[]):Promise<void> => {
+            //todo: check duplicates
 
+            const mediaFiles: MediaFile[] = [];
+
+            for (let i: number = 0, len: number = files.length; i < len; i++) {
+                const file: File = files[i];
+                const base64: string = await this.fileManager.fileToBase64(file);
+                const mediaFile: MediaFile = new MediaFile(file.name, file.type, base64);
+                mediaFiles.push(mediaFile);
+            }
+
+            this.projectConfig.pushLibraryMedia(...mediaFiles);
+        });
     }
 
     private onClick(event: Event): void {
