@@ -6,6 +6,7 @@ export const enum Events {
     MOUSE_UP = "mouseup",
     MOUSE_MOVE = "mousemove",
     MOUSE_WHEEL = "mousewheel",
+    MOUSE_LEAVE = "mouseleave",
     WHEEL = "wheel",
     DB_CLICK = "dblclick",
     CONTEXT_MENU = "contextmenu",
