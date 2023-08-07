@@ -7,8 +7,8 @@ export class Tools extends ElementBase {
         this.init();
     }
     init() {
-        const buttonMove = new ToolButton("move-ico.png", Tools.TOOL_MOVE);
-        const buttonHand = new ToolButton("hand-ico.png", Tools.TOOL_HAND);
+        const buttonMove = new ToolButton("move-ico.png", "move" /* ToolNames.MOVE */);
+        const buttonHand = new ToolButton("hand-ico.png", "hand" /* ToolNames.HAND */);
         this.append(buttonMove, buttonHand);
         Array.from(this.children).forEach((button) => {
             button.addEventListener("click" /* Events.CLICK */, (event) => this.onToolSelect(event));
@@ -26,10 +26,8 @@ export class Tools extends ElementBase {
     }
     get selectedToolName() {
         var _a;
-        return ((_a = this.getSelectedTool()) === null || _a === void 0 ? void 0 : _a.toolName) || null;
+        return (_a = this.getSelectedTool()) === null || _a === void 0 ? void 0 : _a.toolName;
     }
 }
-Tools.TOOL_MOVE = "move";
-Tools.TOOL_HAND = "hand";
 customElements.define("el-tools", Tools);
 //# sourceMappingURL=Tools.js.map

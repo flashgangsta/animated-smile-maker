@@ -1,11 +1,9 @@
 import {ElementBase} from "../../shared/ElementBase.js";
 import {Events} from "../../shared/lib/Events";
 import {ToolButton} from "../../entities/components/tool_button/ToolButton.js";
+import {ToolNames} from "../../shared/lib/ToolNames";
 
 export class Tools extends ElementBase {
-
-    private static readonly TOOL_MOVE = "move";
-    private static readonly TOOL_HAND = "hand";
     constructor() {
         super();
         this.id = "tools";
@@ -13,8 +11,8 @@ export class Tools extends ElementBase {
     }
 
     private init() {
-        const buttonMove:ToolButton = new ToolButton("move-ico.png", Tools.TOOL_MOVE);
-        const buttonHand:ToolButton = new ToolButton("hand-ico.png", Tools.TOOL_HAND);
+        const buttonMove:ToolButton = new ToolButton("move-ico.png", ToolNames.MOVE);
+        const buttonHand:ToolButton = new ToolButton("hand-ico.png", ToolNames.HAND);
 
         this.append(buttonMove, buttonHand);
 
@@ -35,8 +33,8 @@ export class Tools extends ElementBase {
     }
 
 
-    get selectedToolName() {
-        return this.getSelectedTool()?.toolName || null;
+    get selectedToolName():ToolNames | undefined {
+        return this.getSelectedTool()?.toolName;
     }
 }
 

@@ -14,6 +14,7 @@ export class Scene extends ElementBase {
         this.scrollBorders = { top: 0, left: 0, bottom: 0, right: 0 };
         this.handActive = false;
         this.moveMouseStart = undefined;
+        this.classToolHand = "hand-active";
         this.id = "scene";
         this.init();
     }
@@ -61,7 +62,7 @@ export class Scene extends ElementBase {
     }
     onKeyUp(event) {
         if (event.code === "Space" /* KeyCodes.SPACE */) {
-            this.canvas.classList.remove("hand-active");
+            this.canvas.classList.remove(this.classToolHand);
             this.handActive = false;
         }
     }
@@ -86,8 +87,10 @@ export class Scene extends ElementBase {
         this.moveCanvas(event.deltaX, event.deltaY);
     }
     onMouseLeave(event) {
+        //todo: process mouse leave, space press (hand tool) etc...
     }
     moveCanvas(x, y) {
+        //todo: process horizontal move
         this.ctxPosition.x -= x;
         this.ctxPosition.y -= y;
         this.setBorders();
@@ -117,9 +120,11 @@ export class Scene extends ElementBase {
         this.ctx.fillRect(this.ctxPosition.x, this.ctxPosition.y, this.ctxPosition.width, this.ctxPosition.height);
     }
     onToolSelect(toolName) {
+        this.handActive = false;
+        this.canvas.classList.remove(this.classToolHand);
         switch (toolName) {
             case "hand" /* ToolNames.HAND */: {
-                this.canvas.classList.toggle("hand-active", true);
+                this.canvas.classList.add(this.classToolHand);
                 this.handActive = true;
                 break;
             }

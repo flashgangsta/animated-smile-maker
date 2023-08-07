@@ -5,6 +5,9 @@ import {Tools} from "../../widgets/tools/Tools.js";
 import {Library} from "../../widgets/library/Library.js";
 import {Timeline} from "../../widgets/timeline/Timeline.js";
 import {Scene} from "../../widgets/scene/Scene.js";
+import {Events} from "../../shared/lib/Events";
+import {ToolNames} from "../../shared/lib/ToolNames";
+import {EventListener} from "../../shared/utils/EventListener.js";
 
 export class WorkspaceScreen extends PageBase {
     constructor() {
@@ -31,6 +34,13 @@ export class WorkspaceScreen extends PageBase {
         leftContainer.append(tools);
         rightContainer.append(library);
         centerContainer.append(scene, timeline);
+
+        this.listenEvents(
+            new EventListener(tools, Events.TOOL_SELECT, (event: Event):void => {
+                const toolName:ToolNames | undefined = tools.selectedToolName;
+                if(toolName) scene.onToolSelect(toolName);
+            })
+        );
 
         this.append(topContainer, midContainer);
     }

@@ -19,6 +19,7 @@ export class Scene extends ElementBase {
     private readonly scrollBorders: IScrollBorders = {top: 0, left: 0, bottom: 0, right: 0};
     private handActive: boolean = false;
     private moveMouseStart: Point | undefined = undefined;
+    private readonly classToolHand:string = "hand-active";
 
     constructor() {
         super();
@@ -58,7 +59,7 @@ export class Scene extends ElementBase {
     }
 
 
-    connectedCallback() {
+    connectedCallback(): void {
         super.connectedCallback();
         this.onWindowResize();
         const canvasSize: ICanvasSize = this.projectConfig.canvasSize;
@@ -91,7 +92,7 @@ export class Scene extends ElementBase {
 
     private onKeyUp(event: KeyboardEvent): void {
         if(event.code === KeyCodes.SPACE) {
-            this.canvas.classList.remove("hand-active");
+            this.canvas.classList.remove(this.classToolHand);
             this.handActive = false;
         }
     }
@@ -118,25 +119,24 @@ export class Scene extends ElementBase {
     }
 
     private onWheel(event: WheelEvent): void {
-
+        this.moveCanvas(event.deltaX, event.deltaY);
     }
 
-    private onMouseLeave(event: MouseEvent) {
-
+    private onMouseLeave(event: MouseEvent): void {
+        //todo: process mouse leave, space press (hand tool) etc...
     }
 
 
-    private moveCanvas(x: number, y: number) {
+    private moveCanvas(x: number, y: number): void {
+        //todo: process horizontal move
         this.ctxPosition.x -= x;
         this.ctxPosition.y -= y;
-
         this.setBorders();
-
         this.drawCtx();
     }
 
 
-    private setBorders():void {
+    private setBorders(): void {
         const ctxPosition: Rectangle = this.ctxPosition;
         const scrollBorders: IScrollBorders = this.scrollBorders;
 
@@ -165,10 +165,13 @@ export class Scene extends ElementBase {
         this.ctx.fillRect(this.ctxPosition.x, this.ctxPosition.y, this.ctxPosition.width, this.ctxPosition.height);
     }
 
-    private onToolSelect(toolName: ToolNames): void {
+    public onToolSelect(toolName: ToolNames): void {
+        this.handActive = false;
+        this.canvas.classList.remove(this.classToolHand);
+        
         switch (toolName) {
             case ToolNames.HAND: {
-                this.canvas.classList.toggle("hand-active", true);
+                this.canvas.classList.add(this.classToolHand);
                 this.handActive = true;
                 break;
             }

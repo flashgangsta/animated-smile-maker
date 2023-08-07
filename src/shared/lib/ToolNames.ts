@@ -1,3 +1,4 @@
 export const enum ToolNames {
-    HAND = "hand"
+    HAND = "hand",
+    MOVE = "move",
 }
