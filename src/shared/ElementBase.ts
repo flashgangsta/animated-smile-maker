@@ -1,4 +1,4 @@
-import {Events} from "./lib/Events.js";
+import {Events} from "./lib/Events";
 import {EventListener} from "./utils/EventListener.js";
 
 export class ElementBase extends HTMLElement {

@@ -1,5 +1,5 @@
 import {ElementBase} from "../../shared/ElementBase.js";
-import {Events} from "../../shared/lib/Events.js";
+import {Events} from "../../shared/lib/Events";
 import {MenuButton} from "../../features/components/menu_button/MenuButton.js";
 import {MenuContextMenu} from "../../features/components/menu_context_menu/MenuContextMenu.js";
 import {IMenuContent, IMenuContextItem} from "../../shared/interfaces/IMenuContentData";

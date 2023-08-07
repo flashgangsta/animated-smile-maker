@@ -1,5 +1,5 @@
 import {ElementBase} from "../../shared/ElementBase.js";
-import {Events} from "../../shared/lib/Events.js";
+import {Events} from "../../shared/lib/Events";
 import {ToolButton} from "../../entities/components/tool_button/ToolButton.js";
 
 export class Tools extends ElementBase {

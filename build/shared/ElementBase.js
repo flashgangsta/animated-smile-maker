@@ -1,4 +1,3 @@
-import { Events } from "./lib/Events.js";
 export class ElementBase extends HTMLElement {
     constructor() {
         super();
@@ -47,12 +46,11 @@ export class ElementBase extends HTMLElement {
         super.remove();
     }
     connectedCallback() {
-        dispatchEvent(new Event(Events.ADDED_TO_DOM));
+        dispatchEvent(new Event("ADDED_TO_DOM" /* Events.ADDED_TO_DOM */));
     }
     disconnectedCallback() {
-        console.log(this, this.remove);
         this.remove();
-        dispatchEvent(new Event(Events.REMOVED_FROM_DOM));
+        dispatchEvent(new Event("REMOVED_FROM_DOM" /* Events.REMOVED_FROM_DOM */));
     }
 }
 //# sourceMappingURL=ElementBase.js.map

@@ -1,5 +1,5 @@
 import {Button} from "../../../shared/components/button/Button.js";
-import {Events} from "../../../shared/lib/Events.js";
+import {Events} from "../../../shared/lib/Events";
 import {IMenuContextItemProps} from "../../../shared/interfaces/IMenuContentData";
 
 export class ContextMenuButton extends Button {

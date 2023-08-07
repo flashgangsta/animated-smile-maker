@@ -1,9 +1,11 @@
+import {Events} from "../lib/Events";
+
 export class EventListener {
-    private target:HTMLElement | undefined;
-    private type:string | undefined;
+    private target:EventTarget | undefined;
+    private type:Events | undefined;
     private handler:EventListenerOrEventListenerObject | undefined;
     private options: boolean | AddEventListenerOptions | undefined;
-    constructor(target:HTMLElement, type:string, handler:EventListenerOrEventListenerObject, options?:boolean | AddEventListenerOptions) {
+    constructor(target:EventTarget, type:Events, handler:EventListenerOrEventListenerObject, options?:boolean | AddEventListenerOptions) {
         this.target = target;
         this.type = type;
         this.handler = handler;
@@ -13,7 +15,7 @@ export class EventListener {
     }
 
 
-    getType():string | undefined {
+    getType():Events | undefined {
         return this.type;
     }
 
