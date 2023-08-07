@@ -2,6 +2,7 @@ import { ElementBase } from "../../shared/ElementBase.js";
 import { MenuButton } from "../../features/components/menu_button/MenuButton.js";
 import { MenuContextMenu } from "../../features/components/menu_context_menu/MenuContextMenu.js";
 import { ContextMenuButton } from "../../entities/components/context_menu_button/ContextMenuButton.js";
+import { EventListener } from "../../shared/utils/EventListener.js";
 export class Menu extends ElementBase {
     constructor() {
         super();
@@ -44,9 +45,7 @@ export class Menu extends ElementBase {
         Object.keys(this.menuContent).forEach((label) => {
             this.append(new MenuButton(label));
         });
-        this.addEventListener("click" /* Events.CLICK */, (event) => this.onClick(event));
-        this.addEventListener("mouseover" /* Events.MOUSE_OVER */, (event) => this.onMouseOver(event));
-        window.addEventListener("mousedown" /* Events.MOUSE_DOWN */, (event) => this.onWindowMouseDown(event));
+        this.listenEvents(new EventListener(this, "click" /* Events.CLICK */, (event) => this.onClick(event)), new EventListener(this, "mouseover" /* Events.MOUSE_OVER */, (event) => this.onMouseOver(event)), new EventListener(window, "mousedown" /* Events.MOUSE_DOWN */, (event) => this.onWindowMouseDown(event)));
     }
     openProject() {
     }

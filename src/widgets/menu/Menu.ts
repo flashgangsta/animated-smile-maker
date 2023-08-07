@@ -4,6 +4,7 @@ import {MenuButton} from "../../features/components/menu_button/MenuButton.js";
 import {MenuContextMenu} from "../../features/components/menu_context_menu/MenuContextMenu.js";
 import {IMenuContent, IMenuContextItem} from "../../shared/interfaces/IMenuContentData";
 import {ContextMenuButton} from "../../entities/components/context_menu_button/ContextMenuButton.js";
+import {EventListener} from "../../shared/utils/EventListener.js";
 
 
 export class Menu extends ElementBase {
@@ -54,9 +55,11 @@ export class Menu extends ElementBase {
             this.append(new MenuButton(label));
         });
 
-        this.addEventListener(Events.CLICK, (event: Event) => this.onClick(event));
-        this.addEventListener(Events.MOUSE_OVER, (event: Event) => this.onMouseOver(event));
-        window.addEventListener(Events.MOUSE_DOWN, (event: Event) => this.onWindowMouseDown(event));
+        this.listenEvents(
+            new EventListener(this, Events.CLICK, (event: Event): void => this.onClick(event as MouseEvent)),
+            new EventListener(this, Events.MOUSE_OVER, (event: Event): void => this.onMouseOver(event as MouseEvent)),
+            new EventListener(window, Events.MOUSE_DOWN, (event: Event): void => this.onWindowMouseDown(event as MouseEvent)),
+        );
     }
 
 
