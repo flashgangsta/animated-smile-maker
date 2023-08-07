@@ -57,14 +57,12 @@ export class Scene extends ElementBase {
     onKeyDown(event) {
         if (event.code === "Space" /* KeyCodes.SPACE */ && !this.handActive) {
             this.onToolSelect("hand" /* ToolNames.HAND */);
-            console.log("SPACE PRESS");
         }
     }
     onKeyUp(event) {
         if (event.code === "Space" /* KeyCodes.SPACE */) {
             this.canvas.classList.remove("hand-active");
             this.handActive = false;
-            console.log("SPACE RELEASE");
         }
     }
     onMouseDown(event) {
@@ -85,6 +83,7 @@ export class Scene extends ElementBase {
         }
     }
     onWheel(event) {
+        this.moveCanvas(event.deltaX, event.deltaY);
     }
     onMouseLeave(event) {
     }
