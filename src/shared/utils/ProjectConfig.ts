@@ -1,5 +1,6 @@
 import {ICanvasSize} from "../interfaces/ICanvasSize";
 import {MediaFile} from "./MediaFile.js";
+import {Events} from "../lib/Events";
 
 export class ProjectConfig extends EventTarget {
     private static instance:ProjectConfig;
@@ -10,6 +11,8 @@ export class ProjectConfig extends EventTarget {
         width: 550,
         height: 450
     }
+    private library: MediaFile[] = [];
+    private _lastImports: MediaFile[] = [];
 
     private constructor() {
         super();
@@ -22,7 +25,20 @@ export class ProjectConfig extends EventTarget {
         return ProjectConfig.instance;
     }
 
-    pushLibraryMedia(...mediaFiles: MediaFile[]): void {
-        console.log(mediaFiles);
+    public pushLibraryMedia(...mediaFiles: MediaFile[]): void {
+        this.library.push(...mediaFiles);
+        this._lastImports = [...mediaFiles];
+        this.dispatchEvent(new Event(Events.MEDIA_IMPORTED));
+    }
+
+
+    public removeLibraryMedia(mediaFile: MediaFile) {
+        const index:number = this.library.findIndex((el: MediaFile) => el.name === mediaFile.name);
+        this.library.splice(index, 1);
+    }
+
+
+    public get lastImports(): MediaFile[] {
+        return this._lastImports;
     }
 }

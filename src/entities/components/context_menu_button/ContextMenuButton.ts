@@ -7,15 +7,11 @@ export class ContextMenuButton extends Button {
     constructor(label: string, data:IMenuContextItemProps) {
         super(label);
 
-        if(data.handler) {
+        if(data.handler && !data.disabled) {
             this.listenEvents(
                 new EventListener(this, Events.CLICK, () => data.handler?.()),
             );
         } else {
-            this.disabled = true;
-        }
-
-        if(data.disabled) {
             this.disabled = true;
         }
     }
