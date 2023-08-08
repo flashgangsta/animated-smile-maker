@@ -17,6 +17,7 @@
     --library-item-preview-height: 130px;
     --timeline-height: 250px;
     --timeline-layers-width: 250px;
+    --timeline-layers-height: 22px;
 }
 
 @media (prefers-color-scheme: dark) {
