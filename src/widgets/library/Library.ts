@@ -21,29 +21,15 @@ export class Library extends Panel {
 
     private init(): void {
 
-        const projectConfig = this.projectConfig;
+        const projectConfig: ProjectConfig = this.projectConfig;
 
         this.listenEvents(
             new EventListener(projectConfig, Events.MEDIA_IMPORTED, (event: Event): void => { this.onMediaImported() }),
-            new EventListener(this.itemsList, Events.LIBRARY_ITEM_SELECTED, (event: Event) => { this.onItemSelect(event) })
+            new EventListener(this.itemsList, Events.LIBRARY_ITEM_SELECTED, (event: Event) => { this.onItemSelect(event) }),
+            new EventListener(this.itemsList, Events.LIBRARY_ITEM_REMOVE, (event: Event) => { this.onItemRemove(event) }),
+            new EventListener(this.itemsList, Events.LIBRARY_ITEM_REMOVED, (event: Event) => { this.onItemRemoved(event) }),
+            new EventListener(this.projectConfig, Events.PROJECT_OPEN, (event: Event) => { this.clearLibrary() }),
         );
-
-
-       /* this.addEventListener(Events.LIBRARY_ITEM_REMOVE, (event) => {
-            this.projectConfig.removeLibraryMedia(event.target.mediaFile);
-        })
-
-
-        this.addEventListener(Events.LIBRARY_ITEM_REMOVED, (event) => {
-            event.stopPropagation();
-
-            if(!this.itemsList.subPanelContainer.children.length) {
-                this.removePreviewImage();
-            }
-        });
-
-
-        this.projectConfig.addEventListener(Events.PROJECT_OPEN, (event) => this.clearLibrary())*/
 
         this.panelsContainer.append(this.preview, this.itemsList);
     }
@@ -52,7 +38,7 @@ export class Library extends Panel {
         const imports: MediaFile[] = this.projectConfig.lastImports;
         imports.forEach((mediaFile: MediaFile): void => {
             const libraryItemListElement: LibraryItemListElement = new LibraryItemListElement(mediaFile);
-            this.itemsList.appendToSubPanelContainer(libraryItemListElement);
+            this.itemsList.subPanelContainer.append(libraryItemListElement);
         });
     }
 
@@ -79,6 +65,26 @@ export class Library extends Panel {
 
     private removePreviewImage() {
         this.preview.children[0]?.remove();
+    }
+
+    private onItemRemove(event: Event) {
+        this.projectConfig.removeLibraryMedia((event.target as LibraryItemListElement).mediaFile);
+    }
+
+
+    private onItemRemoved(event: Event) {
+        event.stopPropagation();
+
+        if(!this.itemsList.subPanelContainer.children.length) {
+            this.removePreviewImage();
+        }
+    }
+
+    private clearLibrary(): void {
+        this.removePreviewImage();
+        Array.from(this.itemsList.subPanelContainer.children).forEach((libraryItem: Element) => {
+            libraryItem.remove();
+        });
     }
 }
 
