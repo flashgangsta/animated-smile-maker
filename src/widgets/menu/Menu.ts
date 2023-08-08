@@ -16,7 +16,7 @@ export class Menu extends ElementBase {
         "File": {
             "New...": {},
             "Open": {
-                handler: () => this.openProject()
+                handler: () => this.openProject(),
             },
             "Save": {
                 handler: () => this.saveProject(),
