@@ -13,4 +13,8 @@ export class MediaFile {
     public get type():string {
         return this._type;
     }
+
+    public get base64(): string {
+        return this._base64;
+    }
 }

@@ -24,46 +24,26 @@ export class Library extends Panel {
         const projectConfig = this.projectConfig;
 
         this.listenEvents(
-            new EventListener(projectConfig, Events.MEDIA_IMPORTED, (event:Event): void => { this.onMediaImported() })
+            new EventListener(projectConfig, Events.MEDIA_IMPORTED, (event: Event): void => { this.onMediaImported() }),
+            new EventListener(this.itemsList, Events.LIBRARY_ITEM_SELECTED, (event: Event) => { this.onItemSelect(event) })
         );
 
 
-        /*this.#itemsList.addEventListener(Events.LIBRARY_ITEM_SELECTED, (event) => {
-            const selectedItem = event.target;
-            const lastSelectedItem = this.#itemsList.selectedItem;
-
-            event.stopPropagation();
-
-            if(selectedItem === lastSelectedItem) {
-                return;
-            }
-
-            const image = new Image();
-
-            this.#removePreviewImage();
-
-            image.src = selectedItem.mediaFile.base64;
-            lastSelectedItem?.classList.remove("selected");
-            selectedItem.classList.add("selected");
-            this.#preview.append(image);
-        });
-
-
-        this.addEventListener(Events.LIBRARY_ITEM_REMOVE, (event) => {
-            this.#projectConfig.removeLibraryMedia(event.target.mediaFile);
+       /* this.addEventListener(Events.LIBRARY_ITEM_REMOVE, (event) => {
+            this.projectConfig.removeLibraryMedia(event.target.mediaFile);
         })
 
 
         this.addEventListener(Events.LIBRARY_ITEM_REMOVED, (event) => {
             event.stopPropagation();
 
-            if(!this.#itemsList.subPanelContainer.children.length) {
-                this.#removePreviewImage();
+            if(!this.itemsList.subPanelContainer.children.length) {
+                this.removePreviewImage();
             }
         });
 
 
-        this.#projectConfig.addEventListener(Events.PROJECT_OPEN, (event) => this.#clearLibrary())*/
+        this.projectConfig.addEventListener(Events.PROJECT_OPEN, (event) => this.clearLibrary())*/
 
         this.panelsContainer.append(this.preview, this.itemsList);
     }
@@ -74,6 +54,31 @@ export class Library extends Panel {
             const libraryItemListElement: LibraryItemListElement = new LibraryItemListElement(mediaFile);
             this.itemsList.appendToSubPanelContainer(libraryItemListElement);
         });
+    }
+
+    private onItemSelect(event: Event) {
+        const selectedItem: LibraryItemListElement = event.target as LibraryItemListElement;
+        const lastSelectedItem: Element | null = this.itemsList.selectedItem;
+
+        event.stopPropagation();
+
+        if(selectedItem === lastSelectedItem) {
+            return;
+        }
+
+        const image: HTMLImageElement = new Image();
+
+        this.removePreviewImage();
+
+        image.src = selectedItem.mediaFile.base64;
+        lastSelectedItem?.classList.remove("selected");
+        selectedItem.classList.add("selected");
+        this.preview.append(image);
+    }
+
+
+    private removePreviewImage() {
+        this.preview.children[0]?.remove();
     }
 }
 

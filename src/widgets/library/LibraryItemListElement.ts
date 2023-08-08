@@ -8,9 +8,13 @@ import {Events} from "../../shared/lib/Events";
 
 export class LibraryItemListElement extends ListElementWithRenameLabel {
     private icon:HTMLImageElement = new Image();
+    public readonly mediaFile:MediaFile;
 
     constructor(mediaFile: MediaFile) {
         super(mediaFile.name);
+
+        this.mediaFile = mediaFile;
+
         this.classList.add("library-item-list-el");
 
         if(mediaFile.type.startsWith("image/")) {
@@ -29,6 +33,7 @@ export class LibraryItemListElement extends ListElementWithRenameLabel {
         );
 
     }
+
 }
 
 customElements.define("el-library-item-list-element", LibraryItemListElement);
