@@ -6,7 +6,7 @@ export class MenuContextMenu extends ContextMenu {
 
     private menuButton:MenuButton;
     constructor(menuButton:MenuButton, contextData:IMenuContextItem, closeCallback:Function) {
-        super(contextData, closeCallback);
+        super(contextData, closeCallback, false);
         this.menuButton = menuButton;
         this.style.left = menuButton.offsetLeft + "px";
     }

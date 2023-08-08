@@ -126,7 +126,7 @@ export class Menu extends ElementBase {
         }
     }
 
-    private onWindowMouseDown(event: Event):void {
+    private onWindowMouseDown(event: MouseEvent):void {
         const target: EventTarget | null = event.target;
         if(!(target instanceof MenuButton) && !(target instanceof ContextMenuButton)) {
             this.closeContext();

@@ -37,3 +37,5 @@ export class TimelineContextMenu extends ContextMenu {
         }
     }
 }
+
+customElements.define("el-timeline-context-menu", TimelineContextMenu);
