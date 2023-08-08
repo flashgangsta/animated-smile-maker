@@ -69,7 +69,17 @@ export class Menu extends ElementBase {
 
 
     private openProject(): void {
-
+        this.fileManager.openProject().then((file: File): void => {
+            this.fileManager.fileToText(file)
+                .then((result: string): void => {
+                    this.projectConfig.loadProject(JSON.parse(String(result)));
+                    this.enableSaveButton();
+                })
+                .catch((reason):void => {
+                    //todo: process errors
+                    console.log(reason);
+                })
+        });
     }
 
     private saveProject(): void {
@@ -81,7 +91,6 @@ export class Menu extends ElementBase {
     }
 
     private importMedia(): void {
-        console.log("import media")
         this.fileManager.openFiles(undefined, true).then(async (files:File[]):Promise<void> => {
             //todo: check duplicates
 
@@ -133,6 +142,11 @@ export class Menu extends ElementBase {
     private closeContext() {
         this.activeContext?.remove();
         this.activeContext = undefined;
+    }
+
+
+    private enableSaveButton():void {
+        this.menuContent.File.Save.disabled = false;
     }
 }
 

@@ -6,6 +6,7 @@ export class FileManager extends EventTarget {
     private static readonly CONTENT_TYPE_IMAGES: string = "image/*";
     private readonly input: HTMLInputElement = document.createElement("input");
     private readonly projectConfig: ProjectConfig = ProjectConfig.getInstance();
+    private projectFile: FileSystemFileHandle | undefined;
 
     private constructor() {
         super();
@@ -34,12 +35,38 @@ export class FileManager extends EventTarget {
         })
     }
 
-    async fileToBase64(file: File): Promise<string> {
+
+    public async openProject(): Promise<File> {
+        const [fileHandle] = await window.showOpenFilePicker({
+            types: [{
+                description: "Animator file",
+                accept: {'text/plain': [this.projectConfig.fileExt]}
+            }],
+            excludeAcceptAllOption: true,
+            multiple: false,
+        });
+
+        this.projectFile = fileHandle;
+
+        return await fileHandle.getFile();
+    }
+
+
+    fileToBase64(file: File): Promise<string> {
         return new Promise((resolve, reject): void => {
             const reader: FileReader = this.initFileReader(resolve, reject);
             reader.readAsDataURL(file);
         });
     }
+
+
+    fileToText(file: File):Promise<string> {
+        return new Promise((resolve, reject) => {
+            const reader: FileReader = this.initFileReader(resolve, reject);
+            reader.readAsText(file);
+        });
+    }
+
 
     private initFileReader(resolve: (value: string) => void, reject: (reason: ProgressEvent<FileReader> | string) => void): FileReader {
         const fileReader: FileReader = new FileReader();
