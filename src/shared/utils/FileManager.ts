@@ -52,6 +52,37 @@ export class FileManager extends EventTarget {
     }
 
 
+    public async saveProject():Promise<void> {
+        if(this.projectFile) {
+            if(await this.projectFile.queryPermission() === "granted") {
+                const writable: FileSystemWritableFileStream = await this.projectFile.createWritable();
+                await writable.write(this.projectConfig.toJSONString());
+                await writable.close();
+            }
+        }
+    }
+
+
+    public async saveProjectAs():Promise<void> {
+        const filename: string = this.projectConfig.projectName;
+        const fileExt: string = this.projectConfig.fileExt;
+
+        if(window.showSaveFilePicker) {
+            const options: SaveFilePickerOptions = {
+                suggestedName: filename,
+                types: [{
+                    description: "Animator file",
+                    accept: {'text/plain': [fileExt]},
+                }]
+            }
+            const saveFile: FileSystemFileHandle = this.projectFile = await window.showSaveFilePicker(options);
+            this.projectConfig.projectName = saveFile.name.slice(0, -(fileExt.length));
+
+            await this.saveProject();
+        }
+    }
+
+
     fileToBase64(file: File): Promise<string> {
         return new Promise((resolve, reject): void => {
             const reader: FileReader = this.initFileReader(resolve, reject);

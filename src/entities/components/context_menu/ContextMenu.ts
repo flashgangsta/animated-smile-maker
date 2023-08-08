@@ -6,7 +6,7 @@ import {Events} from "../../../shared/lib/Events";
 
 export class ContextMenu extends ElementBase {
 
-    private closeCallback:Function | undefined;
+    private readonly closeCallback:Function | undefined;
     constructor(contextData:IMenuContextItem, closeCallback?:Function) {
         super();
         this.closeCallback = closeCallback;
@@ -17,7 +17,7 @@ export class ContextMenu extends ElementBase {
         });
 
         this.listenEvents(
-            new EventListener(window, Events.BLUR, (event) => this.closeCallback?.()),
+            new EventListener(window, Events.BLUR, (event: Event) => this.closeCallback?.()),
         );
     }
 }

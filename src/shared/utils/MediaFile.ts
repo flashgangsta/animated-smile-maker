@@ -17,4 +17,13 @@ export class MediaFile {
     public get base64(): string {
         return this._base64;
     }
+
+
+    public serializeObject() {
+        return {
+            name: this.name,
+            type: this.type,
+            base64: this.base64
+        }
+    }
 }

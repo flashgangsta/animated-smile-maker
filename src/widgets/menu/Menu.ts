@@ -83,7 +83,9 @@ export class Menu extends ElementBase {
     }
 
     private saveProject(): void {
-
+        this.fileManager.saveProject().then(() => {
+            console.log(`Project file ${this.projectConfig.projectName} successfully saved.`);
+        });
     }
 
     private saveProjectAs(): void {

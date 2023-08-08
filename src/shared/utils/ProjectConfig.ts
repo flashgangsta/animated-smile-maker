@@ -81,9 +81,24 @@ export class ProjectConfig extends EventTarget {
     }
 
 
+    public get libraryLayers(): IProjectConfigTimelineLayer[] {
+        return this.timeline.layers;
+    }
+
+
     public clearTimelineData(): void {
         this.timeline = {
             layers: [],
         }
+    }
+
+    public toJSONString(): string {
+        return JSON.stringify({
+            library: this.library.map((el: MediaFile) => el.serializeObject()),
+            timeline: {
+                layers: []//this.libraryLayers.map((el) => el.serializeObject())
+            },
+            canvasSize: this.canvasSize,
+        });
     }
 }
