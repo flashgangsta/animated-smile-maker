@@ -17,4 +17,8 @@ export class SubPanel extends ElementBase {
         this.append(this.header, this.subPanelContainer, this.footer);
     }
 
+    public appendToSubPanelContainer(...nodes: (Node | string)[]): void {
+        this.subPanelContainer.append(...nodes);
+    }
+
 }

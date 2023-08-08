@@ -1,3 +1,3 @@
-export class Paths {
-    static readonly STATIC_IMGS:string = "./build/static/img/";
+export const enum Paths {
+    STATIC_IMGS = "./build/static/img/",
 }

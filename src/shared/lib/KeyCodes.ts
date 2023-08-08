@@ -1,3 +1,5 @@
 export const enum KeyCodes {
-    SPACE = "Space"
+    SPACE = "Space",
+    ESCAPE = "Escape",
+    ENTER = "Enter",
 }

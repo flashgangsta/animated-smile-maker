@@ -1,5 +1,5 @@
 import {ElementBase} from "../../ElementBase.js";
-import {Paths} from "../../consts/Paths.js";
+import {Paths} from "../../consts/Paths";
 
 export class Button extends ElementBase {
 

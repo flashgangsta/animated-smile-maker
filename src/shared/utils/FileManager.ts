@@ -37,7 +37,7 @@ export class FileManager extends EventTarget {
 
 
     public async openProject(): Promise<File> {
-        const [fileHandle] = await window.showOpenFilePicker({
+        const [fileHandle]: [FileSystemFileHandle] = await window.showOpenFilePicker({
             types: [{
                 description: "Animator file",
                 accept: {'text/plain': [this.projectConfig.fileExt]}
@@ -61,7 +61,7 @@ export class FileManager extends EventTarget {
 
 
     fileToText(file: File):Promise<string> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject): void => {
             const reader: FileReader = this.initFileReader(resolve, reject);
             reader.readAsText(file);
         });

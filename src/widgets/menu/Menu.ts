@@ -122,14 +122,14 @@ export class Menu extends ElementBase {
     }
 
     private onWindowMouseDown(event: Event):void {
-        const target = event.target;
+        const target: EventTarget | null = event.target;
         if(!(target instanceof MenuButton) && !(target instanceof ContextMenuButton)) {
             this.closeContext();
         }
     }
 
     private openContext(target: EventTarget | null) {
-        const button = (target && target instanceof MenuButton) ? target : undefined;
+        const button: MenuButton | undefined = (target && target instanceof MenuButton) ? target : undefined;
         if (!button || this.activeContext?.menuButtonLabel === button.label) return;
         const label:string = button.label;
         const contextData:IMenuContextItem = this.menuContent[label];
@@ -139,7 +139,7 @@ export class Menu extends ElementBase {
         this.append(this.activeContext);
     }
 
-    private closeContext() {
+    private closeContext(): void {
         this.activeContext?.remove();
         this.activeContext = undefined;
     }
