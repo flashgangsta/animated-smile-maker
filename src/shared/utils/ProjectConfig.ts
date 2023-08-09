@@ -2,26 +2,25 @@ import {ICanvasSize} from "../interfaces/ICanvasSize";
 import {MediaFile} from "./MediaFile.js";
 import {Events} from "../lib/Events";
 import {
-    IProjectConfig,
-    IProjectConfigLibraryFile,
-    IProjectConfigTimeline,
-    IProjectConfigTimelineLayer
-} from "../interfaces/IProjectConfigData";
+    IProjectConfigJSON,
+    IProjectConfigLibraryFileJSON, IProjectConfigTimeline,
+    IProjectConfigTimelineJSON,
+    IProjectConfigTimelineLayerJSON
+} from "../interfaces/IProjectConfig";
 import {TimelineLayersLayer} from "../../widgets/timeline/TimelineLayersLayer.js";
 
 export class ProjectConfig extends EventTarget {
-    private static instance:ProjectConfig;
+    private static instance: ProjectConfig;
 
-    public projectName:string = "Untitled";
-    public fileExt:string = ".anmtr";
-    public canvasSize:ICanvasSize = {
+    public projectName: string = "Untitled";
+    public fileExt: string = ".anmtr";
+    public canvasSize: ICanvasSize = {
         width: 550,
         height: 450
     }
     private library: MediaFile[] = [];
     private _lastImports: MediaFile[] = [];
-    //todo: type it
-    private timeline = {
+    private timeline: IProjectConfigTimeline = {
         layers: []
     }
 
@@ -29,33 +28,33 @@ export class ProjectConfig extends EventTarget {
         super();
     }
 
-    public static getInstance():ProjectConfig {
-        if(!ProjectConfig.instance) {
+    public static getInstance(): ProjectConfig {
+        if (!ProjectConfig.instance) {
             ProjectConfig.instance = new ProjectConfig();
         }
         return ProjectConfig.instance;
     }
 
 
-    public loadProject(config:IProjectConfig): void {
+    public loadProject(config: IProjectConfigJSON): void {
         this.dispatchEvent(new Event(Events.PROJECT_OPEN));
 
-        const library: IProjectConfigLibraryFile[] = config.library;
-        if(library && library.length) {
-            const mediaFilesList:MediaFile[] = library.map((fileModel: IProjectConfigLibraryFile) => {
+        const library: IProjectConfigLibraryFileJSON[] = config.library;
+        if (library && library.length) {
+            const mediaFilesList: MediaFile[] = library.map((fileModel: IProjectConfigLibraryFileJSON) => {
                 return new MediaFile(fileModel.name, fileModel.type, fileModel.base64);
             });
 
             this.pushLibraryMedia(...mediaFilesList);
         }
 
-        const timeline: IProjectConfigTimeline = config.timeline;
-        if(timeline && timeline.layers && timeline.layers.length) {
-            const layers: IProjectConfigTimelineLayer[] = timeline.layers;
+        const timeline: IProjectConfigTimelineJSON = config.timeline;
+        if (timeline && timeline.layers && timeline.layers.length) {
+            const layers: IProjectConfigTimelineLayerJSON[] = timeline.layers;
             this.clearTimelineData();
 
 
-            layers.forEach((layerData: IProjectConfigTimelineLayer): void => {
+            layers.forEach((layerData: IProjectConfigTimelineLayerJSON): void => {
                 new TimelineLayersLayer(layerData.id, layerData.label);
             })
             this.dispatchEvent(new Event(Events.PROJECT_LAYERS_INIT));
@@ -74,32 +73,17 @@ export class ProjectConfig extends EventTarget {
 
 
     public removeLibraryMedia(mediaFile: MediaFile): void {
-        const index:number = this.library.findIndex((el: MediaFile) => el.name === mediaFile.name);
+        const index: number = this.library.findIndex((el: MediaFile): boolean => el.name === mediaFile.name);
         this.library.splice(index, 1);
     }
 
 
-    public get lastImports(): MediaFile[] {
-        return this._lastImports;
-    }
-
-
-    public get libraryLayers(): TimelineLayersLayer[] {
-        return this.timeline.layers;
-    }
-
-
-    public get layersLength(): number {
-        return this.libraryLayers.length;
-    }
-
-
-    public pushLibraryLayer(layer: TimelineLayersLayer) {
+    public pushLibraryLayer(layer: TimelineLayersLayer): void {
         this.libraryLayers.push(layer);
     }
 
 
-    public removeLibraryLayer(layer: TimelineLayersLayer) {
+    public removeLibraryLayer(layer: TimelineLayersLayer): void {
         const index: number = this.libraryLayers.findIndex((el: TimelineLayersLayer): boolean => el.layerID === layer.layerID);
         this.libraryLayers.splice(index, 1);
     }
@@ -119,5 +103,20 @@ export class ProjectConfig extends EventTarget {
             },
             canvasSize: this.canvasSize,
         });
+    }
+
+
+    public get lastImports(): MediaFile[] {
+        return this._lastImports;
+    }
+
+
+    public get libraryLayers(): TimelineLayersLayer[] {
+        return this.timeline.layers;
+    }
+
+
+    public get layersLength(): number {
+        return this.libraryLayers.length;
     }
 }

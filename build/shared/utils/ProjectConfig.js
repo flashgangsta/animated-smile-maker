@@ -11,7 +11,6 @@ export class ProjectConfig extends EventTarget {
         };
         this.library = [];
         this._lastImports = [];
-        //todo: type it
         this.timeline = {
             layers: []
         };
