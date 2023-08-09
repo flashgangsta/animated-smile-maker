@@ -44,7 +44,7 @@
             background-size: contain;
 
             .timeline-key-frame {
-                width: 12px;
+                width: var(--timeline-frame-width);
                 height: 100%;
                 background-image: url(../img/keyframe-empty.png);
                 background-size: contain;

@@ -50,15 +50,6 @@ export class ProjectConfig extends EventTarget {
         const index = this.library.findIndex((el) => el.name === mediaFile.name);
         this.library.splice(index, 1);
     }
-    get lastImports() {
-        return this._lastImports;
-    }
-    get libraryLayers() {
-        return this.timeline.layers;
-    }
-    get layersLength() {
-        return this.libraryLayers.length;
-    }
     pushLibraryLayer(layer) {
         this.libraryLayers.push(layer);
     }
@@ -79,6 +70,15 @@ export class ProjectConfig extends EventTarget {
             },
             canvasSize: this.canvasSize,
         });
+    }
+    get lastImports() {
+        return this._lastImports;
+    }
+    get libraryLayers() {
+        return this.timeline.layers;
+    }
+    get layersLength() {
+        return this.libraryLayers.length;
     }
 }
 //# sourceMappingURL=ProjectConfig.js.map

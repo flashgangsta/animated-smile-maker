@@ -18,6 +18,7 @@
     --timeline-height: 250px;
     --timeline-layers-width: 250px;
     --timeline-layers-height: 22px;
+    --timeline-frame-width: 12px;
 }
 
 @media (prefers-color-scheme: dark) {

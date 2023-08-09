@@ -6,13 +6,13 @@ export class Timeline extends Panel {
     constructor() {
         super("Timeline");
         this.id = "timeline";
+        this.timelineLayers = new TimelineLayers();
+        this.timelineTrack = new TimelineTrack();
         this.init();
     }
     init() {
-        const timelineLayers = new TimelineLayers();
-        const timelineTrack = new TimelineTrack();
-        this.panelsContainer.append(timelineLayers, timelineTrack);
-        this.listenEvents(new EventListener(timelineLayers, "LAYER_ADDED" /* Events.LAYER_ADDED */, (event) => { timelineTrack.addLayer(); }), new EventListener(timelineLayers, "LAYER_REMOVED" /* Events.LAYER_REMOVED */, (event) => { timelineTrack.removeLayer(); }));
+        this.panelsContainer.append(this.timelineLayers, this.timelineTrack);
+        this.listenEvents(new EventListener(this.timelineLayers, "LAYER_ADDED" /* Events.LAYER_ADDED */, (event) => { this.timelineTrack.addLayer(); }), new EventListener(this.timelineLayers, "LAYER_REMOVED" /* Events.LAYER_REMOVED */, (event) => { this.timelineTrack.removeLayer(); }), new EventListener(this.panelsContainer, "wheel" /* Events.WHEEL */, (event) => { this.onWheel(event); }));
         const subPanelContainers = this.querySelectorAll(".sub-panel-container");
         subPanelContainers.forEach((el) => {
             /*el.addEventListener(Events.MOUSE_WHEEL, (event) => {
@@ -22,6 +22,12 @@ export class Timeline extends Panel {
                 });
             }, {passive: true});*/
         });
+    }
+    onWheel(event) {
+        const delta = event.deltaY;
+        console.log("wheel", delta);
+        this.timelineLayers.subPanelContainer.scrollTop += delta;
+        this.timelineTrack.subPanelContainer.scrollTop += delta;
     }
 }
 customElements.define("el-timeline", Timeline);

@@ -5,33 +5,31 @@ import {Events} from "../../shared/lib/Events";
 import {EventListener} from "../../shared/utils/EventListener.js";
 
 export class Timeline extends Panel {
+
+    private readonly timelineLayers: TimelineLayers;
+    private readonly timelineTrack: TimelineTrack;
     constructor() {
         super("Timeline");
         this.id = "timeline";
+        this.timelineLayers = new TimelineLayers();
+        this.timelineTrack = new TimelineTrack();
         this.init();
     }
 
     private init() {
-        const timelineLayers: TimelineLayers = new TimelineLayers();
-        const timelineTrack: TimelineTrack = new TimelineTrack();
-
-        this.panelsContainer.append(timelineLayers, timelineTrack);
-
+        this.panelsContainer.append(this.timelineLayers, this.timelineTrack);
         this.listenEvents(
-            new EventListener(timelineLayers, Events.LAYER_ADDED, (event: Event): void => { timelineTrack.addLayer(); }),
-            new EventListener(timelineLayers, Events.LAYER_REMOVED, (event: Event): void => { timelineTrack.removeLayer(); }),
+            new EventListener(this.timelineLayers, Events.LAYER_ADDED, (event: Event): void => { this.timelineTrack.addLayer(); }),
+            new EventListener(this.timelineLayers, Events.LAYER_REMOVED, (event: Event): void => { this.timelineTrack.removeLayer(); }),
+            new EventListener(this.panelsContainer, Events.WHEEL, (event: Event): void => { this.onWheel(event as WheelEvent) })
         );
+    }
 
-        const subPanelContainers: NodeListOf<Element> = this.querySelectorAll(".sub-panel-container");
 
-        subPanelContainers.forEach((el: Element) => {
-            /*el.addEventListener(Events.MOUSE_WHEEL, (event) => {
-                const target = el.scrollTop - (event.wheelDelta / 4);
-                subPanelContainers.forEach((el) => {
-                    el.scroll({left: 0, top: target});
-                });
-            }, {passive: true});*/
-        })
+    private onWheel(event: WheelEvent): void {
+        const delta: number = event.deltaY;
+        this.timelineLayers.subPanelContainer.scrollTop += delta;
+        this.timelineTrack.subPanelContainer.scrollTop += delta;
     }
 }
 

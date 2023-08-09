@@ -2,10 +2,11 @@ import { ElementBase } from "../../shared/ElementBase.js";
 import { EventListener } from "../../shared/utils/EventListener.js";
 import { TimelineContextMenu } from "./TimelineContextMenu.js";
 import { TimelineKeyFrame } from "./TimelineKeyFrame.js";
+import { getCSSVar } from "../../shared/utils/getCSSVar.js";
 export class TimelineTrackLayer extends ElementBase {
     constructor() {
         super();
-        this.FRAME_WIDTH = 12;
+        this.FRAME_WIDTH = parseInt(getCSSVar("timeline-frame-width"));
         this._contextMenu = undefined;
         this.menuContent = {
             "Create Tween": {},
@@ -38,6 +39,7 @@ export class TimelineTrackLayer extends ElementBase {
         const rect = this.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const frameNum = Math.floor(x / this.FRAME_WIDTH) + 1;
+        console.log("frame N:", frameNum);
         this.closeContext();
         this._contextMenu = new TimelineContextMenu(x, this.menuContent, () => this.closeContext());
         this.dispatchEvent(new Event("TIMELINE_CONTEXT_CALL" /* Events.TIMELINE_CONTEXT_CALL */, { bubbles: true }));
