@@ -1,0 +1,1 @@
+{"version":3,"file":"LibraryItemPreview.js","sourceRoot":"","sources":["../../../src/widgets/library/LibraryItemPreview.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,WAAW,EAAC,MAAM,6BAA6B,CAAC;AAExD,MAAM,OAAO,kBAAmB,SAAQ,WAAW;IAC/C;QACI,KAAK,EAAE,CAAC;QACR,IAAI,CAAC,EAAE,GAAG,sBAAsB,CAAC;IACrC,CAAC;CACJ;AAED,cAAc,CAAC,MAAM,CAAC,yBAAyB,EAAE,kBAAkB,CAAC,CAAC"}
