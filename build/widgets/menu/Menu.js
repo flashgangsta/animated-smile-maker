@@ -22,7 +22,7 @@ export class Menu extends ElementBase {
             "File": {
                 "New...": {},
                 "Open": {
-                    handler: () => this.openProject()
+                    handler: () => this.openProject(),
                 },
                 "Save": {
                     handler: () => this.saveProject(),
@@ -62,13 +62,30 @@ export class Menu extends ElementBase {
         this.listenEvents(new EventListener(this, "click" /* Events.CLICK */, (event) => this.onClick(event)), new EventListener(this, "mouseover" /* Events.MOUSE_OVER */, (event) => this.onMouseOver(event)), new EventListener(window, "mousedown" /* Events.MOUSE_DOWN */, (event) => this.onWindowMouseDown(event)));
     }
     openProject() {
+        this.fileManager.openProject().then((file) => {
+            this.fileManager.fileToText(file)
+                .then((result) => {
+                this.projectConfig.loadProject(JSON.parse(String(result)));
+                this.enableSaveButton();
+            })
+                .catch((reason) => {
+                //todo: process errors
+                console.log(reason);
+            });
+        });
     }
     saveProject() {
+        this.fileManager.saveProject().then(() => {
+            console.log(`Project file ${this.projectConfig.projectName} successfully saved.`);
+        });
     }
     saveProjectAs() {
+        this.fileManager.saveProjectAs().then((a) => {
+            console.log(`Project file successfully Saved As ${this.projectConfig.projectName}`);
+            this.enableSaveButton();
+        });
     }
     importMedia() {
-        console.log("import media");
         this.fileManager.openFiles(undefined, true).then((files) => __awaiter(this, void 0, void 0, function* () {
             //todo: check duplicates
             const mediaFiles = [];
@@ -114,6 +131,9 @@ export class Menu extends ElementBase {
         var _a;
         (_a = this.activeContext) === null || _a === void 0 ? void 0 : _a.remove();
         this.activeContext = undefined;
+    }
+    enableSaveButton() {
+        this.menuContent.File.Save.disabled = false;
     }
 }
 customElements.define("el-menu", Menu);

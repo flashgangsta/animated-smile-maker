@@ -25,6 +25,8 @@
                 &.selected {
                     background-color: var(--color_background_light);
                 }
+
+
             }
         }
     }

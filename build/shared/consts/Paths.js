@@ -1,4 +1,2 @@
-export class Paths {
-}
-Paths.STATIC_IMGS = "./build/static/img/";
+export {};
 //# sourceMappingURL=Paths.js.map

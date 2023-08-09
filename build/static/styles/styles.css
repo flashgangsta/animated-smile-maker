@@ -248,3 +248,12 @@ html body {
     }
 }
 
+label {
+    user-select: none;
+    pointer-events: none;
+    &[contenteditable] {
+        user-select: auto;
+        pointer-events: auto;
+    }
+}
+

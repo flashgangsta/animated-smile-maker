@@ -21,6 +21,8 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
+            user-select: none;
+            pointer-events: none;
         }
     }
 
@@ -50,11 +52,8 @@
                 max-height: 100%;
                 margin-right: 10px;
                 filter: invert(1);
-            }
-
-            > img, > label {
                 user-select: none;
-                pointer-events: none
+                pointer-events: none;
             }
         }
     }

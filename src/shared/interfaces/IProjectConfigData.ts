@@ -1,7 +1,8 @@
 import {ICanvasSize} from "./ICanvasSize";
+import {TimelineLayersLayer} from "../../widgets/timeline/TimelineLayersLayer";
 
 export interface IProjectConfigTimelineLayer {
-    id:string
+    id:number
     label:string
 }
 

@@ -34,12 +34,59 @@ export class FileManager extends EventTarget {
             input.click();
         });
     }
-    fileToBase64(file) {
+    openProject() {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                const reader = this.initFileReader(resolve, reject);
-                reader.readAsDataURL(file);
+            const [fileHandle] = yield window.showOpenFilePicker({
+                types: [{
+                        description: "Animator file",
+                        accept: { 'text/plain': [this.projectConfig.fileExt] }
+                    }],
+                excludeAcceptAllOption: true,
+                multiple: false,
             });
+            this.projectFile = fileHandle;
+            return yield fileHandle.getFile();
+        });
+    }
+    saveProject() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.projectFile) {
+                if ((yield this.projectFile.queryPermission()) === "granted") {
+                    const writable = yield this.projectFile.createWritable();
+                    yield writable.write(this.projectConfig.toJSONString());
+                    yield writable.close();
+                }
+            }
+        });
+    }
+    saveProjectAs() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const filename = this.projectConfig.projectName;
+            const fileExt = this.projectConfig.fileExt;
+            if (window.showSaveFilePicker) {
+                const options = {
+                    suggestedName: filename,
+                    types: [{
+                            description: "Animator file",
+                            accept: { 'text/plain': [fileExt] },
+                        }]
+                };
+                const saveFile = this.projectFile = yield window.showSaveFilePicker(options);
+                this.projectConfig.projectName = saveFile.name.slice(0, -(fileExt.length));
+                yield this.saveProject();
+            }
+        });
+    }
+    fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = this.initFileReader(resolve, reject);
+            reader.readAsDataURL(file);
+        });
+    }
+    fileToText(file) {
+        return new Promise((resolve, reject) => {
+            const reader = this.initFileReader(resolve, reject);
+            reader.readAsText(file);
         });
     }
     initFileReader(resolve, reject) {

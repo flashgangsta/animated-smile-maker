@@ -7,6 +7,7 @@ import {
     IProjectConfigTimeline,
     IProjectConfigTimelineLayer
 } from "../interfaces/IProjectConfigData";
+import {TimelineLayersLayer} from "../../widgets/timeline/TimelineLayersLayer.js";
 
 export class ProjectConfig extends EventTarget {
     private static instance:ProjectConfig;
@@ -19,7 +20,8 @@ export class ProjectConfig extends EventTarget {
     }
     private library: MediaFile[] = [];
     private _lastImports: MediaFile[] = [];
-    private timeline:IProjectConfigTimeline = {
+    //todo: type it
+    private timeline = {
         layers: []
     }
 
@@ -52,8 +54,9 @@ export class ProjectConfig extends EventTarget {
             const layers: IProjectConfigTimelineLayer[] = timeline.layers;
             this.clearTimelineData();
 
+
             layers.forEach((layerData: IProjectConfigTimelineLayer): void => {
-                //new TimelineLayersLayer(layerData.id, layerData.label);
+                new TimelineLayersLayer(layerData.id, layerData.label);
             })
             this.dispatchEvent(new Event(Events.PROJECT_LAYERS_INIT));
         }
@@ -81,8 +84,24 @@ export class ProjectConfig extends EventTarget {
     }
 
 
-    public get libraryLayers(): IProjectConfigTimelineLayer[] {
+    public get libraryLayers(): TimelineLayersLayer[] {
         return this.timeline.layers;
+    }
+
+
+    public get layersLength(): number {
+        return this.libraryLayers.length;
+    }
+
+
+    public pushLibraryLayer(layer: TimelineLayersLayer) {
+        this.libraryLayers.push(layer);
+    }
+
+
+    public removeLibraryLayer(layer: TimelineLayersLayer) {
+        const index: number = this.libraryLayers.findIndex((el: TimelineLayersLayer): boolean => el.layerID === layer.layerID);
+        this.libraryLayers.splice(index, 1);
     }
 
 
@@ -96,7 +115,7 @@ export class ProjectConfig extends EventTarget {
         return JSON.stringify({
             library: this.library.map((el: MediaFile) => el.serializeObject()),
             timeline: {
-                layers: []//this.libraryLayers.map((el) => el.serializeObject())
+                layers: this.libraryLayers.map((el: TimelineLayersLayer) => el.serializeObject())
             },
             canvasSize: this.canvasSize,
         });
