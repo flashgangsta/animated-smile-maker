@@ -1,4 +1,4 @@
 # animated-smile-maker
-Tool for make animated smiles
+Tool for make animations
 
 https://siarheikryutsou.github.io/animator/
