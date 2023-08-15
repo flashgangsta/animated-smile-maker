@@ -3,6 +3,7 @@ import {IMenuContextItem} from "../../../shared/interfaces/IMenuContentData";
 import {ContextMenu} from "../../../entities/components/context_menu/ContextMenu.js";
 import {EventListener} from "../../../shared/utils/EventListener.js";
 import {Events} from "../../../shared/lib/Events";
+import {ListElementWithRenameLabel} from "../list_element_with_rename_label/ListElementWithRenameLabel.js";
 
 export class ElementWithContext extends ElementBase {
 
@@ -12,9 +13,11 @@ export class ElementWithContext extends ElementBase {
         super();
         this.menuContent = menuContent;
 
-        this.listenEvents(
-            new EventListener(this, Events.CONTEXT_MENU, (event: Event) => this.onRightClick(event as MouseEvent))
-        );
+        if(!(this instanceof ListElementWithRenameLabel)) {
+            this.listenEvents(
+                new EventListener(this, Events.CONTEXT_MENU, (event: Event) => this.onRightClick(event as MouseEvent))
+            );
+        }
     }
 
     protected onRightClick(event: MouseEvent): void {

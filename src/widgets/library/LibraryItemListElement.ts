@@ -36,9 +36,7 @@ export class LibraryItemListElement extends ListElementWithRenameLabel {
         this.prepend(this.icon);
 
         this.listenEvents(
-            new EventListener(this, Events.CONTEXT_MENU, (event: Event) => { this.onRightClick(event as MouseEvent); }),
-            new EventListener(this, Events.LABEL_CHANGED, (event: Event ) => { mediaFile.name = this.labelText; }),
-
+            new EventListener(this, Events.LABEL_CHANGED, (event: Event): void => { mediaFile.name = this.labelText; }),
         );
 
     }
@@ -47,13 +45,6 @@ export class LibraryItemListElement extends ListElementWithRenameLabel {
     override selectItem(): void {
         this.dispatchEvent(new Event(Events.LIBRARY_ITEM_SELECTED, {bubbles: true}));
         super.selectItem();
-    }
-
-
-    protected onRightClick(event: MouseEvent): void {
-        //todo: move to parent class this and same from TimelineTrackLayer (ElementWithContext class)
-        super.onRightClick(event);
-        this.selectItem();
     }
 
 }

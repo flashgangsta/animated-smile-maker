@@ -19,8 +19,15 @@ export class ListElementWithRenameLabel extends ElementWithContext {
             new EventListener(this, Events.DB_CLICK, (event: Event) => this.setLabelEditable(event as MouseEvent)),
             new EventListener(this.labelEl, Events.KEY_DOWN, (event: Event) => this.onLabelKeydown(event as KeyboardEvent)),
             new EventListener(this.labelEl, Events.BLUR, (event: Event) => this.onLabelFocusOut(event as FocusEvent)),
+            new EventListener(this, Events.CONTEXT_MENU, (event: Event): void => { this.onRightClick(event as MouseEvent); }),
         )
     }
+
+    override onRightClick(event: MouseEvent) {
+        super.onRightClick(event);
+        this.selectItem();
+    }
+
 
     public get labelText() {
         return this.labelEl.innerText;
