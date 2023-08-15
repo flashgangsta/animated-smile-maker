@@ -36,7 +36,6 @@ export class LibraryItemListElement extends ListElementWithRenameLabel {
         this.prepend(this.icon);
 
         this.listenEvents(
-            new EventListener(this, Events.CLICK, (event: Event) => { this.selectItem(); }),
             new EventListener(this, Events.CONTEXT_MENU, (event: Event) => { this.onRightClick(event as MouseEvent); }),
             new EventListener(this, Events.LABEL_CHANGED, (event: Event ) => { mediaFile.name = this.labelText; }),
 
@@ -45,9 +44,9 @@ export class LibraryItemListElement extends ListElementWithRenameLabel {
     }
 
 
-    private selectItem(): void {
+    override selectItem(): void {
         this.dispatchEvent(new Event(Events.LIBRARY_ITEM_SELECTED, {bubbles: true}));
-        this.classList.add("selected");
+        super.selectItem();
     }
 
 

@@ -26,8 +26,7 @@ export class ElementWithContext extends ElementBase {
     }
 
 
-    protected setContextMenuPosition(x: number, y: number): void {
-        console.log("setContextMenuPosition", x, y);
+    private setContextMenuPosition(x: number, y: number): void {
         this._contextMenu?.setOffset(x, y);
     }
 

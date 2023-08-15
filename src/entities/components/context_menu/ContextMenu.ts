@@ -7,13 +7,14 @@ import {Events} from "../../../shared/lib/Events";
 
 export class ContextMenu extends ElementBase {
 
-    private readonly closeCallback:Function | undefined;
-    constructor(contextData:IMenuContextItem, closeCallback?:Function, listenClickOutside:boolean = true) {
+    private readonly closeCallback: Function | undefined;
+
+    constructor(contextData: IMenuContextItem, closeCallback?: Function, listenClickOutside: boolean = true) {
         super();
         this.closeCallback = closeCallback;
         this.classList.add("context-menu");
 
-        Object.keys(contextData).forEach((el:string): void => {
+        Object.keys(contextData).forEach((el: string): void => {
             this.append(new ContextMenuButton(el, contextData[el]));
         });
 
@@ -22,7 +23,7 @@ export class ContextMenu extends ElementBase {
             new EventListener(this, Events.CLICK, (event: Event) => this.onContextMenuClick(event as MouseEvent)),
         );
 
-        if(listenClickOutside) {
+        if (listenClickOutside) {
             this.listenEvents(
                 new EventListener(window, Events.MOUSE_DOWN, (event: Event): void => this.onWindowMouseDown(event as MouseEvent)),
             )
@@ -30,9 +31,9 @@ export class ContextMenu extends ElementBase {
     }
 
 
-    private onWindowMouseDown(event: MouseEvent):void {
+    private onWindowMouseDown(event: MouseEvent): void {
         const target: EventTarget | null = event.target;
-        if(!(target instanceof ContextMenuButton)) {
+        if (!(target instanceof ContextMenuButton)) {
             this.closeCallback?.();
         }
     }
@@ -52,17 +53,17 @@ export class ContextMenu extends ElementBase {
         const x: number = parseInt(this.style.left);
         const y: number = parseInt(this.style.top);
 
-        if(rect.right > windowWidth) {
+        if (rect.right > windowWidth) {
             this.style.left = `${Math.round(x - rect.width)}px`;
         }
 
-        if(rect.bottom > windowHeight) {
+        if (rect.bottom > windowHeight) {
             this.style.top = `${y - (rect.bottom - windowHeight)}px`;
         }
     }
 
     private onContextMenuClick(event: MouseEvent): void {
-        if(event.target instanceof ContextMenuButton) {
+        if (event.target instanceof ContextMenuButton) {
             event.stopPropagation();
             this.closeCallback?.();
         }
