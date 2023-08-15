@@ -4,6 +4,7 @@
     height: 100%;
 
     & canvas {
+        position: absolute;
         &.hand-active {
             cursor: grab;
         }

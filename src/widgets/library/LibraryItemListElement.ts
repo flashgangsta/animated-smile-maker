@@ -5,7 +5,6 @@ import {MediaFile} from "../../shared/utils/MediaFile.js";
 import {Paths} from "../../shared/consts/Paths";
 import {EventListener} from "../../shared/utils/EventListener.js";
 import {Events} from "../../shared/lib/Events";
-import {IMenuContextItem} from "../../shared/interfaces/IMenuContentData";
 
 export class LibraryItemListElement extends ListElementWithRenameLabel {
     private icon:HTMLImageElement = new Image();

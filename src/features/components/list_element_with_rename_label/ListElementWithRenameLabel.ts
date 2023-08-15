@@ -15,7 +15,7 @@ export class ListElementWithRenameLabel extends ElementWithContext {
         this.append(this.labelEl);
 
         this.listenEvents(
-            new EventListener(this, Events.CLICK, (event: Event) => { this.selectItem(); }),
+            new EventListener(this, Events.MOUSE_DOWN, (event: Event) => { this.selectItem(); }),
             new EventListener(this, Events.DB_CLICK, (event: Event) => this.setLabelEditable(event as MouseEvent)),
             new EventListener(this.labelEl, Events.KEY_DOWN, (event: Event) => this.onLabelKeydown(event as KeyboardEvent)),
             new EventListener(this.labelEl, Events.BLUR, (event: Event) => this.onLabelFocusOut(event as FocusEvent)),

@@ -1,6 +1,7 @@
 export class ElementBase extends HTMLElement {
     constructor() {
         super();
+        this.draggable = false;
     }
     listenEvents(...eventListeners) {
         if (!this.eventListeners)
