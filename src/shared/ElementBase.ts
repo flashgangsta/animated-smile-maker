@@ -2,52 +2,47 @@ import {Events} from "./lib/Events";
 import {EventListener} from "./utils/EventListener.js";
 
 export class ElementBase extends HTMLElement {
-    private eventListeners:EventListener[] | undefined;
+    private eventListeners:EventListener[] = [];
 
     constructor() {
         super();
     }
 
     listenEvents(...eventListeners:EventListener[]):void {
-        if(!this.eventListeners) this.eventListeners = [];
         this.eventListeners.push(...eventListeners);
     }
 
     stopListenEvents():void {
-        if(!this.eventListeners) return;
+        if(!this.eventListeners.length) return;
         this.eventListeners.forEach((eventListener:EventListener) => eventListener.dispose());
-        this.eventListeners = undefined;
+        this.eventListeners = [];
     }
 
 
-    stopListenEvent(type:string, handler:EventListenerOrEventListenerObject):void {
-        if(!this.eventListeners || !this.eventListeners.length) return;
+    stopListenEvent(target?:EventTarget, type?:Events, handler?:EventListenerOrEventListenerObject):void {
+        if(!this.eventListeners.length) return;
 
-        const listenersByType:EventListener[] = this.eventListeners.filter(
-            (listener:EventListener):boolean => listener.getType() === type
-        );
+        let eventsList:EventListener[];
 
-        let result;
-
-        if(handler) {
-            result = listenersByType.filter(
-                (listener:EventListener):boolean => listener.getHandler() === handler
-            );
+        if(target) {
+            eventsList = this.eventListeners.filter((listener: EventListener): boolean => listener.getTarget() === target);
         } else {
-            result = listenersByType;
+            eventsList = this.eventListeners;
         }
 
-        result.forEach((listener:EventListener):void => {
-            // @ts-ignore
+        if(type) {
+            eventsList = eventsList.filter((listener: EventListener): boolean => listener.getType() === type);
+        }
+
+        if(handler) {
+            eventsList = eventsList.filter((listener :EventListener): boolean => listener.getHandler() === handler);
+        }
+
+        eventsList.forEach((listener:EventListener):void => {
             const index:number = this.eventListeners.indexOf(listener);
-            // @ts-ignore
             this.eventListeners.splice(index, 1);
             listener.dispose();
         });
-
-        if(!this.eventListeners.length) {
-            this.eventListeners = undefined;
-        }
     }
 
 
