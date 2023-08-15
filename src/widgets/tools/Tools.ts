@@ -11,7 +11,7 @@ export class Tools extends ElementBase {
         this.init();
     }
 
-    private init() {
+    private init(): void {
         const buttonMove:ToolButton = new ToolButton("move-ico.png", ToolNames.MOVE);
         const buttonHand:ToolButton = new ToolButton("hand-ico.png", ToolNames.HAND);
 

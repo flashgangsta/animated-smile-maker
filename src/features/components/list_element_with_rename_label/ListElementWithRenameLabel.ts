@@ -1,15 +1,16 @@
-import {ElementBase} from "../../../shared/ElementBase.js";
 import {EventListener} from "../../../shared/utils/EventListener.js";
 import {Events} from "../../../shared/lib/Events";
 import {KeyCodes} from "../../../shared/lib/KeyCodes";
+import {ElementWithContext} from "../element_with_context/ElementWithContext.js";
+import {IMenuContextItem} from "../../../shared/interfaces/IMenuContentData";
 
-export class ListElementWithRenameLabel extends ElementBase {
+export class ListElementWithRenameLabel extends ElementWithContext {
 
     private lastLabelText: string | undefined;
     private labelEl: HTMLLabelElement = document.createElement("label");
 
-    constructor(labelText: string) {
-        super();
+    constructor(labelText: string, menuContent: IMenuContextItem) {
+        super(menuContent);
         this.labelEl.innerText = labelText;
         this.append(this.labelEl);
 
@@ -24,7 +25,7 @@ export class ListElementWithRenameLabel extends ElementBase {
         return this.labelEl.innerText;
     }
 
-    private setLabelEditable(event: MouseEvent) {
+    protected setLabelEditable(event: MouseEvent | undefined = undefined) {
         const label: HTMLLabelElement = this.labelEl;
         this.lastLabelText = label.innerText;
         label.contentEditable = true.toString();

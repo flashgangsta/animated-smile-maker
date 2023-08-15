@@ -5,13 +5,25 @@ import {MediaFile} from "../../shared/utils/MediaFile.js";
 import {Paths} from "../../shared/consts/Paths";
 import {EventListener} from "../../shared/utils/EventListener.js";
 import {Events} from "../../shared/lib/Events";
+import {IMenuContextItem} from "../../shared/interfaces/IMenuContentData";
 
 export class LibraryItemListElement extends ListElementWithRenameLabel {
     private icon:HTMLImageElement = new Image();
     public readonly mediaFile:MediaFile;
 
     constructor(mediaFile: MediaFile) {
-        super(mediaFile.name);
+        super(
+            mediaFile.name,
+            {
+                "Cut": {},
+                "Copy": {},
+                "Paste": {},
+                "Rename": {
+                    handler: () => this.setLabelEditable()
+                },
+                "Delete": {},
+            }
+        );
 
         this.mediaFile = mediaFile;
 
@@ -24,14 +36,25 @@ export class LibraryItemListElement extends ListElementWithRenameLabel {
         this.prepend(this.icon);
 
         this.listenEvents(
-            new EventListener(this, Events.CLICK, (event: Event) => {
-                this.dispatchEvent(new Event(Events.LIBRARY_ITEM_SELECTED, {bubbles: true}));
-                this.classList.add("selected");
-            }),
+            new EventListener(this, Events.CLICK, (event: Event) => { this.selectItem(); }),
+            new EventListener(this, Events.CONTEXT_MENU, (event: Event) => { this.onRightClick(event as MouseEvent); }),
             new EventListener(this, Events.LABEL_CHANGED, (event: Event ) => { mediaFile.name = this.labelText; }),
 
         );
 
+    }
+
+
+    private selectItem(): void {
+        this.dispatchEvent(new Event(Events.LIBRARY_ITEM_SELECTED, {bubbles: true}));
+        this.classList.add("selected");
+    }
+
+
+    protected onRightClick(event: MouseEvent): void {
+        //todo: move to parent class this and same from TimelineTrackLayer (ElementWithContext class)
+        super.onRightClick(event);
+        this.selectItem();
     }
 
 }

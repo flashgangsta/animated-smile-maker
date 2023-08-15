@@ -1,14 +1,9 @@
-import { ElementBase } from "../../shared/ElementBase.js";
-import { EventListener } from "../../shared/utils/EventListener.js";
-import { TimelineContextMenu } from "./TimelineContextMenu.js";
 import { TimelineKeyFrame } from "./TimelineKeyFrame.js";
 import { getCSSVar } from "../../shared/utils/getCSSVar.js";
-export class TimelineTrackLayer extends ElementBase {
+import { ElementWithContext } from "../../features/components/element_with_context/ElementWithContext.js";
+export class TimelineTrackLayer extends ElementWithContext {
     constructor() {
-        super();
-        this.FRAME_WIDTH = parseInt(getCSSVar("timeline-frame-width"));
-        this._contextMenu = undefined;
-        this.menuContent = {
+        super({
             "Create Tween": {},
             "Insert Frame": {
                 handler: () => this.insertFrame()
@@ -29,35 +24,16 @@ export class TimelineTrackLayer extends ElementBase {
             "Paste and Overwrite Frames": {},
             "Clear Frames": {},
             "Select All Frames": {},
-        };
+        });
+        this.FRAME_WIDTH = parseInt(getCSSVar("timeline-frame-width"));
         this.classList.add("timeline-track-layer");
         this.append(new TimelineKeyFrame());
-        this.listenEvents(new EventListener(this, "contextmenu" /* Events.CONTEXT_MENU */, (event) => this.onRightClick(event)));
-    }
-    onRightClick(event) {
-        event.preventDefault();
-        const rect = this.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const frameNum = Math.floor(x / this.FRAME_WIDTH) + 1;
-        console.log("frame N:", frameNum);
-        this.closeContext();
-        this._contextMenu = new TimelineContextMenu(x, this.menuContent, () => this.closeContext());
-        this.dispatchEvent(new Event("TIMELINE_CONTEXT_CALL" /* Events.TIMELINE_CONTEXT_CALL */, { bubbles: true }));
-        return false;
-    }
-    closeContext() {
-        var _a;
-        (_a = this.contextMenu) === null || _a === void 0 ? void 0 : _a.remove();
-        this._contextMenu = undefined;
     }
     insertFrame() {
     }
     insertKeyframe() {
     }
     insertBlankKeyframe() {
-    }
-    get contextMenu() {
-        return this._contextMenu;
     }
 }
 customElements.define("timeline-track-layer", TimelineTrackLayer);

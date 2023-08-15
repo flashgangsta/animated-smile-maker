@@ -3,7 +3,10 @@ import { ProjectConfig } from "../../shared/utils/ProjectConfig.js";
 import { EventListener } from "../../shared/utils/EventListener.js";
 export class TimelineLayersLayer extends ListElementWithRenameLabel {
     constructor(index, name) {
-        super(name || `Layer ${index}`);
+        super(name || `Layer ${index}`, {
+            "Insert Layer": {},
+            "Delete Layer": {}
+        });
         this.projectConfig = ProjectConfig.getInstance();
         this.layerID = index;
         this.classList.add("timeline-layers-layer");

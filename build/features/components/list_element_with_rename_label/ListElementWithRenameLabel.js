@@ -1,8 +1,8 @@
-import { ElementBase } from "../../../shared/ElementBase.js";
 import { EventListener } from "../../../shared/utils/EventListener.js";
-export class ListElementWithRenameLabel extends ElementBase {
-    constructor(labelText) {
-        super();
+import { ElementWithContext } from "../element_with_context/ElementWithContext.js";
+export class ListElementWithRenameLabel extends ElementWithContext {
+    constructor(labelText, menuContent) {
+        super(menuContent);
         this.labelEl = document.createElement("label");
         this.labelEl.innerText = labelText;
         this.append(this.labelEl);
@@ -11,7 +11,7 @@ export class ListElementWithRenameLabel extends ElementBase {
     get labelText() {
         return this.labelEl.innerText;
     }
-    setLabelEditable(event) {
+    setLabelEditable(event = undefined) {
         const label = this.labelEl;
         this.lastLabelText = label.innerText;
         label.contentEditable = true.toString();

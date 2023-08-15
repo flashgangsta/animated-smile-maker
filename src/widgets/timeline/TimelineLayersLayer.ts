@@ -11,7 +11,13 @@ export class TimelineLayersLayer extends ListElementWithRenameLabel {
     private projectConfig: ProjectConfig = ProjectConfig.getInstance();
 
     constructor(index: number, name?:string) {
-        super(name || `Layer ${index}`);
+        super(
+            name || `Layer ${index}`,
+            {
+                "Insert Layer": {},
+                "Delete Layer": {}
+            }
+        );
         this.layerID = index;
         this.classList.add("timeline-layers-layer");
         this.listenEvents(
