@@ -32,6 +32,10 @@ export class WorkspaceScreen extends PageBase {
             const toolName = tools.selectedToolName;
             if (toolName)
                 scene.onToolSelect(toolName);
+        }), new EventListener(library, "LIBRARY_ITEM_DROP_TO_SCENE" /* Events.LIBRARY_ITEM_DROP_TO_SCENE */, (event) => {
+            const libraryMediaDropInfo = event.detail;
+            event.stopPropagation();
+            scene.dropLibraryMedia(libraryMediaDropInfo.media, libraryMediaDropInfo.point);
         }));
         this.append(topContainer, midContainer);
     }

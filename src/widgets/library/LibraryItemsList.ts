@@ -2,6 +2,7 @@ import {SubPanel} from "../../features/components/sub_panel/SubPanel.js";
 import {Events} from "../../shared/lib/Events";
 import {PanelButtonRemove} from "../../entities/components/panel_button/PanelButtonRemove.js";
 import {EventListener} from "../../shared/utils/EventListener.js";
+import {LibraryItemListElement} from "./LibraryItemListElement.js";
 
 export class LibraryItemsList extends SubPanel {
     constructor() {
@@ -32,8 +33,8 @@ export class LibraryItemsList extends SubPanel {
     }
 
 
-    get selectedItem(): Element | null {
-        return this.subPanelContainer.querySelector(".selected");
+    get selectedItem(): LibraryItemListElement | null {
+        return this.subPanelContainer.querySelector(".selected") as LibraryItemListElement;
     }
 
 }

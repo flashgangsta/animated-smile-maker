@@ -6,6 +6,9 @@ export class EventListener {
         this.options = options;
         target.addEventListener(type, handler, options);
     }
+    getTarget() {
+        return this.target;
+    }
     getType() {
         return this.type;
     }
@@ -13,12 +16,7 @@ export class EventListener {
         return this.handler;
     }
     dispose() {
-        if (this.target && this.type && this.handler) {
-            this.target.removeEventListener(this.type, this.handler, this.options);
-        }
-        this.target = undefined;
-        this.type = undefined;
-        this.handler = undefined;
+        this.target.removeEventListener(this.type, this.handler, this.options);
         this.options = undefined;
     }
 }

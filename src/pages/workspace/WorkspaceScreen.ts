@@ -8,6 +8,8 @@ import {Scene} from "../../widgets/scene/Scene.js";
 import {Events} from "../../shared/lib/Events";
 import {ToolNames} from "../../shared/lib/ToolNames";
 import {EventListener} from "../../shared/utils/EventListener.js";
+import {MediaFile} from "../../shared/utils/MediaFile.js";
+import {ILibraryMediaDropInfo} from "../../shared/interfaces/ILibraryMediaDropInfo";
 
 export class WorkspaceScreen extends PageBase {
     constructor() {
@@ -39,6 +41,11 @@ export class WorkspaceScreen extends PageBase {
             new EventListener(tools, Events.TOOL_SELECT, (event: Event):void => {
                 const toolName:ToolNames | undefined = tools.selectedToolName;
                 if(toolName) scene.onToolSelect(toolName);
+            }),
+            new EventListener(library, Events.LIBRARY_ITEM_DROP_TO_SCENE, (event: Event): void => {
+                const libraryMediaDropInfo:ILibraryMediaDropInfo = (event as CustomEvent).detail;
+                event.stopPropagation();
+                scene.dropLibraryMedia(libraryMediaDropInfo.media, libraryMediaDropInfo.point);
             })
         );
 

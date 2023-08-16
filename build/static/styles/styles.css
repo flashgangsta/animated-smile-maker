@@ -48,6 +48,17 @@ html body {
     overflow: hidden;
 
     font-family: "Open Sans", sans-serif;
+
+    &.library-el-start-drag {
+        & *:hover {
+            cursor: not-allowed;
+        }
+
+        #scene canvas {
+            cursor: copy;
+        }
+    }
+
 }
 
 @media (prefers-color-scheme: dark) {
