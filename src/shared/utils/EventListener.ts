@@ -1,10 +1,11 @@
 import {Events} from "../lib/Events";
 
 export class EventListener {
-    private target:EventTarget | undefined;
-    private type:Events | undefined;
-    private handler:EventListenerOrEventListenerObject | undefined;
+    private readonly target:EventTarget;
+    private readonly type:Events;
+    private readonly handler:EventListenerOrEventListenerObject;
     private options: boolean | AddEventListenerOptions | undefined;
+
     constructor(target:EventTarget, type:Events, handler:EventListenerOrEventListenerObject, options?:boolean | AddEventListenerOptions) {
         this.target = target;
         this.type = type;
@@ -15,22 +16,20 @@ export class EventListener {
     }
 
 
-    getType():Events | undefined {
+    getTarget(): EventTarget {
+        return this.target;
+    }
+
+    getType(): Events {
         return this.type;
     }
 
-    getHandler():EventListenerOrEventListenerObject | undefined {
+    getHandler(): EventListenerOrEventListenerObject {
         return this.handler;
     }
 
     dispose():void {
-        if(this.target && this.type && this.handler) {
-            this.target.removeEventListener(this.type, this.handler, this.options);
-        }
-
-        this.target = undefined;
-        this.type = undefined;
-        this.handler = undefined;
+        this.target.removeEventListener(this.type, this.handler, this.options);
         this.options = undefined;
     }
 }

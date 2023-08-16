@@ -19,6 +19,7 @@ export class Library extends Panel {
         this.init();
     }
 
+
     private init(): void {
 
         const projectConfig: ProjectConfig = this.projectConfig;
@@ -82,10 +83,11 @@ export class Library extends Panel {
 
     private clearLibrary(): void {
         this.removePreviewImage();
-        Array.from(this.itemsList.subPanelContainer.children).forEach((libraryItem: Element) => {
+        Array.from(this.itemsList.subPanelContainer.children).forEach((libraryItem: Element): void => {
             libraryItem.remove();
         });
     }
+
 }
 
 customElements.define("el-library", Library);

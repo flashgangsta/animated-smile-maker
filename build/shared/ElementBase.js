@@ -1,39 +1,38 @@
 export class ElementBase extends HTMLElement {
     constructor() {
         super();
+        this.eventListeners = [];
     }
     listenEvents(...eventListeners) {
-        if (!this.eventListeners)
-            this.eventListeners = [];
         this.eventListeners.push(...eventListeners);
     }
     stopListenEvents() {
-        if (!this.eventListeners)
+        if (!this.eventListeners.length)
             return;
         this.eventListeners.forEach((eventListener) => eventListener.dispose());
-        this.eventListeners = undefined;
+        this.eventListeners = [];
     }
-    stopListenEvent(type, handler) {
-        if (!this.eventListeners || !this.eventListeners.length)
+    stopListenEvent(target, type, handler) {
+        if (!this.eventListeners.length)
             return;
-        const listenersByType = this.eventListeners.filter((listener) => listener.getType() === type);
-        let result;
-        if (handler) {
-            result = listenersByType.filter((listener) => listener.getHandler() === handler);
+        let eventsList;
+        if (target) {
+            eventsList = this.eventListeners.filter((listener) => listener.getTarget() === target);
         }
         else {
-            result = listenersByType;
+            eventsList = this.eventListeners;
         }
-        result.forEach((listener) => {
-            // @ts-ignore
+        if (type) {
+            eventsList = eventsList.filter((listener) => listener.getType() === type);
+        }
+        if (handler) {
+            eventsList = eventsList.filter((listener) => listener.getHandler() === handler);
+        }
+        eventsList.forEach((listener) => {
             const index = this.eventListeners.indexOf(listener);
-            // @ts-ignore
             this.eventListeners.splice(index, 1);
             listener.dispose();
         });
-        if (!this.eventListeners.length) {
-            this.eventListeners = undefined;
-        }
     }
     removeChildren() {
         Array.from(this.children).forEach((child) => {

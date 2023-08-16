@@ -1,18 +1,22 @@
 import { ListElementWithRenameLabel } from "../../features/components/list_element_with_rename_label/ListElementWithRenameLabel.js";
 import { ProjectConfig } from "../../shared/utils/ProjectConfig.js";
-import { EventListener } from "../../shared/utils/EventListener.js";
 export class TimelineLayersLayer extends ListElementWithRenameLabel {
     constructor(index, name) {
-        super(name || `Layer ${index}`);
+        super(name || `Layer ${index}`, {
+            "Rename Layer": {
+                handler: () => { this.setLabelEditable(); }
+            },
+            "Insert Layer": {},
+            "Delete Layer": {},
+        });
         this.projectConfig = ProjectConfig.getInstance();
         this.layerID = index;
         this.classList.add("timeline-layers-layer");
-        this.listenEvents(new EventListener(this, "click" /* Events.CLICK */, (event) => this.select()));
         this.projectConfig.pushLibraryLayer(this);
     }
-    select() {
+    selectItem() {
         this.dispatchEvent(new Event("LAYER_SELECT" /* Events.LAYER_SELECT */, { bubbles: true }));
-        this.classList.add("selected");
+        super.selectItem();
     }
     unselect() {
         this.classList.remove("selected");

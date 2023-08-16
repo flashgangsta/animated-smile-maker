@@ -8,6 +8,7 @@ import {IScrollBorders} from "../../shared/interfaces/IScrollBorders";
 import {ToolNames} from "../../shared/lib/ToolNames.js";
 import {KeyCodes} from "../../shared/lib/KeyCodes.js";
 import {Point} from "../../shared/lib/geom/Point.js";
+import {MediaFile} from "../../shared/utils/MediaFile";
 
 export class Scene extends ElementBase {
 
@@ -176,6 +177,21 @@ export class Scene extends ElementBase {
                 break;
             }
         }
+    }
+
+
+    public dropLibraryMedia(libraryMedia: MediaFile, point: Point): void {
+        const bounds: DOMRect = this.getBoundingClientRect();
+        const ctxPoint: Point = new Point(
+            point.x - bounds.x/* - this.ctxPosition.x*/,
+            point.y - bounds.y/* - this.ctxPosition.y*/
+        );
+
+        const img: HTMLImageElement = new Image();
+        img.onload = (): void => {
+            this.ctx?.drawImage(img, Math.round(ctxPoint.x - (img.width / 2)), Math.round(ctxPoint.y - (img.width / 2)));
+        }
+        img.src = libraryMedia.base64;
     }
 
 }

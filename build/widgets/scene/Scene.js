@@ -130,6 +130,17 @@ export class Scene extends ElementBase {
             }
         }
     }
+    dropLibraryMedia(libraryMedia, point) {
+        const bounds = this.getBoundingClientRect();
+        const ctxPoint = new Point(point.x - bounds.x /* - this.ctxPosition.x*/, point.y - bounds.y /* - this.ctxPosition.y*/);
+        const img = new Image();
+        img.onload = () => {
+            var _a;
+            (_a = this.ctx) === null || _a === void 0 ? void 0 : _a.drawImage(img, Math.round(ctxPoint.x - (img.width / 2)), Math.round(ctxPoint.y - (img.width / 2)));
+        };
+        img.src = libraryMedia.base64;
+        console.log(">>>>", ctxPoint);
+    }
 }
 customElements.define("el-scene", Scene);
 //# sourceMappingURL=Scene.js.map

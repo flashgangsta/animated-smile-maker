@@ -51,7 +51,7 @@ export class TimelineLayers extends SubPanel {
             this.subPanelContainer.prepend(layer);
         }
 
-        layer.select();
+        layer.selectItem();
 
         this.dispatchLayerAdded();
     }
@@ -65,7 +65,7 @@ export class TimelineLayers extends SubPanel {
             if(selectedLayer) {
                 const selectedLayerIndex: number = Array.from(layersList).indexOf(selectedLayer);
                 selectedLayer.remove();
-                (layersList[Math.min(selectedLayerIndex, layersList.length-1)] as TimelineLayersLayer).select();
+                (layersList[Math.min(selectedLayerIndex, layersList.length-1)] as TimelineLayersLayer).selectItem();
                 this.dispatchEvent(new Event(Events.LAYER_REMOVED, {bubbles: true}));
             }
 
@@ -100,7 +100,7 @@ export class TimelineLayers extends SubPanel {
             this.dispatchLayerAdded();
         })
 
-        layersList[layersList.length - 1].select();
+        layersList[layersList.length - 1].selectItem();
 
     }
 
