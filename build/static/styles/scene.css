@@ -8,6 +8,10 @@
         &.hand-active {
             cursor: grab;
         }
+        
+        &.mouse-on-bitmap {
+            cursor: move;
+        }
     }
 
 }
