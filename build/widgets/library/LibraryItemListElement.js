@@ -34,13 +34,13 @@ export class LibraryItemListElement extends ListElementWithRenameLabel {
         document.body.classList.remove(this.DRAG_CLASS_NAME);
         this.stopListenEvent(window, "mouseup" /* Events.MOUSE_UP */);
         if (event.target instanceof HTMLCanvasElement) {
-            const detail = {
+            const libraryMediaDropInfo = {
                 media: this.mediaFile,
                 point: new Point(event.pageX, event.pageY)
             };
             this.dispatchEvent(new CustomEvent("LIBRARY_ITEM_DROP_TO_SCENE" /* Events.LIBRARY_ITEM_DROP_TO_SCENE */, {
                 bubbles: true,
-                detail: detail
+                detail: libraryMediaDropInfo
             }));
         }
     }

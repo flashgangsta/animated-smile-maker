@@ -3,6 +3,7 @@ import { ProjectConfig } from "../../shared/utils/ProjectConfig.js";
 import { EventListener } from "../../shared/utils/EventListener.js";
 import { Rectangle } from "../../shared/lib/geom/Rectangle.js";
 import { Point } from "../../shared/lib/geom/Point.js";
+import { Bitmap } from "../../shared/lib/display/Bitmap.js";
 export class Scene extends ElementBase {
     constructor() {
         super();
@@ -15,6 +16,8 @@ export class Scene extends ElementBase {
         this.handActive = false;
         this.moveMouseStart = undefined;
         this.classToolHand = "hand-active";
+        this.bitmaps = []; // todo: Need to save/serialize/parse this into config
+        this.bounds = new Rectangle();
         this.id = "scene";
         this.init();
     }
@@ -29,6 +32,7 @@ export class Scene extends ElementBase {
         return this.canvas.height;
     }
     onWindowResize(event = undefined) {
+        this.bounds.copyFrom(this.getBoundingClientRect());
         this.canvas.width = this.offsetWidth;
         this.canvas.height = this.offsetHeight;
         this.scrollBorders.bottom = this.height - this.scrollBorderSize;
@@ -81,6 +85,21 @@ export class Scene extends ElementBase {
             this.moveMouseStart.x = event.clientX;
             this.moveMouseStart.y = event.clientY;
             this.moveCanvas(moveX, moveY);
+            return;
+        }
+        const bounds = this.bounds;
+        if (bounds.contains(event.pageX, event.pageY)) {
+            const mouseX = event.clientX - bounds.x;
+            const mouseY = event.clientY - bounds.y;
+            let isOverBitmap = false;
+            for (let i = 0, len = this.bitmaps.length, bitmaps = this.bitmaps; i < len; i++) {
+                const bitmapRect = bitmaps[i].getRect();
+                if (bitmapRect.contains(mouseX, mouseY)) {
+                    isOverBitmap = true;
+                    break;
+                }
+            }
+            this.canvas.classList.toggle("mouse-on-bitmap", isOverBitmap);
         }
     }
     onWheel(event) {
@@ -131,15 +150,18 @@ export class Scene extends ElementBase {
         }
     }
     dropLibraryMedia(libraryMedia, point) {
-        const bounds = this.getBoundingClientRect();
-        const ctxPoint = new Point(point.x - bounds.x /* - this.ctxPosition.x*/, point.y - bounds.y /* - this.ctxPosition.y*/);
-        const img = new Image();
+        const ctxPoint = new Point(point.x - this.bounds.x /* - this.ctxPosition.x*/, point.y - this.bounds.y /* - this.ctxPosition.y*/);
+        let bitmap;
+        const img = new Image(); //todo: think about create image before, maybe use image link from Library preview?
         img.onload = () => {
             var _a;
-            (_a = this.ctx) === null || _a === void 0 ? void 0 : _a.drawImage(img, Math.round(ctxPoint.x - (img.width / 2)), Math.round(ctxPoint.y - (img.width / 2)));
+            bitmap = new Bitmap(img);
+            this.bitmaps.push(bitmap);
+            bitmap.x = Math.round(ctxPoint.x - (bitmap.width / 2));
+            bitmap.y = Math.round(ctxPoint.y - (bitmap.height / 2));
+            (_a = this.ctx) === null || _a === void 0 ? void 0 : _a.drawImage(bitmap.image, bitmap.x, bitmap.y);
         };
         img.src = libraryMedia.base64;
-        console.log(">>>>", ctxPoint);
     }
 }
 customElements.define("el-scene", Scene);

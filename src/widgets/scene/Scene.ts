@@ -8,7 +8,8 @@ import {IScrollBorders} from "../../shared/interfaces/IScrollBorders";
 import {ToolNames} from "../../shared/lib/ToolNames.js";
 import {KeyCodes} from "../../shared/lib/KeyCodes.js";
 import {Point} from "../../shared/lib/geom/Point.js";
-import {MediaFile} from "../../shared/utils/MediaFile";
+import {MediaFile} from "../../shared/utils/MediaFile.js";
+import {Bitmap} from "../../shared/lib/display/Bitmap.js";
 
 export class Scene extends ElementBase {
 
@@ -21,6 +22,8 @@ export class Scene extends ElementBase {
     private handActive: boolean = false;
     private moveMouseStart: Point | undefined = undefined;
     private readonly classToolHand:string = "hand-active";
+    private readonly bitmaps:Bitmap[] = []; // todo: Need to save/serialize/parse this into config
+    private bounds: Rectangle = new Rectangle();
 
     constructor() {
         super();
@@ -51,7 +54,8 @@ export class Scene extends ElementBase {
         return this.canvas.height;
     }
 
-    private onWindowResize(event: Event | undefined = undefined) {
+    private onWindowResize(event: Event | undefined = undefined): void {
+        this.bounds.copyFrom(this.getBoundingClientRect());
         this.canvas.width = this.offsetWidth;
         this.canvas.height = this.offsetHeight;
         this.scrollBorders.bottom = this.height - this.scrollBorderSize;
@@ -60,7 +64,7 @@ export class Scene extends ElementBase {
     }
 
 
-    connectedCallback(): void {
+    override connectedCallback(): void {
         super.connectedCallback();
         this.onWindowResize();
         const canvasSize: ICanvasSize = this.projectConfig.canvasSize;
@@ -116,7 +120,27 @@ export class Scene extends ElementBase {
             this.moveMouseStart.x = event.clientX;
             this.moveMouseStart.y = event.clientY;
             this.moveCanvas(moveX, moveY);
+            return;
         }
+
+        const bounds: Rectangle = this.bounds;
+
+        if(bounds.contains(event.pageX, event.pageY)) {
+            const mouseX: number = event.clientX - bounds.x;
+            const mouseY: number = event.clientY - bounds.y;
+            let isOverBitmap: boolean = false;
+
+            for (let i: number = 0, len: number = this.bitmaps.length, bitmaps: Bitmap[] = this.bitmaps; i < len; i++) {
+                const bitmapRect: Rectangle = bitmaps[i].getRect();
+                if (bitmapRect.contains(mouseX, mouseY)) {
+                    isOverBitmap = true;
+                    break;
+                }
+            }
+
+            this.canvas.classList.toggle("mouse-on-bitmap", isOverBitmap)
+        }
+
     }
 
     private onWheel(event: WheelEvent): void {
@@ -181,15 +205,19 @@ export class Scene extends ElementBase {
 
 
     public dropLibraryMedia(libraryMedia: MediaFile, point: Point): void {
-        const bounds: DOMRect = this.getBoundingClientRect();
         const ctxPoint: Point = new Point(
-            point.x - bounds.x/* - this.ctxPosition.x*/,
-            point.y - bounds.y/* - this.ctxPosition.y*/
+            point.x - this.bounds.x,
+            point.y - this.bounds.y
         );
+        let bitmap:Bitmap;
 
-        const img: HTMLImageElement = new Image();
+        const img: HTMLImageElement = new Image(); //todo: think about create image before, maybe use image link from Library preview?
         img.onload = (): void => {
-            this.ctx?.drawImage(img, Math.round(ctxPoint.x - (img.width / 2)), Math.round(ctxPoint.y - (img.width / 2)));
+            bitmap = new Bitmap(img);
+            this.bitmaps.push(bitmap);
+            bitmap.x = Math.round(ctxPoint.x - (bitmap.width / 2));
+            bitmap.y = Math.round(ctxPoint.y - (bitmap.height / 2));
+            this.ctx?.drawImage(bitmap.image, bitmap.x, bitmap.y);
         }
         img.src = libraryMedia.base64;
     }

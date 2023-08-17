@@ -8,18 +8,18 @@ export class ElementBase extends HTMLElement {
         super();
     }
 
-    listenEvents(...eventListeners:EventListener[]):void {
+    public listenEvents(...eventListeners:EventListener[]):void {
         this.eventListeners.push(...eventListeners);
     }
 
-    stopListenEvents():void {
+    public stopListenEvents():void {
         if(!this.eventListeners.length) return;
         this.eventListeners.forEach((eventListener:EventListener) => eventListener.dispose());
         this.eventListeners = [];
     }
 
 
-    stopListenEvent(target?:EventTarget, type?:Events, handler?:EventListenerOrEventListenerObject):void {
+    public stopListenEvent(target?:EventTarget, type?:Events, handler?:EventListenerOrEventListenerObject):void {
         if(!this.eventListeners.length) return;
 
         let eventsList:EventListener[];
@@ -46,24 +46,24 @@ export class ElementBase extends HTMLElement {
     }
 
 
-    removeChildren():void {
+    public removeChildren():void {
         Array.from(this.children).forEach((child:Element):void => {
             child.remove();
         });
     }
 
 
-    remove():void {
+    public remove():void {
         this.stopListenEvents();
         this.removeChildren();
         super.remove();
     }
 
-    connectedCallback():void {
+    public connectedCallback():void {
         dispatchEvent(new Event(Events.ADDED_TO_DOM));
     }
 
-    disconnectedCallback():void {
+    public disconnectedCallback():void {
         this.remove();
         dispatchEvent(new Event(Events.REMOVED_FROM_DOM));
     }
