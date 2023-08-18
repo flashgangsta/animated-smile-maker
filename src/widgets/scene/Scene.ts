@@ -24,7 +24,10 @@ export class Scene extends ElementBase {
     private readonly classToolHand:string = "hand-active";
     private readonly bitmaps:Bitmap[] = []; // todo: Need to save/serialize/parse this into config
     private bounds: Rectangle = new Rectangle();
-    private bitmapUnderCursor: Bitmap | undefined;
+    private elementUnderCursor: Bitmap | undefined;
+    private readonly draggingElementPreviousPoint: Point = new Point();
+    private readonly draggingElementOffset: Point = new Point();
+
 
     constructor() {
         super();
@@ -110,16 +113,20 @@ export class Scene extends ElementBase {
             return;
         }
 
-        if(this.bitmapUnderCursor) {
-            this.bitmapUnderCursor.isDragging = true;
+        if(this.elementUnderCursor) {
+            this.elementUnderCursor.isDragging = true;
+            this.draggingElementPreviousPoint.x = this.elementUnderCursor.x;
+            this.draggingElementPreviousPoint.y = this.elementUnderCursor.y;
+            this.draggingElementOffset.x = event.clientX - this.elementUnderCursor.x;
+            this.draggingElementOffset.y = event.clientY - this.elementUnderCursor.y;
         }
     }
 
     private onMouseUp(event: MouseEvent): void {
         this.moveMouseStart = undefined;
 
-        if(this.bitmapUnderCursor) {
-            this.bitmapUnderCursor.isDragging = false;
+        if(this.elementUnderCursor) {
+            this.elementUnderCursor.isDragging = false;
         }
     }
 
@@ -136,30 +143,33 @@ export class Scene extends ElementBase {
         const bounds: Rectangle = this.bounds;
 
         if(bounds.contains(event.pageX, event.pageY)) {
-            const mouseX: number = event.clientX - bounds.x;
-            const mouseY: number = event.clientY - bounds.y;
-
-            if(this.bitmapUnderCursor?.isDragging && this.ctx) {
-                const bitmap:Bitmap = this.bitmapUnderCursor;
+            if(this.elementUnderCursor?.isDragging && this.ctx) {
+                const element:Bitmap = this.elementUnderCursor;
+                const prevPoint:Point = this.draggingElementPreviousPoint;
+                const offset:Point = this.draggingElementOffset;
                 //this.ctx?.clearRect(bitmap.xPrevious, bitmap.yPrevious, bitmap.width, bitmap.height);
                 //this.ctx.fillStyle = "white";
-                this.ctx.fillRect(bitmap.xPrevious, bitmap.yPrevious, bitmap.width, bitmap.height);
-                bitmap.x = mouseX - bitmap.width / 2;
-                bitmap.y = mouseY - bitmap.height / 2;
-                this.ctx?.drawImage(bitmap.image, bitmap.x, bitmap.y);
+                this.ctx.fillRect(prevPoint.x, prevPoint.y, element.width, element.height);
+                element.x = event.clientX - offset.x;
+                element.y = event.clientY - offset.y;
+                this.ctx?.drawImage(element.image, element.x, element.y);
+                prevPoint.x = element.x;
+                prevPoint.y = element.y;
 
             } else {
-                this.bitmapUnderCursor = undefined;
+                this.elementUnderCursor = undefined;
+                const mouseX: number = event.clientX - bounds.x;
+                const mouseY: number = event.clientY - bounds.y;
 
                 for (let i: number = 0, len: number = this.bitmaps.length, bitmaps: Bitmap[] = this.bitmaps; i < len; i++) {
                     const bitmap: Bitmap = bitmaps[i];
                     if (bitmap.getRect().contains(mouseX, mouseY)) {
-                        this.bitmapUnderCursor = bitmap;
+                        this.elementUnderCursor = bitmap;
                         break;
                     }
                 }
 
-                this.canvas.classList.toggle("mouse-on-bitmap", !!this.bitmapUnderCursor);
+                this.canvas.classList.toggle("mouse-on-bitmap", !!this.elementUnderCursor);
             }
         }
 
