@@ -2,6 +2,9 @@ import { ListElementWithRenameLabel } from "../../features/components/list_eleme
 import { EventListener } from "../../shared/utils/EventListener.js";
 import { Point } from "../../shared/lib/geom/Point.js";
 export class LibraryItemListElement extends ListElementWithRenameLabel {
+    icon = new Image();
+    DRAG_CLASS_NAME = "library-el-start-drag";
+    mediaFile;
     constructor(mediaFile) {
         super(mediaFile.name, {
             "Cut": {},
@@ -12,8 +15,6 @@ export class LibraryItemListElement extends ListElementWithRenameLabel {
             },
             "Delete": {},
         });
-        this.icon = new Image();
-        this.DRAG_CLASS_NAME = "library-el-start-drag";
         this.mediaFile = mediaFile;
         this.classList.add("library-item-list-el");
         if (mediaFile.type.startsWith("image/")) {

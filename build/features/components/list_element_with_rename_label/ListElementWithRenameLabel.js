@@ -1,9 +1,10 @@
 import { EventListener } from "../../../shared/utils/EventListener.js";
 import { ElementWithContext } from "../element_with_context/ElementWithContext.js";
 export class ListElementWithRenameLabel extends ElementWithContext {
+    lastLabelText;
+    labelEl = document.createElement("label");
     constructor(labelText, menuContent) {
         super(menuContent);
-        this.labelEl = document.createElement("label");
         this.labelEl.innerText = labelText;
         this.append(this.labelEl);
         this.listenEvents(new EventListener(this, "mousedown" /* Events.MOUSE_DOWN */, (event) => { this.selectItem(); }), new EventListener(this, "dblclick" /* Events.DB_CLICK */, (event) => this.setLabelEditable(event)), new EventListener(this.labelEl, "keydown" /* Events.KEY_DOWN */, (event) => this.onLabelKeydown(event)), new EventListener(this.labelEl, "blur" /* Events.BLUR */, (event) => this.onLabelFocusOut(event)), new EventListener(this, "contextmenu" /* Events.CONTEXT_MENU */, (event) => { this.onRightClick(event); }));
@@ -26,8 +27,8 @@ export class ListElementWithRenameLabel extends ElementWithContext {
         const selection = window.getSelection();
         const range = document.createRange();
         range.selectNodeContents(label);
-        selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
-        selection === null || selection === void 0 ? void 0 : selection.addRange(range);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
     }
     onLabelKeydown(event) {
         const label = this.labelEl;

@@ -1,19 +1,20 @@
 import { MediaFile } from "./MediaFile.js";
 import { TimelineLayersLayer } from "../../widgets/timeline/TimelineLayersLayer.js";
 export class ProjectConfig extends EventTarget {
+    static instance;
+    projectName = "Untitled";
+    fileExt = ".anmtr";
+    canvasSize = {
+        width: 550,
+        height: 450
+    };
+    library = [];
+    _lastImports = [];
+    timeline = {
+        layers: []
+    };
     constructor() {
         super();
-        this.projectName = "Untitled";
-        this.fileExt = ".anmtr";
-        this.canvasSize = {
-            width: 550,
-            height: 450
-        };
-        this.library = [];
-        this._lastImports = [];
-        this.timeline = {
-            layers: []
-        };
     }
     static getInstance() {
         if (!ProjectConfig.instance) {

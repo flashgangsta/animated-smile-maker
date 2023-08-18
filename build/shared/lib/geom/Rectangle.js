@@ -1,4 +1,10 @@
 export class Rectangle {
+    x;
+    y;
+    width;
+    height;
+    right; //todo: set as readonly
+    bottom; //todo: set as readonly
     constructor(x = 0, y = 0, width = 0, height = 0) {
         //todo: recalculate when x/y/width/height changed
         this.x = x;

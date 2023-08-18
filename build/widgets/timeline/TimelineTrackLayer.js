@@ -2,6 +2,7 @@ import { TimelineKeyFrame } from "./TimelineKeyFrame.js";
 import { getCSSVar } from "../../shared/utils/getCSSVar.js";
 import { ElementWithContext } from "../../features/components/element_with_context/ElementWithContext.js";
 export class TimelineTrackLayer extends ElementWithContext {
+    FRAME_WIDTH = parseInt(getCSSVar("timeline-frame-width"));
     constructor() {
         super({
             "Create Tween": {},
@@ -25,7 +26,6 @@ export class TimelineTrackLayer extends ElementWithContext {
             "Clear Frames": {},
             "Select All Frames": {},
         });
-        this.FRAME_WIDTH = parseInt(getCSSVar("timeline-frame-width"));
         this.classList.add("timeline-track-layer");
         this.append(new TimelineKeyFrame());
     }

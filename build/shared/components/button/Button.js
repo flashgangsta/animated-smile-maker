@@ -1,8 +1,10 @@
 import { ElementBase } from "../../ElementBase.js";
 export class Button extends ElementBase {
+    elLabel;
+    elIcon;
+    disabledValue = false;
     constructor(label, iconPath) {
         super();
-        this.disabledValue = false;
         this.classList.add("button");
         this.role = "button";
         if (label) {

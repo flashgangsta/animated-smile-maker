@@ -1,6 +1,8 @@
 import { ListElementWithRenameLabel } from "../../features/components/list_element_with_rename_label/ListElementWithRenameLabel.js";
 import { ProjectConfig } from "../../shared/utils/ProjectConfig.js";
 export class TimelineLayersLayer extends ListElementWithRenameLabel {
+    layerID;
+    projectConfig = ProjectConfig.getInstance();
     constructor(index, name) {
         super(name || `Layer ${index}`, {
             "Rename Layer": {
@@ -9,7 +11,6 @@ export class TimelineLayersLayer extends ListElementWithRenameLabel {
             "Insert Layer": {},
             "Delete Layer": {},
         });
-        this.projectConfig = ProjectConfig.getInstance();
         this.layerID = index;
         this.classList.add("timeline-layers-layer");
         this.projectConfig.pushLibraryLayer(this);

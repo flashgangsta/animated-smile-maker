@@ -16,18 +16,16 @@ export class Tools extends ElementBase {
         });
     }
     onToolSelect(event) {
-        var _a;
         const button = event.target;
-        (_a = this.getSelectedTool()) === null || _a === void 0 ? void 0 : _a.classList.remove("active");
-        button === null || button === void 0 ? void 0 : button.classList.add("active");
+        this.getSelectedTool()?.classList.remove("active");
+        button?.classList.add("active");
         this.dispatchEvent(new Event("TOOL_SELECT" /* Events.TOOL_SELECT */));
     }
     getSelectedTool() {
         return this.querySelector(".active");
     }
     get selectedToolName() {
-        var _a;
-        return (_a = this.getSelectedTool()) === null || _a === void 0 ? void 0 : _a.toolName;
+        return this.getSelectedTool()?.toolName;
     }
 }
 customElements.define("el-tools", Tools);

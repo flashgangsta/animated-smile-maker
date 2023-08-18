@@ -1,5 +1,6 @@
 import { ContextMenu } from "../../../entities/components/context_menu/ContextMenu.js";
 export class MenuContextMenu extends ContextMenu {
+    menuButton;
     constructor(menuButton, contextData, closeCallback) {
         super(contextData, closeCallback, false);
         this.menuButton = menuButton;

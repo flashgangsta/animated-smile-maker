@@ -5,10 +5,10 @@ import { ProjectConfig } from "../../shared/utils/ProjectConfig.js";
 import { TimelineLayersLayer } from "./TimelineLayersLayer.js";
 import { EventListener } from "../../shared/utils/EventListener.js";
 export class TimelineLayers extends SubPanel {
+    projectConfig = ProjectConfig.getInstance();
+    unnamedLayerNum = this.projectConfig.layersLength;
     constructor() {
         super();
-        this.projectConfig = ProjectConfig.getInstance();
-        this.unnamedLayerNum = this.projectConfig.layersLength;
         this.id = "timeline-layers";
         this.init();
     }
@@ -57,9 +57,8 @@ export class TimelineLayers extends SubPanel {
         });
     }
     onLayerSelect(event) {
-        var _a;
         event.stopPropagation();
-        (_a = this.getSelectedLayer()) === null || _a === void 0 ? void 0 : _a.unselect();
+        this.getSelectedLayer()?.unselect();
     }
     getSelectedLayer() {
         return this.subPanelContainer.querySelector(".selected");
