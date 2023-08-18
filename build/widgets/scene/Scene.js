@@ -73,12 +73,20 @@ export class Scene extends ElementBase {
     onMouseDown(event) {
         if (this.handActive) {
             this.moveMouseStart = new Point(event.clientX, event.clientY);
+            return;
+        }
+        if (this.bitmapUnderCursor) {
+            this.bitmapUnderCursor.isDragging = true;
         }
     }
     onMouseUp(event) {
         this.moveMouseStart = undefined;
+        if (this.bitmapUnderCursor) {
+            this.bitmapUnderCursor.isDragging = false;
+        }
     }
     onMouseMove(event) {
+        var _a, _b;
         if (this.handActive && this.moveMouseStart) {
             const moveX = this.moveMouseStart.x - event.clientX;
             const moveY = this.moveMouseStart.y - event.clientY;
@@ -91,15 +99,26 @@ export class Scene extends ElementBase {
         if (bounds.contains(event.pageX, event.pageY)) {
             const mouseX = event.clientX - bounds.x;
             const mouseY = event.clientY - bounds.y;
-            let isOverBitmap = false;
-            for (let i = 0, len = this.bitmaps.length, bitmaps = this.bitmaps; i < len; i++) {
-                const bitmapRect = bitmaps[i].getRect();
-                if (bitmapRect.contains(mouseX, mouseY)) {
-                    isOverBitmap = true;
-                    break;
-                }
+            if (((_a = this.bitmapUnderCursor) === null || _a === void 0 ? void 0 : _a.isDragging) && this.ctx) {
+                const bitmap = this.bitmapUnderCursor;
+                //this.ctx?.clearRect(bitmap.xPrevious, bitmap.yPrevious, bitmap.width, bitmap.height);
+                //this.ctx.fillStyle = "white";
+                this.ctx.fillRect(bitmap.xPrevious, bitmap.yPrevious, bitmap.width, bitmap.height);
+                bitmap.x = mouseX - bitmap.width / 2;
+                bitmap.y = mouseY - bitmap.height / 2;
+                (_b = this.ctx) === null || _b === void 0 ? void 0 : _b.drawImage(bitmap.image, bitmap.x, bitmap.y);
             }
-            this.canvas.classList.toggle("mouse-on-bitmap", isOverBitmap);
+            else {
+                this.bitmapUnderCursor = undefined;
+                for (let i = 0, len = this.bitmaps.length, bitmaps = this.bitmaps; i < len; i++) {
+                    const bitmap = bitmaps[i];
+                    if (bitmap.getRect().contains(mouseX, mouseY)) {
+                        this.bitmapUnderCursor = bitmap;
+                        break;
+                    }
+                }
+                this.canvas.classList.toggle("mouse-on-bitmap", !!this.bitmapUnderCursor);
+            }
         }
     }
     onWheel(event) {
@@ -150,7 +169,7 @@ export class Scene extends ElementBase {
         }
     }
     dropLibraryMedia(libraryMedia, point) {
-        const ctxPoint = new Point(point.x - this.bounds.x /* - this.ctxPosition.x*/, point.y - this.bounds.y /* - this.ctxPosition.y*/);
+        const ctxPoint = new Point(point.x - this.bounds.x, point.y - this.bounds.y);
         let bitmap;
         const img = new Image(); //todo: think about create image before, maybe use image link from Library preview?
         img.onload = () => {

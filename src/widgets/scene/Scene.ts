@@ -24,6 +24,7 @@ export class Scene extends ElementBase {
     private readonly classToolHand:string = "hand-active";
     private readonly bitmaps:Bitmap[] = []; // todo: Need to save/serialize/parse this into config
     private bounds: Rectangle = new Rectangle();
+    private bitmapUnderCursor: Bitmap | undefined;
 
     constructor() {
         super();
@@ -106,11 +107,20 @@ export class Scene extends ElementBase {
     private onMouseDown(event: MouseEvent): void {
         if(this.handActive) {
             this.moveMouseStart = new Point(event.clientX, event.clientY);
+            return;
+        }
+
+        if(this.bitmapUnderCursor) {
+            this.bitmapUnderCursor.isDragging = true;
         }
     }
 
     private onMouseUp(event: MouseEvent): void {
         this.moveMouseStart = undefined;
+
+        if(this.bitmapUnderCursor) {
+            this.bitmapUnderCursor.isDragging = false;
+        }
     }
 
     private onMouseMove(event: MouseEvent): void {
@@ -128,17 +138,29 @@ export class Scene extends ElementBase {
         if(bounds.contains(event.pageX, event.pageY)) {
             const mouseX: number = event.clientX - bounds.x;
             const mouseY: number = event.clientY - bounds.y;
-            let isOverBitmap: boolean = false;
 
-            for (let i: number = 0, len: number = this.bitmaps.length, bitmaps: Bitmap[] = this.bitmaps; i < len; i++) {
-                const bitmapRect: Rectangle = bitmaps[i].getRect();
-                if (bitmapRect.contains(mouseX, mouseY)) {
-                    isOverBitmap = true;
-                    break;
+            if(this.bitmapUnderCursor?.isDragging && this.ctx) {
+                const bitmap:Bitmap = this.bitmapUnderCursor;
+                //this.ctx?.clearRect(bitmap.xPrevious, bitmap.yPrevious, bitmap.width, bitmap.height);
+                //this.ctx.fillStyle = "white";
+                this.ctx.fillRect(bitmap.xPrevious, bitmap.yPrevious, bitmap.width, bitmap.height);
+                bitmap.x = mouseX - bitmap.width / 2;
+                bitmap.y = mouseY - bitmap.height / 2;
+                this.ctx?.drawImage(bitmap.image, bitmap.x, bitmap.y);
+
+            } else {
+                this.bitmapUnderCursor = undefined;
+
+                for (let i: number = 0, len: number = this.bitmaps.length, bitmaps: Bitmap[] = this.bitmaps; i < len; i++) {
+                    const bitmap: Bitmap = bitmaps[i];
+                    if (bitmap.getRect().contains(mouseX, mouseY)) {
+                        this.bitmapUnderCursor = bitmap;
+                        break;
+                    }
                 }
-            }
 
-            this.canvas.classList.toggle("mouse-on-bitmap", isOverBitmap)
+                this.canvas.classList.toggle("mouse-on-bitmap", !!this.bitmapUnderCursor);
+            }
         }
 
     }
