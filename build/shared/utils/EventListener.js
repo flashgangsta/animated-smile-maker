@@ -1,4 +1,8 @@
 export class EventListener {
+    target;
+    type;
+    handler;
+    options;
     constructor(target, type, handler, options) {
         this.target = target;
         this.type = type;

@@ -1,7 +1,7 @@
 export class ElementBase extends HTMLElement {
+    eventListeners = [];
     constructor() {
         super();
-        this.eventListeners = [];
     }
     listenEvents(...eventListeners) {
         this.eventListeners.push(...eventListeners);

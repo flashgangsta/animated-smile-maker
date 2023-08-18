@@ -1,12 +1,12 @@
 import { Rectangle } from "../geom/Rectangle.js";
 export class DisplayObject {
+    _x = 0;
+    _y = 0;
+    width = 0;
+    height = 0;
+    rotation = 0;
+    isDragging = false;
     constructor() {
-        this._x = 0;
-        this._y = 0;
-        this.width = 0;
-        this.height = 0;
-        this.rotation = 0;
-        this.isDragging = false;
     }
     getRect() {
         //todo: think about cache value

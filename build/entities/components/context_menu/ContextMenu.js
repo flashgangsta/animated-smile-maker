@@ -2,6 +2,7 @@ import { ElementBase } from "../../../shared/ElementBase.js";
 import { ContextMenuButton } from "../context_menu_button/ContextMenuButton.js";
 import { EventListener } from "../../../shared/utils/EventListener.js";
 export class ContextMenu extends ElementBase {
+    closeCallback;
     constructor(contextData, closeCallback, listenClickOutside = true) {
         super();
         this.closeCallback = closeCallback;
@@ -9,16 +10,15 @@ export class ContextMenu extends ElementBase {
         Object.keys(contextData).forEach((el) => {
             this.append(new ContextMenuButton(el, contextData[el]));
         });
-        this.listenEvents(new EventListener(window, "blur" /* Events.BLUR */, (event) => { var _a; return (_a = this.closeCallback) === null || _a === void 0 ? void 0 : _a.call(this); }), new EventListener(this, "click" /* Events.CLICK */, (event) => this.onContextMenuClick(event)));
+        this.listenEvents(new EventListener(window, "blur" /* Events.BLUR */, (event) => this.closeCallback?.()), new EventListener(this, "click" /* Events.CLICK */, (event) => this.onContextMenuClick(event)));
         if (listenClickOutside) {
             this.listenEvents(new EventListener(window, "mousedown" /* Events.MOUSE_DOWN */, (event) => this.onWindowMouseDown(event)));
         }
     }
     onWindowMouseDown(event) {
-        var _a;
         const target = event.target;
         if (!(target instanceof ContextMenuButton)) {
-            (_a = this.closeCallback) === null || _a === void 0 ? void 0 : _a.call(this);
+            this.closeCallback?.();
         }
     }
     setOffset(x, y) {
@@ -40,10 +40,9 @@ export class ContextMenu extends ElementBase {
         }
     }
     onContextMenuClick(event) {
-        var _a;
         if (event.target instanceof ContextMenuButton) {
             event.stopPropagation();
-            (_a = this.closeCallback) === null || _a === void 0 ? void 0 : _a.call(this);
+            this.closeCallback?.();
         }
     }
 }

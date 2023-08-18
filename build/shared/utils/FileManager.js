@@ -1,18 +1,12 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import { ProjectConfig } from "./ProjectConfig.js";
 export class FileManager extends EventTarget {
+    static instance;
+    static CONTENT_TYPE_IMAGES = "image/*";
+    input = document.createElement("input");
+    projectConfig = ProjectConfig.getInstance();
+    projectFile;
     constructor() {
         super();
-        this.input = document.createElement("input");
-        this.projectConfig = ProjectConfig.getInstance();
         this.input.type = "file";
     }
     static getInstance() {
@@ -34,48 +28,42 @@ export class FileManager extends EventTarget {
             input.click();
         });
     }
-    openProject() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const [fileHandle] = yield window.showOpenFilePicker({
+    async openProject() {
+        const [fileHandle] = await window.showOpenFilePicker({
+            types: [{
+                    description: "Animator file",
+                    accept: { 'text/plain': [this.projectConfig.fileExt] }
+                }],
+            excludeAcceptAllOption: true,
+            multiple: false,
+        });
+        this.projectFile = fileHandle;
+        return await fileHandle.getFile();
+    }
+    async saveProject() {
+        if (this.projectFile) {
+            if (await this.projectFile.queryPermission() === "granted") {
+                const writable = await this.projectFile.createWritable();
+                await writable.write(this.projectConfig.toJSONString());
+                await writable.close();
+            }
+        }
+    }
+    async saveProjectAs() {
+        const filename = this.projectConfig.projectName;
+        const fileExt = this.projectConfig.fileExt;
+        if (window.showSaveFilePicker) {
+            const options = {
+                suggestedName: filename,
                 types: [{
                         description: "Animator file",
-                        accept: { 'text/plain': [this.projectConfig.fileExt] }
-                    }],
-                excludeAcceptAllOption: true,
-                multiple: false,
-            });
-            this.projectFile = fileHandle;
-            return yield fileHandle.getFile();
-        });
-    }
-    saveProject() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (this.projectFile) {
-                if ((yield this.projectFile.queryPermission()) === "granted") {
-                    const writable = yield this.projectFile.createWritable();
-                    yield writable.write(this.projectConfig.toJSONString());
-                    yield writable.close();
-                }
-            }
-        });
-    }
-    saveProjectAs() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const filename = this.projectConfig.projectName;
-            const fileExt = this.projectConfig.fileExt;
-            if (window.showSaveFilePicker) {
-                const options = {
-                    suggestedName: filename,
-                    types: [{
-                            description: "Animator file",
-                            accept: { 'text/plain': [fileExt] },
-                        }]
-                };
-                const saveFile = this.projectFile = yield window.showSaveFilePicker(options);
-                this.projectConfig.projectName = saveFile.name.slice(0, -(fileExt.length));
-                yield this.saveProject();
-            }
-        });
+                        accept: { 'text/plain': [fileExt] },
+                    }]
+            };
+            const saveFile = this.projectFile = await window.showSaveFilePicker(options);
+            this.projectConfig.projectName = saveFile.name.slice(0, -(fileExt.length));
+            await this.saveProject();
+        }
     }
     fileToBase64(file) {
         return new Promise((resolve, reject) => {
@@ -108,5 +96,4 @@ export class FileManager extends EventTarget {
         return fileReader;
     }
 }
-FileManager.CONTENT_TYPE_IMAGES = "image/*";
 //# sourceMappingURL=FileManager.js.map

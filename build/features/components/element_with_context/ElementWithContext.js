@@ -3,6 +3,8 @@ import { ContextMenu } from "../../../entities/components/context_menu/ContextMe
 import { EventListener } from "../../../shared/utils/EventListener.js";
 import { ListElementWithRenameLabel } from "../list_element_with_rename_label/ListElementWithRenameLabel.js";
 export class ElementWithContext extends ElementBase {
+    menuContent;
+    _contextMenu;
     constructor(menuContent) {
         super();
         this.menuContent = menuContent;
@@ -18,12 +20,10 @@ export class ElementWithContext extends ElementBase {
         document.body.append(this._contextMenu);
     }
     setContextMenuPosition(x, y) {
-        var _a;
-        (_a = this._contextMenu) === null || _a === void 0 ? void 0 : _a.setOffset(x, y);
+        this._contextMenu?.setOffset(x, y);
     }
     closeContext() {
-        var _a;
-        (_a = this.contextMenu) === null || _a === void 0 ? void 0 : _a.remove();
+        this.contextMenu?.remove();
         this._contextMenu = undefined;
     }
     get contextMenu() {

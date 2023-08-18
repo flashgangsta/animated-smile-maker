@@ -1,4 +1,7 @@
 export class MediaFile {
+    name;
+    _type;
+    _base64;
     constructor(name, type, base64) {
         this.name = name;
         this._type = type;

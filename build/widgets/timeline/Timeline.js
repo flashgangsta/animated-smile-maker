@@ -4,10 +4,12 @@ import { TimelineTrack } from "./TimelineTrack.js";
 import { EventListener } from "../../shared/utils/EventListener.js";
 import { getCSSVar } from "../../shared/utils/getCSSVar.js";
 export class Timeline extends Panel {
+    timelineLayers;
+    timelineTrack;
+    layerHeight = parseInt(getCSSVar("timeline-layers-height"));
+    layersScrollHeight = this.layerHeight * 2;
     constructor() {
         super("Timeline");
-        this.layerHeight = parseInt(getCSSVar("timeline-layers-height"));
-        this.layersScrollHeight = this.layerHeight * 2;
         this.id = "timeline";
         this.timelineLayers = new TimelineLayers();
         this.timelineTrack = new TimelineTrack();

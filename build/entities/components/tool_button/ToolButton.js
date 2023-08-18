@@ -1,5 +1,6 @@
 import { PanelButton } from "../panel_button/PanelButton.js";
 export class ToolButton extends PanelButton {
+    toolNameValue;
     constructor(iconPath, toolName) {
         super(iconPath);
         this.toolNameValue = toolName;

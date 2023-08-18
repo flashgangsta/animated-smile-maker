@@ -5,11 +5,11 @@ import { ProjectConfig } from "../../shared/utils/ProjectConfig.js";
 import { EventListener } from "../../shared/utils/EventListener.js";
 import { LibraryItemListElement } from "./LibraryItemListElement.js";
 export class Library extends Panel {
+    preview = new LibraryItemPreview();
+    itemsList = new LibraryItemsList();
+    projectConfig = ProjectConfig.getInstance();
     constructor() {
         super("Library");
-        this.preview = new LibraryItemPreview();
-        this.itemsList = new LibraryItemsList();
-        this.projectConfig = ProjectConfig.getInstance();
         this.id = "library";
         this.init();
     }
@@ -35,13 +35,12 @@ export class Library extends Panel {
         const image = new Image();
         this.removePreviewImage();
         image.src = selectedItem.mediaFile.base64;
-        lastSelectedItem === null || lastSelectedItem === void 0 ? void 0 : lastSelectedItem.classList.remove("selected");
+        lastSelectedItem?.classList.remove("selected");
         selectedItem.classList.add("selected");
         this.preview.append(image);
     }
     removePreviewImage() {
-        var _a;
-        (_a = this.preview.children[0]) === null || _a === void 0 ? void 0 : _a.remove();
+        this.preview.children[0]?.remove();
     }
     onItemRemove(event) {
         this.projectConfig.removeLibraryMedia(event.target.mediaFile);

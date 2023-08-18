@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import { ElementBase } from "../../shared/ElementBase.js";
 import { MenuButton } from "../../features/components/menu_button/MenuButton.js";
 import { MenuContextMenu } from "../../features/components/menu_context_menu/MenuContextMenu.js";
@@ -16,42 +7,43 @@ import { ProjectConfig } from "../../shared/utils/ProjectConfig.js";
 import { FileManager } from "../../shared/utils/FileManager.js";
 import { MediaFile } from "../../shared/utils/MediaFile.js";
 export class Menu extends ElementBase {
+    menuContent = {
+        "File": {
+            "New...": {},
+            "Open": {
+                handler: () => this.openProject(),
+            },
+            "Save": {
+                handler: () => this.saveProject(),
+                disabled: true
+            },
+            "Save As": {
+                handler: () => this.saveProjectAs()
+            },
+            "Import": {
+                handler: () => this.importMedia()
+            },
+            "Export": {},
+            "Exit": {}
+        },
+        "Edit": {
+            "Undo": {},
+            "Cut": {},
+            "Copy": {},
+            "Paste": {},
+            "Clear": {},
+            "Preferences": {},
+        },
+        "View": {
+            "Zoom In": {},
+            "Zoom Out": {},
+        }
+    };
+    activeContext;
+    projectConfig = ProjectConfig.getInstance();
+    fileManager = FileManager.getInstance();
     constructor() {
         super();
-        this.menuContent = {
-            "File": {
-                "New...": {},
-                "Open": {
-                    handler: () => this.openProject(),
-                },
-                "Save": {
-                    handler: () => this.saveProject(),
-                    disabled: true
-                },
-                "Save As": {
-                    handler: () => this.saveProjectAs()
-                },
-                "Import": {
-                    handler: () => this.importMedia()
-                },
-                "Export": {},
-                "Exit": {}
-            },
-            "Edit": {
-                "Undo": {},
-                "Cut": {},
-                "Copy": {},
-                "Paste": {},
-                "Clear": {},
-                "Preferences": {},
-            },
-            "View": {
-                "Zoom In": {},
-                "Zoom Out": {},
-            }
-        };
-        this.projectConfig = ProjectConfig.getInstance();
-        this.fileManager = FileManager.getInstance();
         this.id = "menu";
         this.init();
     }
@@ -86,17 +78,17 @@ export class Menu extends ElementBase {
         });
     }
     importMedia() {
-        this.fileManager.openFiles(undefined, true).then((files) => __awaiter(this, void 0, void 0, function* () {
+        this.fileManager.openFiles(undefined, true).then(async (files) => {
             //todo: check duplicates
             const mediaFiles = [];
             for (let i = 0, len = files.length; i < len; i++) {
                 const file = files[i];
-                const base64 = yield this.fileManager.fileToBase64(file);
+                const base64 = await this.fileManager.fileToBase64(file);
                 const mediaFile = new MediaFile(file.name, file.type, base64);
                 mediaFiles.push(mediaFile);
             }
             this.projectConfig.pushLibraryMedia(...mediaFiles);
-        }));
+        });
     }
     onClick(event) {
         const target = event.target;
@@ -117,9 +109,8 @@ export class Menu extends ElementBase {
         }
     }
     openContext(target) {
-        var _a;
         const button = (target && target instanceof MenuButton) ? target : undefined;
-        if (!button || ((_a = this.activeContext) === null || _a === void 0 ? void 0 : _a.menuButtonLabel) === button.label)
+        if (!button || this.activeContext?.menuButtonLabel === button.label)
             return;
         const label = button.label;
         const contextData = this.menuContent[label];
@@ -128,8 +119,7 @@ export class Menu extends ElementBase {
         this.append(this.activeContext);
     }
     closeContext() {
-        var _a;
-        (_a = this.activeContext) === null || _a === void 0 ? void 0 : _a.remove();
+        this.activeContext?.remove();
         this.activeContext = undefined;
     }
     enableSaveButton() {
